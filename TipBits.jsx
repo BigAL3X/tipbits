@@ -22,6 +22,8 @@ const PRESETS = {
   EUR:  [1, 5, 10, 21],
 };
 
+const INVOICE_EXPIRY_MS = 10 * 60 * 1000; // 10 minutes
+
 function BitcoinLogo({ size = 48 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" fill="none">
@@ -115,6 +117,57 @@ function LightningRain({ active, onDone }) {
   );
 }
 
+function PaidScreen({ satsAmount, memo, onReset }) {
+  const [show, setShow] = useState(false);
+  useEffect(() => { setTimeout(() => setShow(true), 50); }, []);
+
+  return (
+    <div style={{ textAlign: "center", padding: "12px 0" }}>
+      <div style={{
+        opacity: show ? 1 : 0, transform: show ? "scale(1)" : "scale(0.7)",
+        transition: "opacity 0.5s cubic-bezier(.34,1.56,.64,1), transform 0.5s cubic-bezier(.34,1.56,.64,1)",
+      }}>
+        <div style={{
+          width: 80, height: 80, borderRadius: "50%",
+          background: "linear-gradient(135deg, #10b981, #059669)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          margin: "0 auto 20px", fontSize: 38,
+          boxShadow: "0 8px 32px rgba(16,185,129,.35)",
+        }}>
+          ⚡
+        </div>
+        <div style={{ fontSize: 22, fontWeight: 700, color: "#111827", marginBottom: 6 }}>
+          Sats received!
+        </div>
+        <div style={{ fontSize: 15, color: "#6b7280", marginBottom: 20 }}>
+          {satsAmount.toLocaleString()} sats landed in the wallet
+        </div>
+        {memo && (
+          <div style={{
+            display: "inline-block", padding: "8px 16px",
+            background: "#f9fafb", border: "1.5px solid #e5e7eb",
+            borderRadius: 10, fontSize: 13, color: "#6b7280",
+            fontStyle: "italic", marginBottom: 20,
+          }}>
+            "{memo}"
+          </div>
+        )}
+        <div style={{
+          padding: "14px 18px", background: "#f0fdf4",
+          border: "1.5px solid #bbf7d0", borderRadius: 12,
+          fontSize: 13, color: "#065f46", lineHeight: 1.6, marginBottom: 20,
+        }}>
+          Payment confirmed over the Lightning Network.<br />
+          No middleman. Non-custodial.
+        </div>
+        <button className="btn-primary" onClick={onReset} style={{ background: "#111827", boxShadow: "none" }}>
+          Send another tip
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function TipBits() {
   const [currency, setCurrency] = useState("SATS");
   const [amount, setAmount] = useState(21000);
@@ -124,11 +177,18 @@ export default function TipBits() {
   const [priceError, setPriceError] = useState(false);
   const [step, setStep] = useState("choose");
   const [invoice, setInvoice] = useState(null);
+  const [verifyUrl, setVerifyUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [raining, setRaining] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(null);
+  const [canVerify, setCanVerify] = useState(false);
+
+  const pollRef = useRef(null);
+  const timerRef = useRef(null);
+  const expiryRef = useRef(null);
 
   useEffect(() => { setTimeout(() => setMounted(true), 60); }, []);
 
@@ -138,6 +198,50 @@ export default function TipBits() {
       .then(d => setBtcPrices({ GBP: d.bitcoin.gbp, USD: d.bitcoin.usd, EUR: d.bitcoin.eur }))
       .catch(() => setPriceError(true));
   }, []);
+
+  // Poll verify URL for payment confirmation
+  useEffect(() => {
+    if (step !== "invoice" || !verifyUrl) return;
+
+    setCanVerify(true);
+    pollRef.current = setInterval(async () => {
+      try {
+        const res = await fetch(verifyUrl);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.settled === true) {
+          clearInterval(pollRef.current);
+          clearInterval(timerRef.current);
+          setStep("paid");
+        }
+      } catch {
+        // silently ignore network errors during polling
+      }
+    }, 3000);
+
+    return () => clearInterval(pollRef.current);
+  }, [step, verifyUrl]);
+
+  // Countdown timer while invoice is displayed
+  useEffect(() => {
+    if (step !== "invoice") return;
+    expiryRef.current = Date.now() + INVOICE_EXPIRY_MS;
+    setTimeLeft(INVOICE_EXPIRY_MS);
+
+    timerRef.current = setInterval(() => {
+      const remaining = expiryRef.current - Date.now();
+      if (remaining <= 0) {
+        clearInterval(timerRef.current);
+        clearInterval(pollRef.current);
+        setTimeLeft(0);
+        setStep("expired");
+      } else {
+        setTimeLeft(remaining);
+      }
+    }, 1000);
+
+    return () => clearInterval(timerRef.current);
+  }, [step]);
 
   const toSats = useCallback((val, cur) => {
     if (!val || isNaN(val)) return 0;
@@ -163,6 +267,14 @@ export default function TipBits() {
     setAmount(PRESETS[code][2]);
   };
 
+  const fmtTimeLeft = (ms) => {
+    if (ms === null) return "";
+    const totalSecs = Math.ceil(ms / 1000);
+    const m = Math.floor(totalSecs / 60);
+    const s = totalSecs % 60;
+    return `${m}:${String(s).padStart(2, "0")}`;
+  };
+
   const generateInvoice = async () => {
     if (!satsAmount || satsAmount < 1) return;
 
@@ -175,12 +287,13 @@ export default function TipBits() {
     setLoading(true);
     setRaining(true);
     setError(null);
+    setVerifyUrl(null);
+    setCanVerify(false);
 
     try {
       const [username, domain] = address.split("@");
       if (!username || !domain) throw new Error("Invalid Lightning address format.");
 
-      // Step 1: fetch LNURL-pay params
       const paramsRes = await fetch(
         `https://${domain}/.well-known/lnurlp/${encodeURIComponent(username)}`
       );
@@ -192,14 +305,9 @@ export default function TipBits() {
       const milliSats = satsAmount * 1000;
       const min = params.minSendable ?? 1000;
       const max = params.maxSendable ?? 100_000_000_000;
-      if (milliSats < min) {
-        throw new Error(`Minimum tip is ${Math.ceil(min / 1000).toLocaleString()} sats.`);
-      }
-      if (milliSats > max) {
-        throw new Error(`Maximum tip is ${Math.floor(max / 1000).toLocaleString()} sats.`);
-      }
+      if (milliSats < min) throw new Error(`Minimum tip is ${Math.ceil(min / 1000).toLocaleString()} sats.`);
+      if (milliSats > max) throw new Error(`Maximum tip is ${Math.floor(max / 1000).toLocaleString()} sats.`);
 
-      // Step 2: request invoice from callback
       const callbackUrl = new URL(params.callback);
       callbackUrl.searchParams.set("amount", String(milliSats));
       if (memo.trim()) {
@@ -213,6 +321,7 @@ export default function TipBits() {
       if (!invoiceData.pr) throw new Error("No invoice returned. Please try again.");
 
       setInvoice(invoiceData.pr);
+      if (invoiceData.verify) setVerifyUrl(invoiceData.verify);
       setStep("invoice");
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.");
@@ -229,8 +338,11 @@ export default function TipBits() {
   };
 
   const reset = () => {
-    setStep("choose"); setInvoice(null);
-    setCustomInput(""); setMemo(""); setCopied(false); setError(null);
+    clearInterval(pollRef.current);
+    clearInterval(timerRef.current);
+    setStep("choose"); setInvoice(null); setVerifyUrl(null);
+    setCustomInput(""); setMemo(""); setCopied(false);
+    setError(null); setTimeLeft(null); setCanVerify(false);
   };
 
   const presets = PRESETS[currency];
@@ -279,12 +391,15 @@ export default function TipBits() {
         .live-dot { width:7px; height:7px; border-radius:50%; background:#10b981; display:inline-block; animation:livepulse 2s ease-in-out infinite; }
         .live-dot.err { background:#ef4444; animation:none; }
         @keyframes livepulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+        .pulse-dot { width:8px; height:8px; border-radius:50%; background:#F7931A; display:inline-block; animation:livepulse 1.2s ease-in-out infinite; }
         .success-ring { animation:ringpop .5s cubic-bezier(.34,1.56,.64,1) forwards; }
         @keyframes ringpop { 0%{transform:scale(.7);opacity:0} 100%{transform:scale(1);opacity:1} }
         .bg-dots { position:fixed; inset:0; pointer-events:none; background-image:radial-gradient(circle,#f0901820 1px,transparent 1px); background-size:28px 28px; opacity:.5; }
         .nav-link { font-size:13px; color:#9ca3af; text-decoration:none; font-weight:500; padding:6px 12px; border-radius:8px; transition:all .13s ease; cursor:pointer; background:none; border:none; font-family:'IBM Plex Sans',sans-serif; }
         .nav-link:hover { color:#F7931A; background:#fff7ed; }
         .error-box { margin-top:12px; padding:12px 14px; background:#fef2f2; border:1.5px solid #fecaca; border-radius:10px; font-size:13px; color:#b91c1c; line-height:1.5; }
+        .timer-bar-wrap { height:4px; background:#f3f4f6; border-radius:2px; overflow:hidden; margin-bottom:16px; }
+        .timer-bar { height:100%; border-radius:2px; transition:width 1s linear; }
       `}</style>
 
       <div className="bg-dots" />
@@ -416,6 +531,38 @@ export default function TipBits() {
               {memo && <div style={{ fontSize:13, color:"#9ca3af", fontStyle:"italic", marginTop:4 }}>"{memo}"</div>}
             </div>
 
+            {/* Countdown bar */}
+            {timeLeft !== null && (
+              <div style={{ marginTop:16 }}>
+                <div className="timer-bar-wrap">
+                  <div className="timer-bar" style={{
+                    width: `${(timeLeft / INVOICE_EXPIRY_MS) * 100}%`,
+                    background: timeLeft < 60000 ? "#ef4444" : timeLeft < 180000 ? "#f59e0b" : "#F7931A",
+                  }} />
+                </div>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", fontSize:11, color:"#9ca3af" }}>
+                  <span style={{ display:"flex", alignItems:"center", gap:5 }}>
+                    <span className="pulse-dot" />
+                    {canVerify ? "Watching for payment..." : "Waiting for payment"}
+                  </span>
+                  <span style={{ fontFamily:"'IBM Plex Mono',monospace" }}>
+                    {fmtTimeLeft(timeLeft)} remaining
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Manual confirm — shown when provider doesn't support verify */}
+            {!canVerify && (
+              <button
+                className="btn-primary"
+                style={{ marginTop:16, background:"#10b981", boxShadow:"0 4px 16px rgba(16,185,129,.3)" }}
+                onClick={() => setStep("paid")}
+              >
+                ✓ I've paid
+              </button>
+            )}
+
             <div className="divider" />
             <span className="tj-label">Payment request</span>
             <div className="inv-string">{invoice}</div>
@@ -426,12 +573,22 @@ export default function TipBits() {
                 {copied ? "✓ Copied!" : "Copy Invoice"}
               </button>
             </div>
-
-            <div style={{ marginTop:16, padding:"12px 14px", background:"#fff7ed", border:"1.5px solid #fed7aa", borderRadius:10, fontSize:12, color:"#92400e", textAlign:"center", lineHeight:1.6 }}>
-              Open in any Lightning wallet or scan the QR.
-              Invoice expires in <strong>10 min</strong>.
-            </div>
           </>)}
+
+          {step === "paid" && (
+            <PaidScreen satsAmount={satsAmount} memo={memo} onReset={reset} />
+          )}
+
+          {step === "expired" && (
+            <div style={{ textAlign:"center", padding:"12px 0" }}>
+              <div style={{ fontSize:40, marginBottom:16 }}>⏱</div>
+              <div style={{ fontSize:18, fontWeight:700, color:"#111827", marginBottom:8 }}>Invoice expired</div>
+              <div style={{ fontSize:14, color:"#6b7280", marginBottom:24, lineHeight:1.6 }}>
+                Lightning invoices expire after 10 minutes.<br />Generate a new one to try again.
+              </div>
+              <button className="btn-primary" onClick={reset}>Generate new invoice</button>
+            </div>
+          )}
         </div>
 
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:10, marginTop:18, fontSize:11, color:"#d1d5db", letterSpacing:"0.06em" }}>
