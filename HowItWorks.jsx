@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Logo from "./Logo";
 
 function BitcoinLogo({ size = 28 }) {
   return (
@@ -115,7 +114,8 @@ export default function HowItWorks() {
         {/* Nav */}
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"20px 0 32px" }}>
           <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-            <Logo />
+            <BitcoinLogo size={28} />
+            <span style={{ fontSize:16, fontWeight:700, color:"#111827", letterSpacing:"-0.02em" }}>TipBits</span>
           </div>
           <button className="nav-link" onClick={() => navigate('/')}>
             ← Back to tip page

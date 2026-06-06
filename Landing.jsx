@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Logo from "./Logo";
 
 function BitcoinLogo({ size = 32 }) {
   return (
@@ -86,7 +85,8 @@ export default function Landing() {
         {/* Nav */}
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "20px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <Logo size={36} />
+            <BitcoinLogo size={32} />
+            <span style={{ fontSize: 18, fontWeight: 700, color: "#111827", letterSpacing: "-0.02em" }}>TipBits</span>
           </div>
           <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
             <button className="nav-link" onClick={() => navigate('/how')}>How it works</button>
@@ -275,7 +275,8 @@ export default function Landing() {
         <div style={{ borderTop: "1px solid #f3f4f6", padding: "28px 24px" }}>
           <div style={{ maxWidth: 900, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <Logo size={28} />
+              <BitcoinLogo size={22} />
+              <span style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>TipBits</span>
             </div>
             <div style={{ display: "flex", gap: 16, fontSize: 13, color: "#9ca3af" }}>
               <button className="nav-link" onClick={() => navigate('/how')}>How it works</button>

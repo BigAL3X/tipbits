@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { useNavigate } from "react-router-dom";
-import Logo from "./Logo";
 
 const CURRENCIES = [
   { code: "SATS", symbol: "⚡", label: "Sats" },
@@ -308,8 +307,9 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
 
         {/* Nav */}
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:20 }}>
-          <button onClick={() => navigate('/')} style={{ background:"none", border:"none", cursor:"pointer", padding:0 }}>
-            <Logo />
+          <button onClick={() => navigate('/')} style={{ display:"flex", alignItems:"center", gap:8, background:"none", border:"none", cursor:"pointer", padding:0 }}>
+            <BitcoinLogo size={28} />
+            <span style={{ fontSize:16, fontWeight:700, color:"#111827", letterSpacing:"-0.02em" }}>TipBits</span>
           </button>
           <button className="nav-link" onClick={() => navigate('/how')}>How it works</button>
         </div>
