@@ -4,6 +4,7 @@ import TipBits from "./TipBits";
 import HowItWorks from "./HowItWorks";
 import Register from "./Register";
 import Edit from "./Edit";
+import Contact from "./Contact";
 import CreatorPage from "./CreatorPage";
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/how" element={<HowItWorks />} />
         <Route path="/register" element={<Register />} />
         <Route path="/edit" element={<Edit />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/u/:username" element={<CreatorPage />} />
       </Routes>
     </BrowserRouter>

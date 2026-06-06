@@ -283,6 +283,7 @@ export default function Landing() {
               <button className="nav-link" onClick={() => navigate('/register')}>Get your page</button>
               <button className="nav-link" onClick={() => navigate('/edit')}>Edit my page</button>
               <button className="nav-link" onClick={() => navigate('/tip')}>Support ⚡</button>
+              <button className="nav-link" onClick={() => navigate('/contact')}>Contact</button>
             </div>
             <div style={{ fontSize: 11, color: "#d1d5db", letterSpacing: ".06em" }}>
               ⚡ LIGHTNING · NON-CUSTODIAL · SOVEREIGN
