@@ -1,15 +1,20 @@
-import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TipBits from "./TipBits";
 import HowItWorks from "./HowItWorks";
+import Register from "./Register";
+import Edit from "./Edit";
+import CreatorPage from "./CreatorPage";
 
 export default function App() {
-  const [page, setPage] = useState("home");
-
-  useEffect(() => {
-    const handler = (e) => setPage(e.detail);
-    window.addEventListener("tipbits-nav", handler);
-    return () => window.removeEventListener("tipbits-nav", handler);
-  }, []);
-
-  return page === "how" ? <HowItWorks /> : <TipBits />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<TipBits />} />
+        <Route path="/how" element={<HowItWorks />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/edit" element={<Edit />} />
+        <Route path="/u/:username" element={<CreatorPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }

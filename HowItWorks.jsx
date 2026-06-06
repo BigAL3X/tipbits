@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function BitcoinLogo({ size = 28 }) {
   return (
@@ -72,6 +73,7 @@ const FAQS = [
 ];
 
 export default function HowItWorks() {
+  const navigate = useNavigate();
   const [mounted, setMounted] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
 
@@ -115,7 +117,7 @@ export default function HowItWorks() {
             <BitcoinLogo size={28} />
             <span style={{ fontSize:16, fontWeight:700, color:"#111827", letterSpacing:"-0.02em" }}>TipBits</span>
           </div>
-          <button className="nav-link" onClick={() => window.dispatchEvent(new CustomEvent('tipbits-nav', { detail: 'home' }))}>
+          <button className="nav-link" onClick={() => navigate('/')}>
             ← Back to tip page
           </button>
         </div>
