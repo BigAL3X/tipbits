@@ -29,5 +29,13 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/main.jsx"></script>
+
+    <!-- Netlify Forms detection — not shown to users, parsed at build time -->
+    <form name="contact" data-netlify="true" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="subject" />
+      <textarea name="message"></textarea>
+    </form>
   </body>
 </html>

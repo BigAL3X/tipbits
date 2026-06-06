@@ -79,14 +79,6 @@ export default function Contact() {
 
       <div className="bg-dots" />
 
-      {/* Netlify form detection — hidden, never shown */}
-      <form name="contact" data-netlify="true" hidden>
-        <input type="text" name="name" />
-        <input type="email" name="email" />
-        <input type="text" name="subject" />
-        <textarea name="message" />
-      </form>
-
       <div className={`contact-wrap ${mounted ? "in" : ""}`} style={{ position:"relative", zIndex:1 }}>
 
         {/* Nav */}
