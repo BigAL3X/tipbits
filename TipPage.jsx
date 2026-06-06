@@ -307,10 +307,10 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
 
         {/* Nav */}
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:20 }}>
-          <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+          <button onClick={() => navigate('/')} style={{ display:"flex", alignItems:"center", gap:8, background:"none", border:"none", cursor:"pointer", padding:0 }}>
             <BitcoinLogo size={28} />
             <span style={{ fontSize:16, fontWeight:700, color:"#111827", letterSpacing:"-0.02em" }}>TipBits</span>
-          </div>
+          </button>
           <button className="nav-link" onClick={() => navigate('/how')}>How it works</button>
         </div>
 
@@ -449,19 +449,25 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
               ⚡ Get your own sovereign tip page →
             </button>
           )}
-          <div style={{ display:"flex", alignItems:"center", gap:10, fontSize:11, color:"#d1d5db", letterSpacing:"0.06em" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:10, fontSize:11, color:"#d1d5db", letterSpacing:"0.06em", flexWrap:"wrap", justifyContent:"center" }}>
             <span>⚡ LIGHTNING NETWORK</span>
             <span>·</span>
             <span>NON-CUSTODIAL</span>
+            <span>·</span>
             {showSupportLink ? (
-              <>
-                <span>·</span>
-                <a href="/" className="support-link" onClick={e => { e.preventDefault(); navigate('/'); }}>Powered by TipBits ⚡</a>
-              </>
+              <a href="/" className="support-link" onClick={e => { e.preventDefault(); navigate('/'); }}>Powered by TipBits ⚡</a>
             ) : (
-              <><span>·</span><span>TIPBITS</span></>
+              <span>TIPBITS</span>
             )}
           </div>
+          {showSupportLink && (
+            <button
+              onClick={() => navigate('/register')}
+              style={{ background:"none", border:"none", color:"#F7931A", fontSize:12, fontWeight:600, cursor:"pointer", fontFamily:"'IBM Plex Sans',sans-serif", padding:"4px 8px", letterSpacing:".01em" }}
+            >
+              ⚡ Get your own tip page →
+            </button>
+          )}
         </div>
       </div>
     </div>
