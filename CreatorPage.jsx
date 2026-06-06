@@ -60,14 +60,26 @@ export default function CreatorPage() {
   }
 
   return (
-    <TipPage
-      config={{
-        creatorName: creator.name,
-        creatorHandle: creator.handle,
-        creatorBio: creator.bio,
-        lightningAddress: creator.lightningAddress,
-      }}
-      showSupportLink
-    />
+    <div style={{ position:"relative" }}>
+      <TipPage
+        config={{
+          creatorName: creator.name,
+          creatorHandle: creator.handle,
+          creatorBio: creator.bio,
+          lightningAddress: creator.lightningAddress,
+        }}
+        showSupportLink
+      />
+      <div style={{ textAlign:"center", paddingBottom:24, marginTop:-8 }}>
+        <button
+          onClick={() => navigate('/edit')}
+          style={{ background:"none", border:"none", color:"#d1d5db", fontSize:12, cursor:"pointer", fontFamily:"'IBM Plex Sans',system-ui,sans-serif", padding:"6px 12px", borderRadius:6, transition:"color .13s ease" }}
+          onMouseEnter={e => e.target.style.color="#9ca3af"}
+          onMouseLeave={e => e.target.style.color="#d1d5db"}
+        >
+          ✏ Edit this page
+        </button>
+      </div>
+    </div>
   );
 }
