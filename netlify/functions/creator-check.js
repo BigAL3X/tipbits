@@ -22,9 +22,9 @@ export default async (request) => {
   try {
     const store = getStore('creators');
     const existing = await store.get(username);
-    return Response.json({ available: !existing });
-  } catch {
-    return Response.json({ available: false, error: 'Could not check availability' });
+    return Response.json({ available: existing === null });
+  } catch (err) {
+    return Response.json({ available: false, error: `Store error: ${err?.message || err}` });
   }
 };
 
