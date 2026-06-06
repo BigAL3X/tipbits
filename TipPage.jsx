@@ -410,7 +410,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", fontSize:11, color:"#9ca3af" }}>
                   <span style={{ display:"flex", alignItems:"center", gap:5 }}>
                     <span className="pulse-dot" />
-                    {canVerify ? "Watching for payment..." : "Waiting for payment"}
+                    {canVerify ? "Watching for payment..." : "Scan or tap to pay"}
                   </span>
                   <span style={{ fontFamily:"'IBM Plex Mono',monospace" }}>{fmtTimeLeft(timeLeft)} remaining</span>
                 </div>
