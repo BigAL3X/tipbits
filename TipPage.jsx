@@ -205,7 +205,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
     try {
       const [username, domain] = address.split("@");
       if (!username || !domain) throw new Error("Invalid Lightning address format.");
-      const paramsRes = await fetch(`https://${domain}/.well-known/lnurlp/${encodeURIComponent(username)}`);
+      const paramsRes = await fetch(`https://${domain}/.well-known/lnurlp/${encodeURIComponent(username)}`, { cache: "no-store" });
       if (!paramsRes.ok) throw new Error("Could not reach this Lightning address. It may be offline.");
       const params = await paramsRes.json();
       if (params.status === "ERROR") throw new Error(params.reason || "Lightning address returned an error.");

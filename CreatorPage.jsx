@@ -11,7 +11,7 @@ export default function CreatorPage() {
 
   useEffect(() => {
     if (!username) { navigate('/'); return; }
-    fetch(`/api/creator/get?u=${encodeURIComponent(username.toLowerCase())}`)
+    fetch(`/api/creator/get?u=${encodeURIComponent(username.toLowerCase())}`, { cache: "no-store" })
       .then(r => r.json())
       .then(data => {
         if (data.error) { setError(data.error); }
