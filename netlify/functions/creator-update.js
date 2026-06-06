@@ -49,7 +49,9 @@ export default async (request) => {
     };
 
     await store.setJSON(username, updated);
-    return Response.json({ success: true });
+    return Response.json({ success: true }, {
+      headers: { 'Cache-Control': 'no-store' },
+    });
   } catch (err) {
     console.error('Update error:', err);
     return Response.json({ error: 'Update failed. Please try again.' }, { status: 500 });

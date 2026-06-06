@@ -18,7 +18,9 @@ export default async (request) => {
 
     // Strip the key hash — only return public data
     const { editKeyHash, ...publicData } = creator;
-    return Response.json(publicData);
+    return Response.json(publicData, {
+      headers: { 'Cache-Control': 'no-store' },
+    });
   } catch (err) {
     console.error('Get creator error:', err);
     return Response.json({ error: 'Failed to load creator' }, { status: 500 });
