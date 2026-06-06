@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Landing from "./Landing";
 import TipBits from "./TipBits";
 import HowItWorks from "./HowItWorks";
 import Register from "./Register";
@@ -9,7 +10,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<TipBits />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/tip" element={<TipBits />} />
         <Route path="/how" element={<HowItWorks />} />
         <Route path="/register" element={<Register />} />
         <Route path="/edit" element={<Edit />} />

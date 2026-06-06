@@ -456,7 +456,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
             {showSupportLink ? (
               <>
                 <span>·</span>
-                <a href="/" className="support-link">Powered by TipBits ⚡</a>
+                <a href="/" className="support-link" onClick={e => { e.preventDefault(); navigate('/'); }}>Powered by TipBits ⚡</a>
               </>
             ) : (
               <><span>·</span><span>TIPBITS</span></>
