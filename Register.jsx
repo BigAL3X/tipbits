@@ -88,6 +88,10 @@ export default function Register() {
       return;
     }
     if (!name.trim()) { setFormError("Display name is required."); return; }
+    if (lightningAddress.toLowerCase().startsWith("lnbc") || lightningAddress.toLowerCase().startsWith("lntb")) {
+      setFormError("That looks like a Lightning invoice, not a Lightning address. A Lightning address looks like an email — e.g. you@getalby.com or you@strike.me.");
+      return;
+    }
     if (!lightningAddress.includes("@")) {
       setFormError("Please enter a valid Lightning address (e.g. you@getalby.com).");
       return;
