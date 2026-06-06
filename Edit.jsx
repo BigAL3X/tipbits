@@ -35,6 +35,12 @@ export default function Edit() {
   const [editError, setEditError] = useState(null);
   const [saving, setSaving] = useState(false);
 
+  // Delete
+  const [showDeleteZone, setShowDeleteZone] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState(null);
+
   useEffect(() => { setTimeout(() => setMounted(true), 60); }, []);
 
   const handleVerify = async (e) => {
@@ -122,6 +128,33 @@ export default function Edit() {
       setEditError("Something went wrong. Please try again.");
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (deleteConfirmText.toLowerCase() !== username.toLowerCase()) {
+      setDeleteError("Username doesn't match. Type it exactly to confirm.");
+      return;
+    }
+    setDeleting(true);
+    setDeleteError(null);
+    try {
+      const keyHash = await hashKey(sovereignKey.trim());
+      const res = await fetch("/api/creator/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: username.toLowerCase().trim(), editKeyHash: keyHash }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        setDeleteError(data.error || "Delete failed. Please try again.");
+        return;
+      }
+      navigate("/");
+    } catch {
+      setDeleteError("Something went wrong. Please try again.");
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -227,6 +260,53 @@ export default function Edit() {
                   {saving ? "Saving..." : "⚡ Save changes"}
                 </button>
               </form>
+            </div>
+
+            {/* Danger zone */}
+            <div style={{ marginTop:24, border:"1.5px solid #fecaca", borderRadius:16, overflow:"hidden" }}>
+              <button
+                onClick={() => { setShowDeleteZone(v => !v); setDeleteError(null); setDeleteConfirmText(""); }}
+                style={{ width:"100%", padding:"16px 20px", background:"#fef2f2", border:"none", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"space-between", fontFamily:"'IBM Plex Sans',sans-serif" }}
+              >
+                <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                  <span style={{ fontSize:16 }}>⚠️</span>
+                  <span style={{ fontSize:14, fontWeight:600, color:"#b91c1c" }}>Danger zone</span>
+                </div>
+                <span style={{ fontSize:12, color:"#ef4444" }}>{showDeleteZone ? "▲ Close" : "▼ Delete my page"}</span>
+              </button>
+
+              {showDeleteZone && (
+                <div style={{ padding:"20px 20px 24px", background:"white", borderTop:"1.5px solid #fecaca" }}>
+                  <div style={{ fontSize:13, color:"#374151", lineHeight:1.7, marginBottom:16 }}>
+                    <strong>This is permanent.</strong> Deleting your page removes all your data from TipBits immediately.
+                    Any links you've shared — in your bio, X profile, or anywhere else — will stop working and show a 404.
+                    Your Lightning address and Sovereign Key are unaffected.
+                  </div>
+                  <div style={{ padding:"10px 12px", background:"#fff7ed", border:"1px solid #fed7aa", borderRadius:8, fontSize:12, color:"#92400e", marginBottom:16 }}>
+                    To confirm, type your username <strong>{username}</strong> below.
+                  </div>
+                  {deleteError && (
+                    <div style={{ padding:"10px 14px", background:"#fef2f2", border:"1.5px solid #fecaca", borderRadius:8, fontSize:13, color:"#b91c1c", marginBottom:12 }}>
+                      {deleteError}
+                    </div>
+                  )}
+                  <input
+                    className="tj-input"
+                    type="text"
+                    placeholder={`Type "${username}" to confirm`}
+                    value={deleteConfirmText}
+                    onChange={e => setDeleteConfirmText(e.target.value)}
+                    style={{ marginBottom:12 }}
+                  />
+                  <button
+                    onClick={handleDelete}
+                    disabled={deleting}
+                    style={{ width:"100%", padding:"13px", background: deleting ? "#9ca3af" : "#dc2626", color:"white", border:"none", borderRadius:10, fontFamily:"'IBM Plex Sans',sans-serif", fontSize:14, fontWeight:600, cursor: deleting ? "not-allowed" : "pointer", transition:"all .15s ease" }}
+                  >
+                    {deleting ? "Deleting..." : "🗑 Permanently delete my page"}
+                  </button>
+                </div>
+              )}
             </div>
           </>
         )}
