@@ -205,7 +205,8 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
     try {
       const [username, domain] = address.split("@");
       if (!username || !domain) throw new Error("Invalid Lightning address format.");
-      const paramsRes = await fetch(`https://${domain}/.well-known/lnurlp/${encodeURIComponent(username)}`, { cache: "no-store" });
+      const lnurlEndpoint = `https://${domain}/.well-known/lnurlp/${encodeURIComponent(username)}`;
+      const paramsRes = await fetch(`/api/lnurl-fetch?url=${encodeURIComponent(lnurlEndpoint)}`);
       if (!paramsRes.ok) throw new Error("Could not reach this Lightning address. It may be offline.");
       const params = await paramsRes.json();
       if (params.status === "ERROR") throw new Error(params.reason || "Lightning address returned an error.");
@@ -218,7 +219,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
       const callbackUrl = new URL(params.callback);
       callbackUrl.searchParams.set("amount", String(milliSats));
       if (memo.trim()) callbackUrl.searchParams.set("comment", memo.trim().slice(0, 144));
-      const invoiceRes = await fetch(callbackUrl.toString());
+      const invoiceRes = await fetch(`/api/lnurl-fetch?url=${encodeURIComponent(callbackUrl.toString())}`);
       if (!invoiceRes.ok) throw new Error("Failed to generate invoice. Please try again.");
       const invoiceData = await invoiceRes.json();
       if (invoiceData.status === "ERROR") throw new Error(invoiceData.reason || "Invoice generation failed.");
