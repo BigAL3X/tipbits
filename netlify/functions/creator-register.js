@@ -18,7 +18,7 @@ export default async (request) => {
     return Response.json({ error: 'Invalid request body' }, { status: 400 });
   }
 
-  const { username, name, handle, bio, lightningAddress, editKeyHash } = body;
+  const { username, name, handle, bio, lightningAddress, website, editKeyHash } = body;
 
   // Validate username
   if (!username || !/^[a-z0-9-]{3,30}$/.test(username)) {
@@ -54,6 +54,7 @@ export default async (request) => {
       name: name.trim().slice(0, 50),
       handle: (handle?.trim() || `@${username}`).slice(0, 30),
       bio: (bio?.trim() || '').slice(0, 200),
+      website: (website?.trim() || '').slice(0, 200),
       lightningAddress: lightningAddress.toLowerCase().trim(),
       editKeyHash,  // SHA-256 hash only — raw key never stored
       createdAt: new Date().toISOString(),

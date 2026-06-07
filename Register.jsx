@@ -33,6 +33,7 @@ export default function Register() {
   const [name, setName] = useState("");
   const [handle, setHandle] = useState("");
   const [bio, setBio] = useState("");
+  const [website, setWebsite] = useState("");
   const [lightningAddress, setLightningAddress] = useState("");
 
   // Username availability
@@ -111,6 +112,7 @@ export default function Register() {
           handle: handle.trim() || `@${username.toLowerCase().trim()}`,
           bio: bio.trim(),
           lightningAddress: lightningAddress.toLowerCase().trim(),
+          website: website.trim(),
           editKeyHash: keyHash,
         }),
       });
@@ -271,6 +273,12 @@ export default function Register() {
                 <div className="field">
                   <label className="tj-label">Bio (optional)</label>
                   <textarea className="tj-input" placeholder="What do you create? Keep it short." value={bio} onChange={e => setBio(e.target.value)} maxLength={200} rows={2} style={{ resize:"none", lineHeight:1.6 }} />
+                </div>
+
+                <div className="field">
+                  <label className="tj-label">Your website (optional)</label>
+                  <input className="tj-input" type="url" placeholder="https://yoursite.com" value={website} onChange={e => setWebsite(e.target.value)} maxLength={200} />
+                  <div className="hint checking">Shown on your tip page so tippers can find your work.</div>
                 </div>
 
                 <div className="field" style={{ marginBottom:28 }}>

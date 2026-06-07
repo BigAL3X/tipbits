@@ -66,6 +66,7 @@ export default function CreatorPage() {
           creatorName: creator.name,
           creatorHandle: creator.handle,
           creatorBio: creator.bio,
+          creatorWebsite: creator.website || "",
           lightningAddress: creator.lightningAddress,
         }}
         showSupportLink

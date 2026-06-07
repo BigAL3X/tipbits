@@ -12,7 +12,7 @@ export default async (request) => {
     return Response.json({ error: 'Invalid request body' }, { status: 400 });
   }
 
-  const { username, editKeyHash, name, handle, bio, lightningAddress } = body;
+  const { username, editKeyHash, name, handle, bio, website, lightningAddress } = body;
 
   if (!username || !editKeyHash) {
     return Response.json({ error: 'Username and Sovereign Key are required' }, { status: 400 });
@@ -42,6 +42,7 @@ export default async (request) => {
       name: (name?.trim() || creator.name).slice(0, 50),
       handle: (handle?.trim() || creator.handle).slice(0, 30),
       bio: (bio?.trim() ?? creator.bio).slice(0, 200),
+      website: (website?.trim() ?? creator.website ?? '').slice(0, 200),
       lightningAddress: lightningAddress
         ? lightningAddress.toLowerCase().trim()
         : creator.lightningAddress,

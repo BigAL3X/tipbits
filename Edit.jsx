@@ -31,6 +31,7 @@ export default function Edit() {
   const [name, setName] = useState("");
   const [handle, setHandle] = useState("");
   const [bio, setBio] = useState("");
+  const [website, setWebsite] = useState("");
   const [lightningAddress, setLightningAddress] = useState("");
   const [editError, setEditError] = useState(null);
   const [saving, setSaving] = useState(false);
@@ -84,6 +85,7 @@ export default function Edit() {
       setName(creatorData.name || "");
       setHandle(creatorData.handle || "");
       setBio(creatorData.bio || "");
+      setWebsite(creatorData.website || "");
       setLightningAddress(creatorData.lightningAddress || "");
       setStep("edit");
     } catch {
@@ -115,6 +117,7 @@ export default function Edit() {
           name: name.trim(),
           handle: handle.trim(),
           bio: bio.trim(),
+          website: website.trim(),
           lightningAddress: lightningAddress.toLowerCase().trim(),
         }),
       });
@@ -251,6 +254,11 @@ export default function Edit() {
                   <label className="tj-label">Bio</label>
                   <textarea className="tj-input" value={bio} onChange={e => setBio(e.target.value)} maxLength={200} rows={2} style={{ resize:"none", lineHeight:1.6 }} />
                 </div>
+                <div className="field">
+                  <label className="tj-label">Your website (optional)</label>
+                  <input className="tj-input" type="url" placeholder="https://yoursite.com" value={website} onChange={e => setWebsite(e.target.value)} maxLength={200} />
+                </div>
+
                 <div className="field" style={{ marginBottom:28 }}>
                   <label className="tj-label">Lightning address</label>
                   <input className="tj-input" type="text" value={lightningAddress} onChange={e => setLightningAddress(e.target.value)} />

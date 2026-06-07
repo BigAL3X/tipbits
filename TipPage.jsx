@@ -218,7 +218,9 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
       if (milliSats > max) throw new Error(`Maximum tip is ${Math.floor(max / 1000).toLocaleString()} sats.`);
       const callbackUrl = new URL(params.callback);
       callbackUrl.searchParams.set("amount", String(milliSats));
-      if (memo.trim()) callbackUrl.searchParams.set("comment", memo.trim().slice(0, 144));
+      const prefix = "TipBits: ";
+      const commentText = memo.trim() ? `${prefix}${memo.trim()}` : prefix.trim();
+      callbackUrl.searchParams.set("comment", commentText.slice(0, 144));
       const invoiceRes = await fetch(`/api/lnurl-fetch?url=${encodeURIComponent(callbackUrl.toString())}`);
       if (!invoiceRes.ok) throw new Error("Failed to generate invoice. Please try again.");
       const invoiceData = await invoiceRes.json();
@@ -246,6 +248,13 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
     setStep("choose"); setInvoice(null); setVerifyUrl(null);
     setCustomInput(""); setMemo(""); setCopied(false);
     setError(null); setTimeLeft(null); setCanVerify(false);
+  };
+
+  // Back from invoice — keeps amount and memo so user doesn't have to re-enter
+  const goBack = () => {
+    clearInterval(pollRef.current); clearInterval(timerRef.current);
+    setStep("choose"); setInvoice(null); setVerifyUrl(null);
+    setCopied(false); setError(null); setTimeLeft(null); setCanVerify(false);
   };
 
   const presets = PRESETS[currency];
@@ -322,7 +331,13 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
             {config.creatorName}
           </div>
           <div style={{ fontSize:13, color:"#9ca3af", marginBottom:8 }}>{config.creatorHandle}</div>
-          <div style={{ fontSize:14, color:"#6b7280", lineHeight:1.5 }}>{config.creatorBio}</div>
+          {config.creatorBio && <div style={{ fontSize:14, color:"#6b7280", lineHeight:1.5, marginBottom:6 }}>{config.creatorBio}</div>}
+          {config.creatorWebsite && (
+            <a href={config.creatorWebsite} target="_blank" rel="noopener noreferrer"
+              style={{ fontSize:13, color:"#F7931A", textDecoration:"none", fontWeight:500 }}>
+              🔗 {config.creatorWebsite.replace(/^https?:\/\//, '')}
+            </a>
+          )}
           {btcPrices.GBP && (
             <div style={{ marginTop:10 }}>
               <span className="price-badge">
@@ -429,7 +444,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
             <span className="tj-label">Payment request</span>
             <div className="inv-string">{invoice}</div>
             <div style={{ display:"flex", gap:8, marginTop:12 }}>
-              <button className="btn-ghost" onClick={reset}>← Back</button>
+              <button className="btn-ghost" onClick={goBack}>← Back</button>
               <button className={`btn-copy ${copied?"done":""}`} onClick={copyInvoice}>{copied?"✓ Copied!":"Copy Invoice"}</button>
             </div>
           </>)}
