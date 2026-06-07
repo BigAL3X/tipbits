@@ -387,6 +387,9 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
               {loading ? <><span className="spin">⚡</span> Generating invoice...</> : <>⚡ Generate Lightning Invoice</>}
             </button>
             {error && <div className="error-box">{error}</div>}
+            <div style={{ marginTop:12, fontSize:11, color:"#9ca3af", textAlign:"center", lineHeight:1.6 }}>
+              TipBits is in early access. Payments go peer-to-peer directly to the creator's wallet — we never hold funds. If you're new here, consider sending a small amount first to confirm everything works as expected.
+            </div>
           </>)}
 
           {step === "invoice" && (<>

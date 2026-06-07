@@ -311,6 +311,9 @@ export default function Register() {
                 <button type="submit" className="btn-primary" disabled={submitting || usernameStatus !== "available"}>
                   {submitting ? "Registering..." : "⚡ Claim my sovereign page"}
                 </button>
+                <div style={{ marginTop:16, fontSize:11, color:"#9ca3af", textAlign:"center", lineHeight:1.6 }}>
+                  TipBits is in early access and provided as-is. We are not responsible for failed transactions or losses. Always ask tippers to send a small test amount first to confirm your Lightning address is working correctly.
+                </div>
               </form>
             </div>
           </>
