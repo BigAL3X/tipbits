@@ -6,6 +6,7 @@ import Register from "./Register";
 import Edit from "./Edit";
 import Contact from "./Contact";
 import CreatorPage from "./CreatorPage";
+import Admin from "./Admin";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/edit" element={<Edit />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/u/:username" element={<CreatorPage />} />
       </Routes>
     </BrowserRouter>

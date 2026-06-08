@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { trackEvent } from "./analytics";
 import { QRCodeSVG } from "qrcode.react";
 import { useNavigate } from "react-router-dom";
 
@@ -229,6 +230,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
       setInvoice(invoiceData.pr);
       if (invoiceData.verify) setVerifyUrl(invoiceData.verify);
       setStep("invoice");
+      trackEvent("invoice_generated", { username: config.lightningAddress?.split("@")[0] ?? "", sats: satsAmount });
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.");
       setRaining(false);
