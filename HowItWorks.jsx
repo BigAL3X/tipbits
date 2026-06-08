@@ -238,6 +238,20 @@ export default function HowItWorks() {
           ))}
         </div>
 
+        {/* New to Bitcoin CTA */}
+        <div style={{ marginTop:40, padding:"20px 24px", background:"#fff7ed", border:"1.5px solid #fed7aa", borderRadius:14, display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:12 }}>
+          <div>
+            <div style={{ fontSize:13, fontWeight:600, color:"#92400e", marginBottom:3 }}>New to Bitcoin?</div>
+            <div style={{ fontSize:13, color:"#9ca3af", lineHeight:1.5 }}>Five short guides — no jargon, no hype.</div>
+          </div>
+          <button
+            onClick={() => navigate('/learn')}
+            style={{ padding:"10px 20px", background:"#F7931A", color:"white", border:"none", borderRadius:10, fontFamily:"'IBM Plex Sans',sans-serif", fontSize:13, fontWeight:600, cursor:"pointer", whiteSpace:"nowrap" }}
+          >
+            Start here →
+          </button>
+        </div>
+
         {/* Footer */}
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:10, marginTop:40, fontSize:11, color:"#d1d5db", letterSpacing:"0.06em" }}>
           <span>⚡ LIGHTNING NETWORK</span>

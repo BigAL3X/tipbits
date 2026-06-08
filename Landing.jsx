@@ -90,6 +90,7 @@ export default function Landing() {
           </div>
           <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
             <button className="nav-link" onClick={() => navigate('/how')}>How it works</button>
+            <button className="nav-link" onClick={() => navigate('/learn')}>Learn</button>
             <button className="nav-link" onClick={() => navigate('/tip')}>Support ⚡</button>
             <button
               onClick={() => navigate('/register')}
@@ -280,6 +281,7 @@ export default function Landing() {
             </div>
             <div style={{ display: "flex", gap: 16, fontSize: 13, color: "#9ca3af" }}>
               <button className="nav-link" onClick={() => navigate('/how')}>How it works</button>
+              <button className="nav-link" onClick={() => navigate('/learn')}>Learn</button>
               <button className="nav-link" onClick={() => navigate('/register')}>Get your page</button>
               <button className="nav-link" onClick={() => navigate('/edit')}>Edit my page</button>
               <button className="nav-link" onClick={() => navigate('/tip')}>Support ⚡</button>
