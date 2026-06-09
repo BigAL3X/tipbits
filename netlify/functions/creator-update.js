@@ -1,4 +1,17 @@
 import { getStore } from "@netlify/blobs";
+import { timingSafeEqual } from 'node:crypto';
+
+function safeCompareHex(a, b) {
+  try { return timingSafeEqual(Buffer.from(a, 'hex'), Buffer.from(b, 'hex')); } catch { return false; }
+}
+
+function isSafeWebsiteUrl(url) {
+  if (!url) return true;
+  try {
+    const p = new URL(url);
+    return p.protocol === 'https:' || p.protocol === 'http:';
+  } catch { return false; }
+}
 
 export default async (request) => {
   if (request.method !== 'POST') {
@@ -28,7 +41,7 @@ export default async (request) => {
     if (!creator) {
       return Response.json({ error: 'Username not found' }, { status: 404 });
     }
-    if (creator.editKeyHash !== editKeyHash) {
+    if (!safeCompareHex(creator.editKeyHash, editKeyHash)) {
       return Response.json({ error: 'Incorrect Sovereign Key' }, { status: 403 });
     }
 
@@ -36,13 +49,17 @@ export default async (request) => {
     if (lightningAddress && (!lightningAddress.includes('@') || lightningAddress.length > 200)) {
       return Response.json({ error: 'Invalid Lightning address' }, { status: 400 });
     }
+    const websiteValue = website?.trim() ?? creator.website ?? '';
+    if (websiteValue && !isSafeWebsiteUrl(websiteValue)) {
+      return Response.json({ error: 'Website must be a valid http:// or https:// URL' }, { status: 400 });
+    }
 
     const updated = {
       ...creator,
       name: (name?.trim() || creator.name).slice(0, 50),
       handle: (handle?.trim() || creator.handle).slice(0, 30),
       bio: (bio?.trim() ?? creator.bio).slice(0, 200),
-      website: (website?.trim() ?? creator.website ?? '').slice(0, 200),
+      website: websiteValue.slice(0, 200),
       lightningAddress: lightningAddress
         ? lightningAddress.toLowerCase().trim()
         : creator.lightningAddress,

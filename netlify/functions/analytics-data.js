@@ -5,15 +5,16 @@ export default async (request) => {
     return new Response("Method not allowed", { status: 405 });
   }
 
-  // Password check
-  const url = new URL(request.url);
-  const password = url.searchParams.get("p");
+  // Auth via Authorization: Bearer <token> header — never accept password in URL
+  const authHeader = request.headers.get("Authorization");
+  const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
   const adminPassword = process.env.ADMIN_PASSWORD;
 
-  if (!adminPassword || password !== adminPassword) {
+  if (!adminPassword || token !== adminPassword) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const url = new URL(request.url);
   try {
     const store = getStore("analytics");
     const days = parseInt(url.searchParams.get("days") ?? "30", 10);

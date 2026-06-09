@@ -1,4 +1,9 @@
 import { getStore } from "@netlify/blobs";
+import { timingSafeEqual } from 'node:crypto';
+
+function safeCompareHex(a, b) {
+  try { return timingSafeEqual(Buffer.from(a, 'hex'), Buffer.from(b, 'hex')); } catch { return false; }
+}
 
 export default async (request) => {
   if (request.method !== "POST") {
@@ -28,7 +33,7 @@ export default async (request) => {
     if (!creator) {
       return Response.json({ error: "Username not found" }, { status: 404 });
     }
-    if (creator.editKeyHash !== editKeyHash) {
+    if (!safeCompareHex(creator.editKeyHash, editKeyHash)) {
       return Response.json({ error: "Incorrect Sovereign Key" }, { status: 403 });
     }
 

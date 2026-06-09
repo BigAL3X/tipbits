@@ -59,7 +59,7 @@ export default function Admin() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/events/data?p=${encodeURIComponent(pw)}&days=${d}`, { cache: "no-store" });
+      const res = await fetch(`/api/events/data?days=${d}`, { cache: "no-store", headers: { "Authorization": `Bearer ${pw}` } });
       const json = await res.json();
       if (res.status === 401) {
         setAuthError("Incorrect password.");

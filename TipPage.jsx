@@ -394,12 +394,18 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
           </div>
           <div style={{ fontSize:13, color:"#9ca3af", marginBottom:8 }}>{config.creatorHandle}</div>
           {config.creatorBio && <div style={{ fontSize:14, color:"#6b7280", lineHeight:1.5, marginBottom:6 }}>{config.creatorBio}</div>}
-          {config.creatorWebsite && (
-            <a href={config.creatorWebsite} target="_blank" rel="noopener noreferrer"
-              style={{ fontSize:13, color:"#F7931A", textDecoration:"none", fontWeight:500 }}>
-              🔗 {config.creatorWebsite.replace(/^https?:\/\//, '')}
-            </a>
-          )}
+          {config.creatorWebsite && (() => {
+            try {
+              const p = new URL(config.creatorWebsite);
+              if (p.protocol !== 'https:' && p.protocol !== 'http:') return null;
+              return (
+                <a href={p.href} target="_blank" rel="noopener noreferrer"
+                  style={{ fontSize:13, color:"#F7931A", textDecoration:"none", fontWeight:500 }}>
+                  🔗 {p.href.replace(/^https?:\/\//, '')}
+                </a>
+              );
+            } catch { return null; }
+          })()}
           {btcPrices.GBP && (
             <div style={{ marginTop:10 }}>
               <span className="price-badge">

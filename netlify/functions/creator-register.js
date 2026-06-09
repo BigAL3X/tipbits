@@ -1,5 +1,13 @@
 import { getStore } from "@netlify/blobs";
 
+function isSafeWebsiteUrl(url) {
+  if (!url) return true;
+  try {
+    const p = new URL(url);
+    return p.protocol === 'https:' || p.protocol === 'http:';
+  } catch { return false; }
+}
+
 const RESERVED = [
   'admin','api','register','edit','u','www','help','support',
   'about','home','login','dashboard','tipbits','how','me','you',
@@ -34,6 +42,9 @@ export default async (request) => {
   }
   if (!lightningAddress || !lightningAddress.includes('@') || lightningAddress.length > 200) {
     return Response.json({ error: 'A valid Lightning address is required (e.g. you@getalby.com)' }, { status: 400 });
+  }
+  if (website?.trim() && !isSafeWebsiteUrl(website.trim())) {
+    return Response.json({ error: 'Website must be a valid http:// or https:// URL' }, { status: 400 });
   }
   // Sovereign Key hash: SHA-256 hex = 64 characters
   if (!editKeyHash || editKeyHash.length !== 64 || !/^[0-9a-f]+$/.test(editKeyHash)) {

@@ -24,7 +24,8 @@ export default async (request) => {
     const existing = await store.get(username);
     return Response.json({ available: existing === null });
   } catch (err) {
-    return Response.json({ available: false, error: `Store error: ${err?.message || err}` });
+    console.error('Creator check error:', err);
+    return Response.json({ available: false, error: 'Service unavailable' });
   }
 };
 
