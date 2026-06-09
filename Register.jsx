@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { trackEvent } from "./analytics";
 import { useNavigate } from "react-router-dom";
 
 function BitcoinLogo({ size = 28 }) {
@@ -125,7 +124,6 @@ export default function Register() {
 
       setSovereignKey(key);
       setStep("key");
-      trackEvent("registration", { username: username.toLowerCase().trim() });
     } catch {
       setFormError("Something went wrong. Please try again.");
     } finally {

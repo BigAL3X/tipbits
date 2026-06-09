@@ -49,4 +49,4 @@ export default async (request) => {
   }
 };
 
-export const config = { path: "/api/analytics/data" };
+export const config = { path: "/api/events/data" };

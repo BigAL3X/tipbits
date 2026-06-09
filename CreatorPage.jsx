@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import TipPage from "./TipPage";
-import { trackEvent } from "./analytics";
 
 export default function CreatorPage() {
   const { username } = useParams();
@@ -16,10 +15,7 @@ export default function CreatorPage() {
       .then(r => r.json())
       .then(data => {
         if (data.error) { setError(data.error); }
-        else {
-          setCreator(data);
-          trackEvent("page_view", { username: username.toLowerCase() });
-        }
+        else { setCreator(data); }
       })
       .catch(() => setError("Could not load this page. Please try again."))
       .finally(() => setLoading(false));
