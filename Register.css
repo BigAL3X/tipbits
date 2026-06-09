@@ -73,7 +73,11 @@
   font-size: 11px;
   font-weight: 600;
   letter-spacing: .04em;
+  background: var(--badge-bg);
+  color: var(--badge-color);
 }
+.field--mb { margin-bottom: 28px; }
+.tj-input--bio { resize: none; line-height: 1.6; }
 
 /* Form card */
 .reg-card {

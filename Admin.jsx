@@ -22,8 +22,8 @@ const EVENT_COLORS = {
 
 function StatCard({ label, value, color, bg }) {
   return (
-    <div className="adm-stat-card" style={{ background: bg, border: `1.5px solid ${color}30` }}>
-      <div className="adm-stat-label" style={{ color }}>{label}</div>
+    <div className="adm-stat-card" style={{ '--stat-bg': bg, '--stat-color': color, '--stat-border': color + '30' }}>
+      <div className="adm-stat-label">{label}</div>
       <div className="adm-stat-value">{value.toLocaleString()}</div>
     </div>
   );
@@ -38,7 +38,7 @@ function MiniBar({ date, counts, maxTotal }) {
     <div className="adm-minibar">
       <div className="adm-minibar-count">{total || ""}</div>
       <div className="adm-minibar-track">
-        <div className="adm-minibar-bar" style={{ height: barH, background: total > 0 ? "#F7931A" : "#f3f4f6" }} />
+        <div className="adm-minibar-bar" style={{ '--bar-h': barH + 'px', '--bar-bg': total > 0 ? "#F7931A" : "#f3f4f6" }} />
       </div>
       <div className="adm-minibar-label">{label}</div>
     </div>
@@ -159,7 +159,7 @@ export default function Admin() {
                 autoFocus
               />
               <div className="adm-login-btn-wrap">
-                <button type="submit" className="adm-btn" disabled={loading || !password.trim()} style={{ width: "100%" }}>
+                <button type="submit" className="adm-btn adm-btn--full" disabled={loading || !password.trim()}>
                   {loading ? <span className="spin">⚡</span> : "⚡ View Analytics"}
                 </button>
               </div>
@@ -225,13 +225,13 @@ export default function Admin() {
                       {aggregated.topPages.map(([username, count], i) => {
                         const pct = Math.round((count / aggregated.topPages[0][1]) * 100);
                         return (
-                          <div key={username} className="adm-top-pages-row" style={{ borderBottom: i < aggregated.topPages.length - 1 ? "1px solid #f3f4f6" : "none" }}>
+                          <div key={username} className={`adm-top-pages-row${i < aggregated.topPages.length - 1 ? " adm-row--bordered" : ""}`}>
                             <span className="adm-top-pages-num">{i + 1}</span>
                             <a href={`/u/${username}`} target="_blank" rel="noopener noreferrer" className="adm-top-pages-link">
                               /u/{username}
                             </a>
                             <div className="adm-top-pages-bar-track">
-                              <div className="adm-top-pages-bar-fill" style={{ width: `${pct}%` }} />
+                              <div className="adm-top-pages-bar-fill" style={{ '--bar-pct': pct + '%' }} />
                             </div>
                             <span className="adm-top-pages-count">{count}</span>
                           </div>
@@ -250,7 +250,7 @@ export default function Admin() {
                       <div className="adm-regs-title">Recent registrations</div>
                       <div className="adm-regs-list">
                         {regs.map((ev, i) => (
-                          <div key={i} className="adm-regs-row" style={{ borderBottom: i < regs.length - 1 ? "1px solid #f3f4f6" : "none" }}>
+                          <div key={i} className={`adm-regs-row${i < regs.length - 1 ? " adm-row--bordered" : ""}`}>
                             <a href={`/u/${ev.username}`} target="_blank" rel="noopener noreferrer" className="adm-regs-link">
                               /u/{ev.username}
                             </a>

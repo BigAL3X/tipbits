@@ -117,7 +117,7 @@ export default function HowItWorks() {
             { label:"Open Lightning standard", bg:"#E6F1FB", color:"#185FA5", icon:"⚡" },
             { label:"Peer-to-peer payments", bg:"#FAEEDA", color:"#854F0B", icon:"↔️" },
           ].map(b => (
-            <span key={b.label} className="trust-badge" style={{ background: b.bg, color: b.color }}>
+            <span key={b.label} className="trust-badge" style={{ '--badge-bg': b.bg, '--badge-color': b.color }}>
               <span>{b.icon}</span> {b.label}
             </span>
           ))}
@@ -129,7 +129,7 @@ export default function HowItWorks() {
           <div key={i} className="step-card">
             <div>
               <div className="step-icon">{s.icon}</div>
-              <div className="step-card-tag" style={{ color: s.tagColor, background: s.tagBg }}>
+              <div className="step-card-tag" style={{ '--tag-color': s.tagColor, '--tag-bg': s.tagBg }}>
                 {s.tag}
               </div>
             </div>
@@ -145,7 +145,7 @@ export default function HowItWorks() {
 
         {/* Flow diagram */}
         <div className="hiw-flow-card">
-          <div className="section-label" style={{ marginBottom: 20 }}>Money flow</div>
+          <div className="section-label hiw-flow-label">Money flow</div>
           <div className="hiw-flow-row">
             {[
               { label:"Tipper", sub:"Scans QR or opens link", color:"#185FA5", bg:"#E6F1FB" },
@@ -158,9 +158,9 @@ export default function HowItWorks() {
                 <div key={i} className="hiw-flow-arrow">→</div>
               );
               return (
-                <div key={i} className="hiw-flow-item" style={{ background: item.bg }}>
-                  <div className="hiw-flow-item-label" style={{ color: item.color }}>{item.label}</div>
-                  <div className="hiw-flow-item-sub" style={{ color: item.color }}>{item.sub}</div>
+                <div key={i} className="hiw-flow-item" style={{ '--flow-bg': item.bg, '--flow-color': item.color }}>
+                  <div className="hiw-flow-item-label">{item.label}</div>
+                  <div className="hiw-flow-item-sub">{item.sub}</div>
                 </div>
               );
             })}
@@ -195,7 +195,7 @@ export default function HowItWorks() {
         <div className="section-label hiw-faq-label">Common questions</div>
         <div className="hiw-faq-card">
           {FAQS.map((faq, i) => (
-            <div key={i} className="faq-item" style={{ borderBottom: i === FAQS.length - 1 ? "none" : undefined }}>
+            <div key={i} className={`faq-item${i === FAQS.length - 1 ? " faq-item--last" : ""}`}>
               <button className="faq-btn" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
                 <span>{faq.q}</span>
                 <span className={`faq-chevron ${openFaq === i ? "open" : ""}`}>⌄</span>

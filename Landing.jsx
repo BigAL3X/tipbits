@@ -160,10 +160,10 @@ export default function Landing() {
           <div className="land-trust-inner">
             <div className="land-trust-cards">
               {TRUST.map(t => (
-                <div key={t.label} className="trust-card" style={{ background: t.bg, minWidth: 150, flex: "1 1 130px", maxWidth: 180 }}>
+                <div key={t.label} className="trust-card" style={{ '--card-bg': t.bg, '--card-color': t.color }}>
                   <div className="trust-card-icon">{t.icon}</div>
-                  <div className="trust-card-label" style={{ color: t.color }}>{t.label}</div>
-                  <div className="trust-card-sub" style={{ color: t.color, opacity: .8 }}>{t.sub}</div>
+                  <div className="trust-card-label">{t.label}</div>
+                  <div className="trust-card-sub">{t.sub}</div>
                 </div>
               ))}
             </div>

@@ -264,7 +264,10 @@
   height: 100%;
   border-radius: 2px;
   transition: width 1s linear;
+  width: var(--timer-w, 100%);
+  background: var(--timer-color, #F7931A);
 }
+.tj-label--qr { margin-bottom: 12px; display: block; }
 .tj-timer-row {
   display: flex;
   justify-content: space-between;

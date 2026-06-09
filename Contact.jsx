@@ -99,7 +99,7 @@ export default function Contact() {
                   <label className="tj-label">Subject</label>
                   <input className="tj-input" type="text" placeholder="e.g. Issue with my page" value={subject} onChange={e => setSubject(e.target.value)} maxLength={100} />
                 </div>
-                <div className="field" style={{ marginBottom: 28 }}>
+                <div className="field field--mb">
                   <label className="tj-label">Message</label>
                   <textarea className="tj-input tj-input--resize-vertical" placeholder="Tell us what's on your mind..." value={message} onChange={e => setMessage(e.target.value)} maxLength={1000} rows={5} />
                 </div>

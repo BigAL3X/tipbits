@@ -9,6 +9,9 @@
       <stop offset="0%" style="stop-color:#F7931A"/>
       <stop offset="100%" style="stop-color:#e8840f"/>
     </linearGradient>
+    <filter id="shadow" x="-10%" y="-5%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="20" flood-color="#00000014"/>
+    </filter>
   </defs>
 
   <!-- Background -->
@@ -20,93 +23,97 @@
   </pattern>
   <rect width="1200" height="630" fill="url(#dots)"/>
 
-  <!-- Left content area -->
+  <!-- Large semi-transparent lightning bolt behind wordmark (left side) -->
+  <g opacity="0.08" transform="translate(62, 48) scale(2.1)">
+    <path d="M120 0 L60 130 L105 130 L30 280 L180 100 L130 100 L190 0 Z" fill="#F7931A"/>
+  </g>
+
   <!-- Bitcoin logo circle -->
-  <circle cx="120" cy="100" r="44" fill="#F7931A"/>
-  <text x="120" y="116" font-family="Arial, sans-serif" font-size="44" font-weight="bold" fill="white" text-anchor="middle">₿</text>
+  <circle cx="120" cy="104" r="44" fill="#F7931A"/>
+  <text x="120" y="120" font-family="Arial, sans-serif" font-size="44" font-weight="bold" fill="white" text-anchor="middle">₿</text>
 
   <!-- TipBits wordmark -->
-  <text x="180" y="116" font-family="Arial Black, Arial, sans-serif" font-size="42" font-weight="900" fill="#111827" letter-spacing="-1">TipBits</text>
+  <text x="182" y="120" font-family="Arial Black, Arial, sans-serif" font-size="52" font-weight="900" fill="#111827" letter-spacing="-2">TipBits</text>
 
   <!-- Divider line -->
-  <rect x="80" y="168" width="640" height="2" fill="#F7931A" opacity="0.3" rx="1"/>
+  <rect x="80" y="168" width="620" height="2" fill="#F7931A" opacity="0.3" rx="1"/>
 
   <!-- Main headline -->
-  <text x="80" y="256" font-family="Arial Black, Arial, sans-serif" font-size="64" font-weight="900" fill="#111827" letter-spacing="-2">Peer-to-peer tips.</text>
-  <text x="80" y="336" font-family="Arial Black, Arial, sans-serif" font-size="64" font-weight="900" fill="#F7931A" letter-spacing="-2">Non-custodial.</text>
+  <text x="80" y="256" font-family="Arial Black, Arial, sans-serif" font-size="60" font-weight="900" fill="#111827" letter-spacing="-2">Peer-to-peer tips.</text>
+  <text x="80" y="330" font-family="Arial Black, Arial, sans-serif" font-size="60" font-weight="900" fill="#F7931A" letter-spacing="-2">Non-custodial.</text>
 
   <!-- Subline -->
-  <text x="80" y="410" font-family="Arial, sans-serif" font-size="28" fill="#6b7280" letter-spacing="0">Tip your favourite creators directly over the</text>
-  <text x="80" y="448" font-family="Arial, sans-serif" font-size="28" fill="#6b7280">Lightning Network. No middleman. No account.</text>
+  <text x="80" y="400" font-family="Arial, sans-serif" font-size="26" fill="#6b7280">Tip creators directly over the Lightning Network.</text>
+  <text x="80" y="436" font-family="Arial, sans-serif" font-size="26" fill="#6b7280">No middleman. No account. No custody.</text>
 
   <!-- Trust badges -->
-  <!-- Badge 1 -->
-  <rect x="80" y="494" width="178" height="44" rx="10" fill="#E1F5EE"/>
-  <text x="169" y="522" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#0F6E56" text-anchor="middle">⚡ Non-custodial</text>
+  <rect x="80" y="480" width="178" height="44" rx="10" fill="#E1F5EE"/>
+  <text x="169" y="508" font-family="Arial, sans-serif" font-size="17" font-weight="600" fill="#0F6E56" text-anchor="middle">⚡ Non-custodial</text>
 
-  <!-- Badge 2 -->
-  <rect x="270" y="494" width="144" height="44" rx="10" fill="#fff7ed"/>
-  <text x="342" y="522" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#c2410c" text-anchor="middle">No KYC</text>
+  <rect x="270" y="480" width="120" height="44" rx="10" fill="#fff7ed"/>
+  <text x="330" y="508" font-family="Arial, sans-serif" font-size="17" font-weight="600" fill="#c2410c" text-anchor="middle">No KYC</text>
 
-  <!-- Badge 3 -->
-  <rect x="426" y="494" width="164" height="44" rx="10" fill="#E6F1FB"/>
-  <text x="508" y="522" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#185FA5" text-anchor="middle">Peer-to-peer</text>
+  <rect x="402" y="480" width="148" height="44" rx="10" fill="#E6F1FB"/>
+  <text x="476" y="508" font-family="Arial, sans-serif" font-size="17" font-weight="600" fill="#185FA5" text-anchor="middle">Peer-to-peer</text>
+
+  <!-- URL -->
+  <text x="80" y="596" font-family="Arial, sans-serif" font-size="22" fill="#F7931A" font-weight="600">tipbits.xyz</text>
 
   <!-- Right side — tip card mockup -->
-  <rect x="800" y="60" width="320" height="510" rx="20" fill="white" filter="url(#shadow)"/>
-  <defs>
-    <filter id="shadow" x="-10%" y="-5%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="20" flood-color="#00000018"/>
-    </filter>
-  </defs>
-  <rect x="800" y="60" width="320" height="510" rx="20" fill="white" opacity="0" stroke="#e5e7eb" stroke-width="2"/>
+  <rect x="808" y="55" width="316" height="520" rx="20" fill="white" filter="url(#shadow)"/>
+  <rect x="808" y="55" width="316" height="520" rx="20" fill="none" stroke="#e5e7eb" stroke-width="1.5"/>
 
-  <!-- Card border -->
-  <rect x="800" y="60" width="320" height="510" rx="20" fill="none" stroke="#e5e7eb" stroke-width="1.5"/>
-  <rect x="800" y="60" width="320" height="510" rx="20" fill="white" style="filter:drop-shadow(0 8px 32px rgba(0,0,0,0.08))"/>
-  <rect x="800" y="60" width="320" height="510" rx="20" fill="none" stroke="#e5e7eb" stroke-width="1.5"/>
+  <!-- Semi-transparent lightning bolt inside card -->
+  <g opacity="0.06" transform="translate(880, 80)">
+    <path d="M80 0 L40 90 L70 90 L20 190 L120 68 L86 68 L126 0 Z" fill="#F7931A"/>
+  </g>
 
   <!-- Card: Bitcoin logo -->
-  <circle cx="960" cy="148" r="32" fill="#F7931A"/>
-  <text x="960" y="163" font-family="Arial, sans-serif" font-size="30" font-weight="bold" fill="white" text-anchor="middle">₿</text>
+  <circle cx="966" cy="142" r="32" fill="#F7931A"/>
+  <text x="966" y="157" font-family="Arial, sans-serif" font-size="30" font-weight="bold" fill="white" text-anchor="middle">₿</text>
 
   <!-- Card: creator name -->
-  <text x="960" y="206" font-family="Arial Black, Arial, sans-serif" font-size="20" font-weight="900" fill="#111827" text-anchor="middle">Satoshi</text>
-  <text x="960" y="228" font-family="Arial, sans-serif" font-size="13" fill="#9ca3af" text-anchor="middle">@satoshi</text>
+  <text x="966" y="200" font-family="Arial Black, Arial, sans-serif" font-size="20" font-weight="900" fill="#111827" text-anchor="middle">Satoshi</text>
+  <text x="966" y="222" font-family="Arial, sans-serif" font-size="13" fill="#9ca3af" text-anchor="middle">@satoshi</text>
+
+  <!-- Card: BTC price pill -->
+  <rect x="906" y="234" width="120" height="26" rx="13" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
+  <circle cx="920" cy="247" r="4" fill="#10b981"/>
+  <text x="966" y="252" font-family="Arial, sans-serif" font-size="12" fill="#374151" text-anchor="middle">BTC £45,000</text>
 
   <!-- Card: currency tabs -->
-  <rect x="824" y="252" width="66" height="32" rx="8" fill="#F7931A"/>
-  <text x="857" y="272" font-family="Arial, sans-serif" font-size="13" font-weight="600" fill="white" text-anchor="middle">⚡ Sats</text>
-  <rect x="896" y="252" width="52" height="32" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
-  <text x="922" y="272" font-family="Arial, sans-serif" font-size="13" fill="#9ca3af" text-anchor="middle">£ GBP</text>
-  <rect x="954" y="252" width="52" height="32" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
-  <text x="980" y="272" font-family="Arial, sans-serif" font-size="13" fill="#9ca3af" text-anchor="middle">$ USD</text>
-  <rect x="1012" y="252" width="52" height="32" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
-  <text x="1038" y="272" font-family="Arial, sans-serif" font-size="13" fill="#9ca3af" text-anchor="middle">€ EUR</text>
+  <rect x="828" y="274" width="64" height="30" rx="8" fill="#F7931A"/>
+  <text x="860" y="294" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="white" text-anchor="middle">⚡ Sats</text>
+  <rect x="898" y="274" width="52" height="30" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
+  <text x="924" y="294" font-family="Arial, sans-serif" font-size="12" fill="#9ca3af" text-anchor="middle">£ GBP</text>
+  <rect x="956" y="274" width="52" height="30" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
+  <text x="982" y="294" font-family="Arial, sans-serif" font-size="12" fill="#9ca3af" text-anchor="middle">$ USD</text>
+  <rect x="1014" y="274" width="52" height="30" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
+  <text x="1040" y="294" font-family="Arial, sans-serif" font-size="12" fill="#9ca3af" text-anchor="middle">€ EUR</text>
 
   <!-- Card: preset amounts -->
-  <rect x="824" y="296" width="62" height="30" rx="6" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
-  <text x="855" y="316" font-family="Arial, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle">1,000</text>
-  <rect x="892" y="296" width="62" height="30" rx="6" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
-  <text x="923" y="316" font-family="Arial, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle">5,000</text>
-  <rect x="960" y="296" width="62" height="30" rx="6" fill="#fff7ed" stroke="#F7931A" stroke-width="1.5"/>
-  <text x="991" y="316" font-family="Arial, sans-serif" font-size="12" fill="#F7931A" text-anchor="middle">21,000</text>
-  <rect x="1028" y="296" width="66" height="30" rx="6" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
-  <text x="1061" y="316" font-family="Arial, sans-serif" font-size="11" fill="#6b7280" text-anchor="middle">100,000</text>
+  <rect x="828" y="316" width="60" height="28" rx="6" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
+  <text x="858" y="335" font-family="Arial, sans-serif" font-size="11" fill="#6b7280" text-anchor="middle">1,000</text>
+  <rect x="894" y="316" width="60" height="28" rx="6" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
+  <text x="924" y="335" font-family="Arial, sans-serif" font-size="11" fill="#6b7280" text-anchor="middle">5,000</text>
+  <rect x="960" y="316" width="60" height="28" rx="6" fill="#fff7ed" stroke="#F7931A" stroke-width="1.5"/>
+  <text x="990" y="335" font-family="Arial, sans-serif" font-size="11" fill="#F7931A" text-anchor="middle">21,000</text>
+  <rect x="1026" y="316" width="66" height="28" rx="6" fill="white" stroke="#e5e7eb" stroke-width="1.5"/>
+  <text x="1059" y="335" font-family="Arial, sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">100,000</text>
 
   <!-- Card: sats display box -->
-  <rect x="824" y="340" width="272" height="64" rx="12" fill="#fff7ed" stroke="#fed7aa" stroke-width="1.5"/>
-  <text x="840" y="362" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af" letter-spacing="1">YOU'RE SENDING</text>
-  <text x="1080" y="390" font-family="Arial Black, Arial, sans-serif" font-size="32" font-weight="900" fill="#F7931A" text-anchor="end">21,000</text>
-  <text x="1080" y="398" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af" text-anchor="end" dy="8">SATS</text>
+  <rect x="828" y="358" width="272" height="60" rx="12" fill="#fff7ed" stroke="#fed7aa" stroke-width="1.5"/>
+  <text x="844" y="378" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af" letter-spacing="1">YOU'RE SENDING</text>
+  <text x="1084" y="406" font-family="Arial Black, Arial, sans-serif" font-size="30" font-weight="900" fill="#F7931A" text-anchor="end">21,000</text>
+  <text x="1084" y="414" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af" text-anchor="end" dy="6">SATS</text>
 
   <!-- Card: generate button -->
-  <rect x="824" y="420" width="272" height="52" rx="12" fill="url(#cardGrad)"/>
-  <text x="960" y="452" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="white" text-anchor="middle">⚡ Generate Lightning Invoice</text>
+  <rect x="828" y="432" width="272" height="48" rx="12" fill="url(#cardGrad)"/>
+  <text x="964" y="462" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="white" text-anchor="middle">⚡ Generate Lightning Invoice</text>
 
   <!-- Card: footer -->
-  <text x="960" y="530" font-family="Arial, sans-serif" font-size="10" fill="#d1d5db" text-anchor="middle" letter-spacing="1">LIGHTNING NETWORK · NON-CUSTODIAL</text>
+  <text x="966" y="538" font-family="Arial, sans-serif" font-size="10" fill="#d1d5db" text-anchor="middle" letter-spacing="1">LIGHTNING NETWORK · NON-CUSTODIAL</text>
 
-  <!-- Bottom URL bar -->
-  <text x="80" y="596" font-family="Arial, sans-serif" font-size="22" fill="#F7931A" font-weight="600">tipbits.xyz</text>
+  <!-- Card: get your own CTA -->
+  <text x="966" y="558" font-family="Arial, sans-serif" font-size="11" fill="#F7931A" text-anchor="middle" font-weight="600">⚡ Get your own tip page →</text>
 </svg>

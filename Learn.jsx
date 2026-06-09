@@ -95,7 +95,7 @@ export default function Learn() {
         <div className="learn-topics">
           {TOPICS.map((t, i) => (
             <div key={t.slug} className="topic-card" onClick={() => navigate(`/learn/${t.slug}`)}>
-              <div className="topic-icon" style={{ background: t.bg, border: `1.5px solid ${t.border}` }}>
+              <div className="topic-icon" style={{ '--icon-bg': t.bg, '--icon-border': t.border }}>
                 {t.icon}
               </div>
               <div className="topic-body">

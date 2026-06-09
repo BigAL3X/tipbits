@@ -187,6 +187,8 @@
   padding: 16px 20px;
   flex: 1;
   min-width: 120px;
+  background: var(--stat-bg);
+  border: 1.5px solid var(--stat-border);
 }
 .adm-stat-label {
   font-size: 11px;
@@ -194,6 +196,7 @@
   text-transform: uppercase;
   letter-spacing: .07em;
   margin-bottom: 6px;
+  color: var(--stat-color);
 }
 .adm-stat-value {
   font-size: 32px;
@@ -256,6 +259,8 @@
   width: 70%;
   border-radius: 3px;
   transition: height .3s ease;
+  height: var(--bar-h, 2px);
+  background: var(--bar-bg, #f3f4f6);
 }
 .adm-minibar-label {
   font-size: 9px;
@@ -318,7 +323,10 @@
   height: 100%;
   background: #F7931A;
   border-radius: 4px;
+  width: var(--bar-pct, 0%);
 }
+.adm-btn--full { width: 100%; }
+.adm-row--bordered { border-bottom: 1px solid #f3f4f6; }
 .adm-top-pages-count {
   font-size: 13px;
   font-weight: 600;

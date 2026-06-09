@@ -202,7 +202,7 @@ export default function Register() {
                 { label:"No KYC", bg:"#E6F1FB", color:"#185FA5" },
                 { label:"Peer-to-peer", bg:"#FAEEDA", color:"#854F0B" },
               ].map(b => (
-                <span key={b.label} className="badge" style={{ background: b.bg, color: b.color }}>⚡ {b.label}</span>
+                <span key={b.label} className="badge" style={{ '--badge-bg': b.bg, '--badge-color': b.color }}>⚡ {b.label}</span>
               ))}
             </div>
 
@@ -243,7 +243,7 @@ export default function Register() {
 
                 <div className="field">
                   <label className="tj-label">Bio (optional)</label>
-                  <textarea className="tj-input" placeholder="What do you create? Keep it short." value={bio} onChange={e => setBio(e.target.value)} maxLength={200} rows={2} style={{ resize: "none", lineHeight: 1.6 }} />
+                  <textarea className="tj-input tj-input--bio" placeholder="What do you create? Keep it short." value={bio} onChange={e => setBio(e.target.value)} maxLength={200} rows={2} />
                 </div>
 
                 <div className="field">
@@ -252,7 +252,7 @@ export default function Register() {
                   <div className="hint checking">Shown on your tip page so tippers can find your work.</div>
                 </div>
 
-                <div className="field" style={{ marginBottom: 28 }}>
+                <div className="field field--mb">
                   <label className="tj-label">Your Lightning address</label>
                   <input
                     className="tj-input"

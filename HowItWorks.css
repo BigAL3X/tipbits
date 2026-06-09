@@ -72,6 +72,8 @@
   border-radius: 12px;
   font-size: 13px;
   font-weight: 500;
+  background: var(--badge-bg);
+  color: var(--badge-color);
 }
 
 /* Steps */
@@ -112,6 +114,8 @@
   display: inline-block;
   padding: 3px 8px;
   border-radius: 6px;
+  color: var(--tag-color);
+  background: var(--tag-bg);
 }
 .step-card-body { padding-top: 2px; }
 .step-card-num-row {
@@ -165,16 +169,20 @@
   border-radius: 12px;
   padding: 14px 16px;
   text-align: center;
+  background: var(--flow-bg);
 }
 .hiw-flow-item-label {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 4px;
+  color: var(--flow-color);
 }
 .hiw-flow-item-sub {
   font-size: 11px;
   line-height: 1.4;
+  color: var(--flow-color);
 }
+.hiw-flow-label { margin-bottom: 20px; }
 .hiw-flow-note {
   margin-top: 20px;
   padding: 12px 16px;
@@ -248,6 +256,7 @@
   box-shadow: 0 2px 12px rgba(0, 0, 0, .04);
 }
 .faq-item { border-bottom: 1px solid #f3f4f6; }
+.faq-item--last { border-bottom: none; }
 .faq-btn {
   width: 100%;
   text-align: left;

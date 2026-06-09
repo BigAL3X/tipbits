@@ -1,4 +1,6 @@
 /* Edit component styles */
+.field--mb { margin-bottom: 28px; }
+.tj-input--bio { resize: none; line-height: 1.6; }
 
 .edit-wrap {
   opacity: 0;

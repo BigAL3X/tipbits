@@ -196,7 +196,7 @@ export default function Edit() {
                   <input className="tj-input" type="text" placeholder="your-username" value={username}
                     onChange={e => setUsername(e.target.value.toLowerCase())} autoComplete="off" />
                 </div>
-                <div className="field" style={{ marginBottom: 28 }}>
+                <div className="field field--mb">
                   <label className="tj-label">Sovereign Key</label>
                   <input className="tj-input tj-input--mono" type="text" placeholder="Paste your sovereign key"
                     value={sovereignKey} onChange={e => setSovereignKey(e.target.value)}
@@ -234,14 +234,14 @@ export default function Edit() {
                 </div>
                 <div className="field">
                   <label className="tj-label">Bio</label>
-                  <textarea className="tj-input" value={bio} onChange={e => setBio(e.target.value)} maxLength={200} rows={2} style={{ resize: "none", lineHeight: 1.6 }} />
+                  <textarea className="tj-input tj-input--bio" value={bio} onChange={e => setBio(e.target.value)} maxLength={200} rows={2} />
                 </div>
                 <div className="field">
                   <label className="tj-label">Your website (optional)</label>
                   <input className="tj-input" type="url" placeholder="https://yoursite.com" value={website} onChange={e => setWebsite(e.target.value)} maxLength={200} />
                 </div>
 
-                <div className="field" style={{ marginBottom: 28 }}>
+                <div className="field field--mb">
                   <label className="tj-label">Lightning address</label>
                   <input className="tj-input" type="text" value={lightningAddress} onChange={e => setLightningAddress(e.target.value)} />
                   <div className="edit-ln-hint">This is where your tips land. Update this if you change wallets.</div>

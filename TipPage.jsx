@@ -427,7 +427,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
 
           {step === "invoice" && (<>
             <div className="tj-invoice-center success-ring">
-              <span className="tj-label" style={{ marginBottom: 12, display: "block" }}>Scan to pay</span>
+              <span className="tj-label tj-label--qr">Scan to pay</span>
               <div className="tj-qr-box">
                 <QRCodeSVG value={invoice.toUpperCase()} size={200} bgColor="#ffffff" fgColor="#1a1a1a" level="M" />
               </div>
@@ -442,7 +442,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
             {timeLeft !== null && (
               <div className="tj-timer-wrap">
                 <div className="timer-bar-wrap">
-                  <div className="timer-bar" style={{ width: `${(timeLeft/INVOICE_EXPIRY_MS)*100}%`, background: timerBarColor }} />
+                  <div className="timer-bar" style={{ '--timer-w': `${(timeLeft/INVOICE_EXPIRY_MS)*100}%`, '--timer-color': timerBarColor }} />
                 </div>
                 <div className="tj-timer-row">
                   <span className="tj-timer-status">
