@@ -8,5 +8,5 @@ const CONFIG = {
 };
 
 export default function TipBits() {
-  return <TipPage config={CONFIG} showCreateCTA />;
+  return <TipPage config={CONFIG} showCreateCTA pageUrl={window.location.href} />;
 }
