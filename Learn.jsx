@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./global.css";
+import "./Learn.css";
 
 function BitcoinLogo({ size = 28 }) {
   return (
@@ -64,73 +66,58 @@ export default function Learn() {
   useEffect(() => { setTimeout(() => setMounted(true), 60); }, []);
 
   return (
-    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg,#fff7ed 0%,#ffffff 50%,#fff7ed 100%)", fontFamily: "'IBM Plex Sans',system-ui,sans-serif", padding: "0 16px 64px" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-        .learn-wrap{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease;max-width:720px;margin:0 auto;}
-        .learn-wrap.in{opacity:1;transform:translateY(0);}
-        .nav-link{font-size:13px;color:#9ca3af;font-weight:500;padding:6px 12px;border-radius:8px;transition:all .13s ease;cursor:pointer;background:none;border:none;font-family:'IBM Plex Sans',sans-serif;}
-        .nav-link:hover{color:#F7931A;background:#fff7ed;}
-        .topic-card{background:white;border:1.5px solid #e5e7eb;border-radius:16px;padding:24px;cursor:pointer;transition:all .15s ease;display:flex;align-items:flex-start;gap:18px;box-shadow:0 2px 8px rgba(0,0,0,.04);}
-        .topic-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.09);transform:translateY(-2px);border-color:#F7931A;}
-        .bg-dots{position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(circle,#f0901820 1px,transparent 1px);background-size:28px 28px;opacity:.5;}
-      `}</style>
-
+    <div className="learn-page-root">
       <div className="bg-dots" />
 
-      <div className={`learn-wrap ${mounted ? "in" : ""}`} style={{ position: "relative", zIndex: 1 }}>
+      <div className={`learn-wrap ${mounted ? "in" : ""}`}>
 
         {/* Nav */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 0 40px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} onClick={() => navigate('/')}>
+        <div className="learn-nav">
+          <div className="learn-nav-brand" onClick={() => navigate('/')}>
             <BitcoinLogo size={28} />
-            <span style={{ fontSize: 16, fontWeight: 700, color: "#111827", letterSpacing: "-0.02em" }}>TipBits</span>
+            <span className="learn-nav-brand-text">TipBits</span>
           </div>
           <button className="nav-link" onClick={() => navigate('/')}>← Back</button>
         </div>
 
         {/* Hero */}
-        <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: "#F7931A", marginBottom: 10 }}>Bitcoin is Money</div>
-          <h1 style={{ fontSize: 38, fontWeight: 800, color: "#111827", letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 16 }}>
+        <div className="learn-hero">
+          <div className="learn-hero-eyebrow">Bitcoin is Money</div>
+          <h1 className="learn-hero-h1">
             Start here if Bitcoin<br />is new to you.
           </h1>
-          <p style={{ fontSize: 16, color: "#6b7280", lineHeight: 1.75, maxWidth: 520 }}>
+          <p className="learn-hero-p">
             Five short guides. No jargon. No hype. Just an honest explanation of what Bitcoin is, why it matters, and why the Lightning Network makes it useful for anyone who creates things on the internet.
           </p>
         </div>
 
         {/* Topic cards */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 56 }}>
+        <div className="learn-topics">
           {TOPICS.map((t, i) => (
             <div key={t.slug} className="topic-card" onClick={() => navigate(`/learn/${t.slug}`)}>
-              <div style={{ width: 52, height: 52, borderRadius: 14, background: t.bg, border: `1.5px solid ${t.border}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, flexShrink: 0 }}>
+              <div className="topic-icon" style={{ background: t.bg, border: `1.5px solid ${t.border}` }}>
                 {t.icon}
               </div>
-              <div style={{ flex: 1, paddingTop: 2 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: "#F7931A", fontFamily: "'IBM Plex Mono',monospace" }}>0{i + 1}</span>
-                  <h2 style={{ fontSize: 16, fontWeight: 700, color: "#111827" }}>{t.title}</h2>
+              <div className="topic-body">
+                <div className="topic-title-row">
+                  <span className="topic-num">0{i + 1}</span>
+                  <h2 className="topic-title">{t.title}</h2>
                 </div>
-                <p style={{ fontSize: 14, color: "#6b7280", lineHeight: 1.6 }}>{t.desc}</p>
+                <p className="topic-desc">{t.desc}</p>
               </div>
-              <div style={{ fontSize: 18, color: "#d1d5db", flexShrink: 0, paddingTop: 14 }}>→</div>
+              <div className="topic-arrow">→</div>
             </div>
           ))}
         </div>
 
         {/* CTA */}
-        <div style={{ background: "#0f172a", borderRadius: 16, padding: "32px 28px", textAlign: "center" }}>
-          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: "#F7931A", marginBottom: 10 }}>Ready to get paid?</div>
-          <h3 style={{ fontSize: 22, fontWeight: 700, color: "white", marginBottom: 10, letterSpacing: "-0.01em" }}>Accept Bitcoin tips peer-to-peer</h3>
-          <p style={{ fontSize: 14, color: "#94a3b8", lineHeight: 1.7, marginBottom: 24, maxWidth: 420, margin: "0 auto 24px" }}>
+        <div className="learn-cta">
+          <div className="learn-cta-eyebrow">Ready to get paid?</div>
+          <h3 className="learn-cta-h3">Accept Bitcoin tips peer-to-peer</h3>
+          <p className="learn-cta-p">
             No email. No bank account. No permission needed. Your own sovereign tip page in under a minute.
           </p>
-          <button
-            onClick={() => navigate('/register')}
-            style={{ padding: "14px 32px", background: "#F7931A", color: "white", border: "none", borderRadius: 12, fontFamily: "'IBM Plex Sans',sans-serif", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 20px rgba(247,147,26,.4)", transition: "all .15s ease" }}
-          >
+          <button className="learn-cta-btn" onClick={() => navigate('/register')}>
             ⚡ Create your TipBits page →
           </button>
         </div>

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./global.css";
+import "./Landing.css";
 
 function BitcoinLogo({ size = 32 }) {
   return (
@@ -55,67 +57,42 @@ export default function Landing() {
   }, []);
 
   return (
-    <div style={{ minHeight: "100vh", fontFamily: "'IBM Plex Sans', system-ui, sans-serif", background: "linear-gradient(135deg, #fff7ed 0%, #ffffff 50%, #fff7ed 100%)" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        .land-wrap { opacity: 0; transform: translateY(16px); transition: opacity .55s ease, transform .55s ease; }
-        .land-wrap.in { opacity: 1; transform: translateY(0); }
-        .nav-link { font-size: 13px; color: #9ca3af; font-weight: 500; padding: 6px 12px; border-radius: 8px; transition: all .13s ease; cursor: pointer; background: none; border: none; font-family: 'IBM Plex Sans', sans-serif; }
-        .nav-link:hover { color: #F7931A; background: #fff7ed; }
-        .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 16px 32px; background: #F7931A; color: white; border: none; border-radius: 14px; font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: .01em; transition: all .15s ease; box-shadow: 0 4px 20px rgba(247,147,26,.4); }
-        .btn-primary:hover { background: #e8840f; box-shadow: 0 6px 28px rgba(247,147,26,.5); transform: translateY(-2px); }
-        .btn-ghost { display: inline-flex; align-items: center; gap: 6px; padding: 14px 24px; background: white; color: #374151; border: 1.5px solid #e5e7eb; border-radius: 12px; font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; transition: all .13s ease; text-decoration: none; }
-        .btn-ghost:hover { border-color: #F7931A; color: #F7931A; }
-        .step-card { background: white; border: 1.5px solid #e5e7eb; border-radius: 16px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,.04); transition: box-shadow .15s, transform .15s; }
-        .step-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,.09); transform: translateY(-2px); }
-        .trust-card { border-radius: 14px; padding: 18px 20px; }
-        .demo-card { background: white; border: 1.5px solid #e5e7eb; border-radius: 20px; padding: 28px 24px; box-shadow: 0 8px 40px rgba(0,0,0,.08); max-width: 400px; width: 100%; }
-        .bg-dots { position: fixed; inset: 0; pointer-events: none; background-image: radial-gradient(circle, #f0901820 1px, transparent 1px); background-size: 28px 28px; opacity: .5; }
-        .price-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 20px; background: #fff7ed; border: 1px solid #fed7aa; font-size: 11px; color: #c2410c; font-weight: 500; }
-        .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #10b981; display: inline-block; animation: livepulse 2s ease-in-out infinite; }
-        @keyframes livepulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-        .section-label { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #F7931A; margin-bottom: 8px; }
-      `}</style>
-
+    <div className="land-page-root">
       <div className="bg-dots" />
 
-      <div className={`land-wrap ${mounted ? "in" : ""}`} style={{ position: "relative", zIndex: 1 }}>
+      <div className={`land-wrap ${mounted ? "in" : ""}`}>
 
         {/* Nav */}
-        <div style={{ maxWidth: 900, margin: "0 auto", padding: "20px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <nav className="land-nav">
+          <div className="land-nav-brand">
             <BitcoinLogo size={32} />
-            <span style={{ fontSize: 18, fontWeight: 700, color: "#111827", letterSpacing: "-0.02em" }}>TipBits</span>
+            <span className="land-nav-brand-text">TipBits</span>
           </div>
-          <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+          <div className="land-nav-links">
             <button className="nav-link" onClick={() => navigate('/how')}>How it works</button>
             <button className="nav-link" onClick={() => navigate('/learn')}>Learn</button>
             <button className="nav-link" onClick={() => navigate('/tip')}>Support ⚡</button>
-            <button
-              onClick={() => navigate('/register')}
-              style={{ marginLeft: 8, padding: "8px 18px", background: "#F7931A", color: "white", border: "none", borderRadius: 10, fontFamily: "'IBM Plex Sans', sans-serif", fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "background .13s" }}
-            >
+            <button className="land-nav-cta" onClick={() => navigate('/register')}>
               Get your page
             </button>
           </div>
-        </div>
+        </nav>
 
         {/* Hero */}
-        <div style={{ maxWidth: 900, margin: "0 auto", padding: "48px 24px 64px", display: "flex", alignItems: "center", gap: 64, flexWrap: "wrap" }}>
+        <div className="land-hero">
 
           {/* Left — copy */}
-          <div style={{ flex: "1 1 360px" }}>
-            <div className="section-label" style={{ marginBottom: 16 }}>Non-custodial Lightning tips</div>
-            <h1 style={{ fontSize: 52, fontWeight: 900, color: "#111827", letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 20 }}>
+          <div className="land-hero-copy">
+            <div className="section-label land-hero-eyebrow">Non-custodial Lightning tips</div>
+            <h1 className="land-hero-h1">
               Get paid in Bitcoin.<br />
-              <span style={{ color: "#F7931A" }}>Peer-to-peer.</span>
+              <span className="land-hero-h1-accent">Peer-to-peer.</span>
             </h1>
-            <p style={{ fontSize: 18, color: "#6b7280", lineHeight: 1.7, marginBottom: 32, maxWidth: 440 }}>
+            <p className="land-hero-p">
               Your sovereign tip page. Your Lightning address. Your sats.<br />
               No middleman. No account. No KYC. No custody.
             </p>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+            <div className="land-hero-btns">
               <button className="btn-primary" onClick={() => navigate('/register')}>
                 ⚡ Claim your page — it's free
               </button>
@@ -124,7 +101,7 @@ export default function Landing() {
               </button>
             </div>
             {btcPrice && (
-              <div style={{ marginTop: 24 }}>
+              <div className="land-hero-price">
                 <span className="price-badge">
                   <span className="live-dot" />
                   BTC £{btcPrice.toLocaleString()} live
@@ -134,62 +111,59 @@ export default function Landing() {
           </div>
 
           {/* Right — live demo card */}
-          <div style={{ flex: "1 1 320px", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+          <div className="land-hero-demo">
             <div className="demo-card">
-              <div style={{ textAlign: "center", marginBottom: 20 }}>
+              <div className="demo-card-header">
                 <BitcoinLogo size={52} />
-                <div style={{ fontSize: 22, fontWeight: 700, color: "#111827", marginTop: 10, marginBottom: 2 }}>Meridian</div>
-                <div style={{ fontSize: 12, color: "#9ca3af", marginBottom: 8 }}>DownWithBigBother@primal.net</div>
-                <div style={{ fontSize: 13, color: "#6b7280", lineHeight: 1.5 }}>Bitcoin, monetary policy and geopolitics.</div>
+                <div className="demo-card-name">Meridian</div>
+                <div className="demo-card-handle">DownWithBigBother@primal.net</div>
+                <div className="demo-card-bio">Bitcoin, monetary policy and geopolitics.</div>
               </div>
 
               {/* Mini amount selector */}
-              <div style={{ display: "flex", gap: 6, marginBottom: 14 }}>
+              <div className="demo-card-currencies">
                 {["⚡ Sats", "£ GBP", "$ USD", "€ EUR"].map((c, i) => (
-                  <div key={c} style={{ flex: 1, padding: "7px 4px", background: i === 0 ? "#F7931A" : "white", border: `1.5px solid ${i === 0 ? "#F7931A" : "#e5e7eb"}`, borderRadius: 8, fontSize: 11, fontWeight: i === 0 ? 600 : 400, color: i === 0 ? "white" : "#9ca3af", textAlign: "center" }}>
+                  <div key={c} className={`demo-card-currency ${i === 0 ? "demo-card-currency--active" : "demo-card-currency--inactive"}`}>
                     {c}
                   </div>
                 ))}
               </div>
 
-              <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
+              <div className="demo-card-presets">
                 {[1000, 5000, 21000, 100000].map((p, i) => (
-                  <div key={p} style={{ flex: 1, padding: "8px 2px", background: i === 2 ? "#fff7ed" : "white", border: `1.5px solid ${i === 2 ? "#F7931A" : "#e5e7eb"}`, borderRadius: 8, fontSize: 11, color: i === 2 ? "#F7931A" : "#6b7280", textAlign: "center", fontFamily: "'IBM Plex Mono', monospace" }}>
+                  <div key={p} className={`demo-card-preset ${i === 2 ? "demo-card-preset--active" : "demo-card-preset--inactive"}`}>
                     {p.toLocaleString()}
                   </div>
                 ))}
               </div>
 
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 16px", background: "#fff7ed", border: "1.5px solid #fed7aa", borderRadius: 10, marginBottom: 14 }}>
-                <div style={{ fontSize: 11, color: "#9ca3af", textTransform: "uppercase", letterSpacing: ".06em" }}>You're sending</div>
-                <div style={{ textAlign: "right" }}>
-                  <span style={{ fontSize: 24, fontWeight: 700, color: "#F7931A", fontFamily: "'IBM Plex Mono', monospace" }}>21,000</span>
-                  <span style={{ fontSize: 11, color: "#9ca3af", marginLeft: 4 }}>SATS</span>
+              <div className="demo-card-amount">
+                <div className="demo-card-amount-label">You're sending</div>
+                <div className="demo-card-amount-value">
+                  <span className="demo-card-amount-num">21,000</span>
+                  <span className="demo-card-amount-unit">SATS</span>
                 </div>
               </div>
 
-              <button
-                onClick={() => navigate('/tip')}
-                style={{ width: "100%", padding: "13px", background: "#F7931A", color: "white", border: "none", borderRadius: 10, fontFamily: "'IBM Plex Sans', sans-serif", fontSize: 14, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 16px rgba(247,147,26,.35)" }}
-              >
+              <button className="demo-card-cta" onClick={() => navigate('/tip')}>
                 ⚡ Try a real tip page →
               </button>
             </div>
-            <div style={{ fontSize: 12, color: "#9ca3af", textAlign: "center" }}>
+            <div className="land-hero-demo-sub">
               This is a live, working tip page. Click to try it.
             </div>
           </div>
         </div>
 
         {/* Trust badges */}
-        <div style={{ background: "white", borderTop: "1px solid #f3f4f6", borderBottom: "1px solid #f3f4f6", padding: "32px 24px" }}>
-          <div style={{ maxWidth: 900, margin: "0 auto" }}>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }}>
+        <div className="land-trust">
+          <div className="land-trust-inner">
+            <div className="land-trust-cards">
               {TRUST.map(t => (
                 <div key={t.label} className="trust-card" style={{ background: t.bg, minWidth: 150, flex: "1 1 130px", maxWidth: 180 }}>
-                  <div style={{ fontSize: 20, marginBottom: 6 }}>{t.icon}</div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: t.color, marginBottom: 2 }}>{t.label}</div>
-                  <div style={{ fontSize: 11, color: t.color, opacity: .8, lineHeight: 1.4 }}>{t.sub}</div>
+                  <div className="trust-card-icon">{t.icon}</div>
+                  <div className="trust-card-label" style={{ color: t.color }}>{t.label}</div>
+                  <div className="trust-card-sub" style={{ color: t.color, opacity: .8 }}>{t.sub}</div>
                 </div>
               ))}
             </div>
@@ -197,89 +171,85 @@ export default function Landing() {
         </div>
 
         {/* How it works — 3 steps */}
-        <div style={{ maxWidth: 900, margin: "0 auto", padding: "72px 24px" }}>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
+        <div className="land-steps">
+          <div className="land-steps-header">
             <div className="section-label">Simple by design</div>
-            <h2 style={{ fontSize: 36, fontWeight: 800, color: "#111827", letterSpacing: "-0.02em" }}>Up and running in 60 seconds</h2>
+            <h2 className="land-steps-h2">Up and running in 60 seconds</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
+          <div className="land-steps-grid">
             {STEPS.map(s => (
               <div key={s.n} className="step-card">
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-                  <span style={{ fontSize: 28 }}>{s.icon}</span>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: "#F7931A", fontFamily: "'IBM Plex Mono', monospace" }}>{s.n}</span>
+                <div className="step-card-header">
+                  <span className="step-card-icon">{s.icon}</span>
+                  <span className="step-card-num">{s.n}</span>
                 </div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "#111827", marginBottom: 8, lineHeight: 1.3 }}>{s.title}</div>
-                <div style={{ fontSize: 14, color: "#6b7280", lineHeight: 1.7 }}>{s.body}</div>
+                <div className="step-card-title">{s.title}</div>
+                <div className="step-card-body">{s.body}</div>
               </div>
             ))}
           </div>
 
-          <div style={{ textAlign: "center", marginTop: 48 }}>
-            <button className="btn-primary" style={{ fontSize: 17, padding: "18px 40px" }} onClick={() => navigate('/register')}>
+          <div className="land-steps-cta">
+            <button className="btn-primary land-steps-cta-btn" onClick={() => navigate('/register')}>
               ⚡ Claim your sovereign tip page
             </button>
-            <div style={{ marginTop: 14, fontSize: 13, color: "#9ca3af" }}>
+            <div className="land-steps-cta-sub">
               Free forever. No email. No credit card.
             </div>
           </div>
         </div>
 
         {/* What we store — transparency section */}
-        <div style={{ background: "#0f172a", padding: "64px 24px" }}>
-          <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center" }}>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: "#F7931A", marginBottom: 12 }}>Radical transparency</div>
-            <h2 style={{ fontSize: 30, fontWeight: 800, color: "white", letterSpacing: "-0.02em", marginBottom: 16 }}>We store as little as possible. Here's exactly what.</h2>
-            <p style={{ fontSize: 15, color: "#94a3b8", lineHeight: 1.7, marginBottom: 36 }}>
+        <div className="land-transparency">
+          <div className="land-transparency-inner">
+            <div className="land-transparency-eyebrow">Radical transparency</div>
+            <h2 className="land-transparency-h2">We store as little as possible. Here's exactly what.</h2>
+            <p className="land-transparency-p">
               TipBits is non-custodial by design. We never hold your funds, never see your Sovereign Key, and never require an email address.
             </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12, textAlign: "left" }}>
+            <div className="land-transparency-grid">
               {[
                 { label: "Username, name, handle, bio", note: "Shown publicly on your tip page" },
                 { label: "Your Lightning address", note: "Public by design — used to generate invoices" },
                 { label: "Hash of your Sovereign Key", note: "Not the key — we cannot recover it" },
               ].map(item => (
-                <div key={item.label} style={{ background: "#1e293b", borderRadius: 12, padding: "16px 18px" }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: "white", marginBottom: 4 }}>{item.label}</div>
-                  <div style={{ fontSize: 12, color: "#64748b", lineHeight: 1.5 }}>{item.note}</div>
+                <div key={item.label} className="land-transparency-item">
+                  <div className="land-transparency-item-label">{item.label}</div>
+                  <div className="land-transparency-item-note">{item.note}</div>
                 </div>
               ))}
             </div>
-            <div style={{ marginTop: 20, padding: "14px 20px", background: "#1e293b", borderRadius: 12, fontSize: 13, color: "#94a3b8", lineHeight: 1.6 }}>
+            <div className="land-transparency-footer">
               No analytics. No tracking. No email marketing. No access to your wallet. No custody of your funds. Ever.
             </div>
           </div>
         </div>
 
         {/* Support section */}
-        <div style={{ maxWidth: 720, margin: "0 auto", padding: "72px 24px", textAlign: "center" }}>
-          <div style={{ fontSize: 40, marginBottom: 16 }}>⚡</div>
-          <h2 style={{ fontSize: 30, fontWeight: 800, color: "#111827", letterSpacing: "-0.02em", marginBottom: 12 }}>
+        <div className="land-support">
+          <div className="land-support-icon">⚡</div>
+          <h2 className="land-support-h2">
             Find value in TipBits?
           </h2>
-          <p style={{ fontSize: 16, color: "#6b7280", lineHeight: 1.7, marginBottom: 28, maxWidth: 480, margin: "0 auto 28px" }}>
+          <p className="land-support-p">
             TipBits is built and maintained by one person using the same tools you're using right now. If it's useful, throw some sats the creator's way.
           </p>
-          <button
-            className="btn-primary"
-            style={{ fontSize: 16, padding: "16px 36px" }}
-            onClick={() => navigate('/tip')}
-          >
+          <button className="btn-primary land-support-btn" onClick={() => navigate('/tip')}>
             ⚡ Support TipBits with sats
           </button>
-          <div style={{ marginTop: 12, fontSize: 13, color: "#9ca3af" }}>
+          <div className="land-support-sub">
             Peer-to-peer. Non-custodial. Goes straight to the creator's wallet.
           </div>
         </div>
 
         {/* Footer */}
-        <div style={{ borderTop: "1px solid #f3f4f6", padding: "28px 24px" }}>
-          <div style={{ maxWidth: 900, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <footer className="land-footer">
+          <div className="land-footer-inner">
+            <div className="land-footer-brand">
               <BitcoinLogo size={22} />
-              <span style={{ fontSize: 14, fontWeight: 700, color: "#111827" }}>TipBits</span>
+              <span className="land-footer-brand-text">TipBits</span>
             </div>
-            <div style={{ display: "flex", gap: 16, fontSize: 13, color: "#9ca3af" }}>
+            <div className="land-footer-links">
               <button className="nav-link" onClick={() => navigate('/how')}>How it works</button>
               <button className="nav-link" onClick={() => navigate('/learn')}>Learn</button>
               <button className="nav-link" onClick={() => navigate('/register')}>Get your page</button>
@@ -287,11 +257,11 @@ export default function Landing() {
               <button className="nav-link" onClick={() => navigate('/tip')}>Support ⚡</button>
               <button className="nav-link" onClick={() => navigate('/contact')}>Contact</button>
             </div>
-            <div style={{ fontSize: 11, color: "#d1d5db", letterSpacing: ".06em" }}>
+            <div className="land-footer-meta">
               ⚡ LIGHTNING · NON-CUSTODIAL · SOVEREIGN
             </div>
           </div>
-        </div>
+        </footer>
 
       </div>
     </div>

@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import "./global.css";
+import "./Register.css";
 
 function BitcoinLogo({ size = 28 }) {
   return (
@@ -164,47 +166,16 @@ export default function Register() {
   const pageUrl = `https://tipbits.xyz/u/${username.toLowerCase().trim()}`;
 
   return (
-    <div style={{ minHeight:"100vh", background:"linear-gradient(135deg,#fff7ed 0%,#ffffff 50%,#fff7ed 100%)", fontFamily:"'IBM Plex Sans',system-ui,sans-serif", padding:"24px 16px 64px" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-        .reg-wrap{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;max-width:520px;margin:0 auto;}
-        .reg-wrap.in{opacity:1;transform:translateY(0);}
-        .tj-input{width:100%;background:white;border:1.5px solid #e5e7eb;color:#111827;padding:12px 14px;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;outline:none;transition:border-color .15s ease,box-shadow .15s ease;}
-        .tj-input:focus{border-color:#F7931A;box-shadow:0 0 0 3px rgba(247,147,26,.12);}
-        .tj-input::placeholder{color:#d1d5db;}
-        .tj-input.ok{border-color:#10b981;}
-        .tj-input.err{border-color:#ef4444;}
-        .tj-label{font-size:11px;color:#9ca3af;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;display:block;font-weight:500;}
-        .field{margin-bottom:20px;}
-        .hint{font-size:12px;margin-top:6px;line-height:1.4;}
-        .hint.ok{color:#059669;}
-        .hint.err{color:#dc2626;}
-        .hint.checking{color:#9ca3af;}
-        .btn-primary{width:100%;padding:15px;background:#F7931A;color:white;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;letter-spacing:.01em;transition:all .15s ease;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(247,147,26,.35);}
-        .btn-primary:hover:not(:disabled){background:#e8840f;transform:translateY(-1px);}
-        .btn-primary:disabled{opacity:.55;cursor:not-allowed;box-shadow:none;}
-        .btn-secondary{width:100%;padding:13px;background:white;color:#374151;border:1.5px solid #e5e7eb;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s ease;display:flex;align-items:center;justify-content:center;gap:8px;}
-        .btn-secondary:hover{border-color:#F7931A;color:#F7931A;}
-        .nav-link{font-size:13px;color:#9ca3af;font-weight:500;padding:6px 12px;border-radius:8px;transition:all .13s ease;cursor:pointer;background:none;border:none;font-family:'IBM Plex Sans',sans-serif;}
-        .nav-link:hover{color:#F7931A;background:#fff7ed;}
-        .key-box{background:#0f172a;border-radius:12px;padding:20px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#f1f5f9;word-break:break-all;line-height:1.8;letter-spacing:.04em;position:relative;}
-        .error-box{padding:12px 14px;background:#fef2f2;border:1.5px solid #fecaca;border-radius:10px;font-size:13px;color:#b91c1c;line-height:1.5;margin-bottom:20px;}
-        .badge{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;letter-spacing:.04em;}
-        .bg-dots{position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(circle,#f0901820 1px,transparent 1px);background-size:28px 28px;opacity:.5;}
-        .check-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:13px;color:#374151;line-height:1.5;}
-        .check-item:last-child{border-bottom:none;}
-      `}</style>
-
+    <div className="page-root">
       <div className="bg-dots" />
 
-      <div className={`reg-wrap ${mounted ? "in" : ""}`} style={{ position:"relative", zIndex:1 }}>
+      <div className={`reg-wrap ${mounted ? "in" : ""}`}>
 
         {/* Nav */}
-        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"20px 0 32px" }}>
-          <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+        <div className="reg-nav">
+          <div className="reg-nav-brand">
             <BitcoinLogo size={28} />
-            <span style={{ fontSize:16, fontWeight:700, color:"#111827", letterSpacing:"-0.02em" }}>TipBits</span>
+            <span className="reg-nav-brand-text">TipBits</span>
           </div>
           <button className="nav-link" onClick={() => navigate('/')}>← Back</button>
         </div>
@@ -212,31 +183,31 @@ export default function Register() {
         {step === "form" && (
           <>
             {/* Hero */}
-            <div style={{ marginBottom:32 }}>
-              <div style={{ fontSize:11, fontWeight:600, letterSpacing:".1em", textTransform:"uppercase", color:"#F7931A", marginBottom:8 }}>Claim your page</div>
-              <h1 style={{ fontSize:30, fontWeight:700, color:"#111827", letterSpacing:"-0.02em", lineHeight:1.2, marginBottom:12 }}>
+            <div className="reg-hero">
+              <div className="reg-hero-eyebrow">Claim your page</div>
+              <h1 className="reg-hero-h1">
                 Your sovereign tip page.<br />Your Lightning address.<br />Your sats.
               </h1>
-              <p style={{ fontSize:14, color:"#6b7280", lineHeight:1.7 }}>
+              <p className="reg-hero-p">
                 No email. No password. No account. No KYC.<br />
                 Just a page, a Lightning address, and a Sovereign Key that only you hold.
               </p>
             </div>
 
             {/* Trust badges */}
-            <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginBottom:32 }}>
+            <div className="reg-badges">
               {[
                 { label:"Non-custodial", bg:"#E1F5EE", color:"#0F6E56" },
                 { label:"No email required", bg:"#fff7ed", color:"#c2410c" },
                 { label:"No KYC", bg:"#E6F1FB", color:"#185FA5" },
                 { label:"Peer-to-peer", bg:"#FAEEDA", color:"#854F0B" },
               ].map(b => (
-                <span key={b.label} className="badge" style={{ background:b.bg, color:b.color }}>⚡ {b.label}</span>
+                <span key={b.label} className="badge" style={{ background: b.bg, color: b.color }}>⚡ {b.label}</span>
               ))}
             </div>
 
             {/* Form */}
-            <div style={{ background:"white", border:"1.5px solid #e5e7eb", borderRadius:16, padding:"28px 24px", boxShadow:"0 4px 32px rgba(0,0,0,.06)" }}>
+            <div className="reg-card">
               {formError && <div className="error-box">{formError}</div>}
 
               <form onSubmit={handleSubmit}>
@@ -272,7 +243,7 @@ export default function Register() {
 
                 <div className="field">
                   <label className="tj-label">Bio (optional)</label>
-                  <textarea className="tj-input" placeholder="What do you create? Keep it short." value={bio} onChange={e => setBio(e.target.value)} maxLength={200} rows={2} style={{ resize:"none", lineHeight:1.6 }} />
+                  <textarea className="tj-input" placeholder="What do you create? Keep it short." value={bio} onChange={e => setBio(e.target.value)} maxLength={200} rows={2} style={{ resize: "none", lineHeight: 1.6 }} />
                 </div>
 
                 <div className="field">
@@ -281,7 +252,7 @@ export default function Register() {
                   <div className="hint checking">Shown on your tip page so tippers can find your work.</div>
                 </div>
 
-                <div className="field" style={{ marginBottom:28 }}>
+                <div className="field" style={{ marginBottom: 28 }}>
                   <label className="tj-label">Your Lightning address</label>
                   <input
                     className="tj-input"
@@ -294,24 +265,24 @@ export default function Register() {
                   <div className="hint checking">
                     This is where your tips land — peer-to-peer, direct to your wallet.<br />
                     Don't have one? Get a free Lightning address at{" "}
-                    <a href="https://getalby.com" target="_blank" rel="noopener noreferrer" style={{ color:"#F7931A" }}>getalby.com</a>.
+                    <a href="https://getalby.com" target="_blank" rel="noopener noreferrer">getalby.com</a>.
                   </div>
                 </div>
 
                 {/* What we store */}
-                <div style={{ background:"#f9fafb", border:"1.5px solid #e5e7eb", borderRadius:12, padding:"16px", marginBottom:24 }}>
-                  <div style={{ fontSize:12, fontWeight:600, color:"#374151", marginBottom:10 }}>What TipBits stores about you</div>
+                <div className="reg-store-box">
+                  <div className="reg-store-box-title">What TipBits stores about you</div>
                   {[
                     ["Username, display name, handle, bio", "Shown publicly on your tip page"],
                     ["Your Lightning address", "Public by design — used to generate invoices for your tippers"],
                     ["A mathematical fingerprint of your Sovereign Key", "Not the key itself — we cannot recover it for you"],
                   ].map(([what, why]) => (
                     <div key={what} className="check-item">
-                      <span style={{ color:"#F7931A", fontSize:12, marginTop:1 }}>⚡</span>
-                      <div><strong>{what}</strong><br /><span style={{ color:"#9ca3af", fontSize:12 }}>{why}</span></div>
+                      <span className="check-item-icon">⚡</span>
+                      <div><strong>{what}</strong><br /><span className="check-item-why">{why}</span></div>
                     </div>
                   ))}
-                  <div style={{ marginTop:12, padding:"10px 12px", background:"#fff7ed", border:"1px solid #fed7aa", borderRadius:8, fontSize:12, color:"#92400e" }}>
+                  <div className="reg-privacy-note">
                     No email. No password. No tracking. No analytics. No custody of your funds — ever.
                   </div>
                 </div>
@@ -319,7 +290,7 @@ export default function Register() {
                 <button type="submit" className="btn-primary" disabled={submitting || usernameStatus !== "available"}>
                   {submitting ? "Registering..." : "⚡ Claim my sovereign page"}
                 </button>
-                <div style={{ marginTop:16, fontSize:11, color:"#9ca3af", textAlign:"center", lineHeight:1.6 }}>
+                <div className="reg-disclaimer">
                   TipBits is in early access and provided as-is. We are not responsible for failed transactions or losses. Always ask tippers to send a small test amount first to confirm your Lightning address is working correctly.
                 </div>
               </form>
@@ -329,81 +300,80 @@ export default function Register() {
 
         {step === "key" && (
           <>
-            <div style={{ marginBottom:32 }}>
-              <div style={{ fontSize:11, fontWeight:600, letterSpacing:".1em", textTransform:"uppercase", color:"#10b981", marginBottom:8 }}>You're live ⚡</div>
-              <h1 style={{ fontSize:28, fontWeight:700, color:"#111827", letterSpacing:"-0.02em", lineHeight:1.2, marginBottom:12 }}>
+            <div className="reg-key-hero">
+              <div className="reg-key-eyebrow">You're live ⚡</div>
+              <h1 className="reg-key-h1">
                 One thing to do before you go
               </h1>
-              <p style={{ fontSize:14, color:"#6b7280", lineHeight:1.7 }}>
+              <p className="reg-key-p">
                 Your page is active. Save your Sovereign Key below — it's the only way to edit your page in the future.
               </p>
             </div>
 
             {/* Page URL */}
-            <div style={{ background:"white", border:"1.5px solid #e5e7eb", borderRadius:12, padding:"16px 20px", marginBottom:20, display:"flex", alignItems:"center", justifyContent:"space-between", gap:12 }}>
+            <div className="reg-page-url-box">
               <div>
-                <div style={{ fontSize:11, color:"#9ca3af", marginBottom:4, textTransform:"uppercase", letterSpacing:".06em" }}>Your tip page</div>
-                <a href={pageUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize:15, fontWeight:600, color:"#F7931A", textDecoration:"none", fontFamily:"'IBM Plex Mono',monospace" }}>
+                <div className="reg-page-url-label">Your tip page</div>
+                <a href={pageUrl} target="_blank" rel="noopener noreferrer" className="reg-page-url-link">
                   {pageUrl} ↗
                 </a>
               </div>
             </div>
 
             {/* Sovereign Key card */}
-            <div style={{ background:"white", border:"2px solid #fbbf24", borderRadius:16, padding:"24px", marginBottom:20, boxShadow:"0 4px 24px rgba(251,191,36,.15)" }}>
-
-              <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:16 }}>
-                <span style={{ fontSize:20 }}>🔑</span>
+            <div className="reg-key-card">
+              <div className="reg-key-card-header">
+                <span className="reg-key-card-icon">🔑</span>
                 <div>
-                  <div style={{ fontSize:16, fontWeight:700, color:"#111827" }}>Your Sovereign Key</div>
-                  <div style={{ fontSize:12, color:"#9ca3af" }}>Save this now — you won't see it again</div>
+                  <div className="reg-key-card-title">Your Sovereign Key</div>
+                  <div className="reg-key-card-subtitle">Save this now — you won't see it again</div>
                 </div>
               </div>
 
               <div className="key-box">{sovereignKey}</div>
 
-              <div style={{ display:"flex", gap:8, marginTop:12 }}>
+              <div className="reg-key-actions">
                 <button
                   onClick={copyKey}
-                  style={{ flex:1, padding:"10px", background:keyCopied?"#f0fdf4":"white", border:`1.5px solid ${keyCopied?"#10b981":"#e5e7eb"}`, borderRadius:8, fontFamily:"'IBM Plex Sans',sans-serif", fontSize:13, fontWeight:500, cursor:"pointer", color:keyCopied?"#059669":"#374151", transition:"all .13s ease" }}
+                  className={`reg-key-copy-btn ${keyCopied ? "reg-key-copy-btn--done" : "reg-key-copy-btn--normal"}`}
                 >
                   {keyCopied ? "✓ Copied!" : "Copy"}
                 </button>
                 <button
                   onClick={downloadKey}
-                  style={{ flex:1, padding:"10px", background:keyDownloaded?"#f0fdf4":"white", border:`1.5px solid ${keyDownloaded?"#10b981":"#e5e7eb"}`, borderRadius:8, fontFamily:"'IBM Plex Sans',sans-serif", fontSize:13, fontWeight:500, cursor:"pointer", color:keyDownloaded?"#059669":"#374151", transition:"all .13s ease" }}
+                  className={`reg-key-copy-btn ${keyDownloaded ? "reg-key-copy-btn--done" : "reg-key-copy-btn--normal"}`}
                 >
                   {keyDownloaded ? "✓ Saved!" : "⬇ Download .txt"}
                 </button>
               </div>
 
               {/* Sovereign Key explanation */}
-              <div style={{ marginTop:20, padding:"16px", background:"#fffbeb", border:"1px solid #fde68a", borderRadius:10 }}>
-                <div style={{ fontSize:13, fontWeight:600, color:"#92400e", marginBottom:8 }}>What is a Sovereign Key?</div>
-                <div style={{ fontSize:13, color:"#78350f", lineHeight:1.7 }}>
+              <div className="reg-key-explain">
+                <div className="reg-key-explain-title">What is a Sovereign Key?</div>
+                <div className="reg-key-explain-p">
                   Your Sovereign Key is the only credential to your TipBits page. There is no password reset, no email recovery, and no support ticket that can unlock it — because we don't hold it.
                 </div>
-                <div style={{ fontSize:13, color:"#78350f", lineHeight:1.7, marginTop:8 }}>
+                <div className="reg-key-explain-p">
                   When you registered, your browser generated this key locally and sent only its mathematical fingerprint to our server. The raw key never left your device. Even we cannot see it.
                 </div>
-                <div style={{ fontSize:13, color:"#78350f", lineHeight:1.7, marginTop:8 }}>
+                <div className="reg-key-explain-p">
                   <strong>If you lose it:</strong> your tip page stays live and keeps receiving sats — but you won't be able to update your Lightning address, name, or bio. Treat it like a private key.
                 </div>
-                <div style={{ marginTop:12, fontSize:13, fontWeight:700, color:"#92400e" }}>
+                <div className="reg-key-explain-footer">
                   Your keys. Your page. Your sats.
                 </div>
               </div>
             </div>
 
             {/* Confirmation checkbox */}
-            <label style={{ display:"flex", alignItems:"flex-start", gap:12, padding:"16px", background:"white", border:`1.5px solid ${keySaved?"#10b981":"#e5e7eb"}`, borderRadius:12, cursor:"pointer", marginBottom:20, transition:"border-color .15s ease" }}>
+            <label className={`reg-confirm-label ${keySaved ? "reg-confirm-label--checked" : "reg-confirm-label--unchecked"}`}>
               <input
                 type="checkbox"
                 checked={keySaved}
                 onChange={e => setKeySaved(e.target.checked)}
-                style={{ marginTop:2, accentColor:"#10b981", width:16, height:16, flexShrink:0 }}
+                className="reg-confirm-checkbox"
               />
-              <span style={{ fontSize:14, color:"#374151", lineHeight:1.5 }}>
+              <span className="reg-confirm-text">
                 I have saved my Sovereign Key in a safe place. I understand that TipBits cannot recover it for me.
               </span>
             </label>
@@ -416,15 +386,15 @@ export default function Register() {
               ⚡ Go to my tip page
             </button>
 
-            <div style={{ marginTop:12 }}>
+            <div className="reg-footer-copy">
               <button className="btn-secondary" onClick={() => { navigator.clipboard.writeText(`https://tipbits.xyz/edit`); }}>
                 📋 Copy edit page link
               </button>
             </div>
 
-            <div style={{ marginTop:16, textAlign:"center", fontSize:12, color:"#9ca3af", lineHeight:1.6 }}>
+            <div className="reg-footer-note">
               Edit your page any time at{" "}
-              <a href="/edit" onClick={e => { e.preventDefault(); navigate('/edit'); }} style={{ color:"#F7931A" }}>tipbits.xyz/edit</a>
+              <a href="/edit" onClick={e => { e.preventDefault(); navigate('/edit'); }}>tipbits.xyz/edit</a>
               {" "}using your username + Sovereign Key.
             </div>
           </>

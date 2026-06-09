@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "./global.css";
+import "./LearnArticle.css";
 
 function BitcoinLogo({ size = 28 }) {
   return (
@@ -12,40 +14,40 @@ function BitcoinLogo({ size = 28 }) {
 
 function Pullquote({ children }) {
   return (
-    <div style={{ margin: "32px 0", padding: "20px 24px", background: "#fff7ed", border: "2px solid #F7931A", borderLeft: "5px solid #F7931A", borderRadius: "0 12px 12px 0", fontSize: 17, fontWeight: 600, color: "#92400e", lineHeight: 1.6 }}>
+    <div className="art-pullquote">
       ⚡ {children}
     </div>
   );
 }
 
 function H2({ children }) {
-  return <h2 style={{ fontSize: 22, fontWeight: 700, color: "#111827", letterSpacing: "-0.02em", marginTop: 36, marginBottom: 12, lineHeight: 1.3 }}>{children}</h2>;
+  return <h2 className="art-h2">{children}</h2>;
 }
 
 function P({ children }) {
-  return <p style={{ fontSize: 16, color: "#374151", lineHeight: 1.8, marginBottom: 16 }}>{children}</p>;
+  return <p className="art-p">{children}</p>;
 }
 
 function Mono({ children }) {
-  return <span style={{ fontFamily: "'IBM Plex Mono',monospace", background: "#f3f4f6", padding: "1px 6px", borderRadius: 4, fontSize: 14, color: "#374151" }}>{children}</span>;
+  return <span className="art-mono">{children}</span>;
 }
 
 function PropertyRow({ name, bitcoin, fiat, winner }) {
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 8 }}>
-      <div style={{ background: "#f9fafb", border: "1.5px solid #e5e7eb", borderRadius: 8, padding: "10px 12px", fontSize: 13, fontWeight: 600, color: "#374151" }}>{name}</div>
-      <div style={{ background: winner === "bitcoin" ? "#f0fdf4" : "#fef2f2", border: `1.5px solid ${winner === "bitcoin" ? "#bbf7d0" : "#fecaca"}`, borderRadius: 8, padding: "10px 12px", fontSize: 13, color: winner === "bitcoin" ? "#15803d" : "#b91c1c" }}>{bitcoin}</div>
-      <div style={{ background: winner === "fiat" ? "#f0fdf4" : "#fef2f2", border: `1.5px solid ${winner === "fiat" ? "#bbf7d0" : "#fecaca"}`, borderRadius: 8, padding: "10px 12px", fontSize: 13, color: winner === "fiat" ? "#15803d" : "#b91c1c" }}>{fiat}</div>
+    <div className="art-prop-row">
+      <div className="art-prop-cell art-prop-cell--name">{name}</div>
+      <div className={`art-prop-cell ${winner === "bitcoin" ? "art-prop-cell--good" : "art-prop-cell--bad"}`}>{bitcoin}</div>
+      <div className={`art-prop-cell ${winner === "fiat" ? "art-prop-cell--good" : "art-prop-cell--bad"}`}>{fiat}</div>
     </div>
   );
 }
 
 function CompareRow({ property, bitcoin, cbdc }) {
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 8 }}>
-      <div style={{ background: "#f9fafb", border: "1.5px solid #e5e7eb", borderRadius: 8, padding: "10px 12px", fontSize: 13, fontWeight: 600, color: "#374151" }}>{property}</div>
-      <div style={{ background: "#f0fdf4", border: "1.5px solid #bbf7d0", borderRadius: 8, padding: "10px 12px", fontSize: 13, color: "#15803d" }}>✓ {bitcoin}</div>
-      <div style={{ background: "#fef2f2", border: "1.5px solid #fecaca", borderRadius: 8, padding: "10px 12px", fontSize: 13, color: "#b91c1c" }}>✗ {cbdc}</div>
+    <div className="art-prop-row">
+      <div className="art-prop-cell art-prop-cell--name">{property}</div>
+      <div className="art-prop-cell art-prop-cell--good">✓ {bitcoin}</div>
+      <div className="art-prop-cell art-prop-cell--bad">✗ {cbdc}</div>
     </div>
   );
 }
@@ -110,10 +112,10 @@ const ARTICLES = {
           Economists have identified six properties that make something work well as money. These aren't opinions — they're the practical requirements for a medium of exchange to function across time and distance.
         </P>
 
-        <div style={{ marginBottom: 8, display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
-          <div style={{ background: "#f9fafb", border: "1.5px solid #e5e7eb", borderRadius: 8, padding: "10px 12px", fontSize: 12, fontWeight: 700, color: "#9ca3af", textTransform: "uppercase", letterSpacing: ".06em" }}>Property</div>
-          <div style={{ background: "#f0fdf4", border: "1.5px solid #bbf7d0", borderRadius: 8, padding: "10px 12px", fontSize: 12, fontWeight: 700, color: "#15803d", textTransform: "uppercase", letterSpacing: ".06em" }}>Bitcoin</div>
-          <div style={{ background: "#fef2f2", border: "1.5px solid #fecaca", borderRadius: 8, padding: "10px 12px", fontSize: 12, fontWeight: 700, color: "#b91c1c", textTransform: "uppercase", letterSpacing: ".06em" }}>Fiat currency</div>
+        <div className="art-table-header">
+          <div className="art-table-header-cell art-table-header-cell--prop">Property</div>
+          <div className="art-table-header-cell art-table-header-cell--btc">Bitcoin</div>
+          <div className="art-table-header-cell art-table-header-cell--fiat">Fiat currency</div>
         </div>
         <PropertyRow name="Scarce" bitcoin="Fixed at 21 million" fiat="Printed at will" winner="bitcoin" />
         <PropertyRow name="Durable" bitcoin="Digital — lasts forever" fiat="Physical notes degrade" winner="bitcoin" />
@@ -178,7 +180,7 @@ const ARTICLES = {
         <P>
           A CBDC is programmable money running on a ledger controlled by the issuer. This means it can, technically, be programmed to:
         </P>
-        <div style={{ marginBottom: 20 }}>
+        <div className="art-cbdc-list">
           {[
             ["Track every transaction", "Every payment you make is visible to the issuer."],
             ["Freeze your balance", "Access to your money can be revoked without notice or recourse."],
@@ -186,11 +188,11 @@ const ARTICLES = {
             ["Restrict spending categories", "Funds that can only be spent on approved goods or services."],
             ["Apply geographic limits", "Money that cannot be spent outside a defined area."],
           ].map(([title, body]) => (
-            <div key={title} style={{ display: "flex", gap: 12, padding: "12px 0", borderBottom: "1px solid #f3f4f6" }}>
-              <span style={{ color: "#b91c1c", fontSize: 14, marginTop: 1, flexShrink: 0 }}>✗</span>
+            <div key={title} className="art-cbdc-item">
+              <span className="art-cbdc-item-x">✗</span>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 600, color: "#111827", marginBottom: 2 }}>{title}</div>
-                <div style={{ fontSize: 14, color: "#6b7280", lineHeight: 1.6 }}>{body}</div>
+                <div className="art-cbdc-item-title">{title}</div>
+                <div className="art-cbdc-item-body">{body}</div>
               </div>
             </div>
           ))}
@@ -202,10 +204,10 @@ const ARTICLES = {
         <Pullquote>The issue isn't whether governments would use these powers today. It's whether you want them to have these powers at all.</Pullquote>
 
         <H2>How Bitcoin compares on every axis</H2>
-        <div style={{ marginBottom: 8, display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
-          <div style={{ background: "#f9fafb", border: "1.5px solid #e5e7eb", borderRadius: 8, padding: "10px 12px", fontSize: 12, fontWeight: 700, color: "#9ca3af", textTransform: "uppercase", letterSpacing: ".06em" }}>Property</div>
-          <div style={{ background: "#f0fdf4", border: "1.5px solid #bbf7d0", borderRadius: 8, padding: "10px 12px", fontSize: 12, fontWeight: 700, color: "#15803d", textTransform: "uppercase", letterSpacing: ".06em" }}>Bitcoin</div>
-          <div style={{ background: "#fef2f2", border: "1.5px solid #fecaca", borderRadius: 8, padding: "10px 12px", fontSize: 12, fontWeight: 700, color: "#b91c1c", textTransform: "uppercase", letterSpacing: ".06em" }}>CBDC</div>
+        <div className="art-table-header">
+          <div className="art-table-header-cell art-table-header-cell--prop">Property</div>
+          <div className="art-table-header-cell art-table-header-cell--btc">Bitcoin</div>
+          <div className="art-table-header-cell art-table-header-cell--fiat">CBDC</div>
         </div>
         <CompareRow property="Issuer" bitcoin="None. No one controls Bitcoin." cbdc="Central bank controls issuance" />
         <CompareRow property="Surveillance" bitcoin="Pseudonymous — no identity required" cbdc="Every transaction is logged" />
@@ -333,8 +335,8 @@ const ARTICLES = {
           But it matters to everyone who creates things online. Because the right to get paid for your work should not depend on the goodwill of a third party whose terms of service can change at any time.
         </P>
 
-        <div style={{ marginTop: 32, padding: "24px", background: "#f0fdf4", border: "1.5px solid #bbf7d0", borderRadius: 14 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "#15803d", marginBottom: 8 }}>In plain terms</div>
+        <div className="art-plain-terms">
+          <div className="art-plain-terms-title">In plain terms</div>
           {[
             "No minimum payout — receive 1 sat or 1 million",
             "No settlement delay — sats arrive in seconds",
@@ -342,9 +344,9 @@ const ARTICLES = {
             "No platform fee — Lightning routing fees are fractions of a penny",
             "No account suspension — no one can revoke your Lightning address",
           ].map(item => (
-            <div key={item} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 8 }}>
-              <span style={{ color: "#15803d", fontSize: 14, marginTop: 1 }}>⚡</span>
-              <span style={{ fontSize: 14, color: "#166534", lineHeight: 1.6 }}>{item}</span>
+            <div key={item} className="art-plain-terms-item">
+              <span className="art-plain-terms-icon">⚡</span>
+              <span className="art-plain-terms-text">{item}</span>
             </div>
           ))}
         </div>
@@ -369,11 +371,11 @@ export default function LearnArticle() {
 
   if (!article) {
     return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'IBM Plex Sans',system-ui,sans-serif", background: "linear-gradient(135deg,#fff7ed 0%,#ffffff 50%,#fff7ed 100%)" }}>
-        <div style={{ textAlign: "center" }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>⚡</div>
-          <div style={{ fontSize: 20, fontWeight: 700, color: "#111827", marginBottom: 16 }}>Article not found</div>
-          <button onClick={() => navigate('/learn')} style={{ padding: "10px 20px", background: "#F7931A", color: "white", border: "none", borderRadius: 10, fontFamily: "'IBM Plex Sans',sans-serif", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+      <div className="art-not-found">
+        <div className="art-not-found-inner">
+          <div className="art-not-found-icon">⚡</div>
+          <div className="art-not-found-title">Article not found</div>
+          <button onClick={() => navigate('/learn')} className="art-not-found-btn">
             ← Back to Learn
           </button>
         </div>
@@ -384,66 +386,49 @@ export default function LearnArticle() {
   const currentIndex = SLUGS.indexOf(slug);
 
   return (
-    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg,#fff7ed 0%,#ffffff 50%,#fff7ed 100%)", fontFamily: "'IBM Plex Sans',system-ui,sans-serif", padding: "0 16px 64px" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-        .art-wrap{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease;max-width:660px;margin:0 auto;}
-        .art-wrap.in{opacity:1;transform:translateY(0);}
-        .nav-link{font-size:13px;color:#9ca3af;font-weight:500;padding:6px 12px;border-radius:8px;transition:all .13s ease;cursor:pointer;background:none;border:none;font-family:'IBM Plex Sans',sans-serif;}
-        .nav-link:hover{color:#F7931A;background:#fff7ed;}
-        .bg-dots{position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(circle,#f0901820 1px,transparent 1px);background-size:28px 28px;opacity:.5;}
-        .prog-step{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:'IBM Plex Mono',monospace;transition:all .13s ease;cursor:pointer;}
-        .prog-step:hover{transform:scale(1.1);}
-      `}</style>
-
+    <div className="art-page-root">
       <div className="bg-dots" />
 
-      <div className={`art-wrap ${mounted ? "in" : ""}`} style={{ position: "relative", zIndex: 1 }}>
+      <div className={`art-wrap ${mounted ? "in" : ""}`}>
 
         {/* Nav */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 0 32px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} onClick={() => navigate('/')}>
+        <div className="art-nav">
+          <div className="art-nav-brand" onClick={() => navigate('/')}>
             <BitcoinLogo size={28} />
-            <span style={{ fontSize: 16, fontWeight: 700, color: "#111827", letterSpacing: "-0.02em" }}>TipBits</span>
+            <span className="art-nav-brand-text">TipBits</span>
           </div>
           <button className="nav-link" onClick={() => navigate('/learn')}>← All topics</button>
         </div>
 
         {/* Progress dots */}
-        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 32 }}>
+        <div className="art-progress">
           {SLUGS.map((s, i) => (
             <div
               key={s}
-              className="prog-step"
+              className={`prog-step ${i === currentIndex ? "prog-step--current" : i < currentIndex ? "prog-step--done" : "prog-step--future"}`}
               onClick={() => navigate(`/learn/${s}`)}
-              style={{
-                background: i === currentIndex ? "#F7931A" : i < currentIndex ? "#fed7aa" : "#f3f4f6",
-                color: i === currentIndex ? "white" : i < currentIndex ? "#92400e" : "#9ca3af",
-                border: `2px solid ${i === currentIndex ? "#F7931A" : i < currentIndex ? "#fbbf24" : "#e5e7eb"}`,
-              }}
             >
               {i < currentIndex ? "✓" : `0${i + 1}`}
             </div>
           ))}
-          <span style={{ fontSize: 12, color: "#9ca3af", marginLeft: 8 }}>{currentIndex + 1} of {SLUGS.length}</span>
+          <span className="art-progress-label">{currentIndex + 1} of {SLUGS.length}</span>
         </div>
 
         {/* Article header */}
-        <div style={{ marginBottom: 32 }}>
-          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: "#F7931A", marginBottom: 10 }}>
+        <div className="art-header">
+          <div className="art-header-eyebrow">
             {article.label}
           </div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, color: "#111827", letterSpacing: "-0.03em", lineHeight: 1.2, marginBottom: 16 }}>
+          <h1 className="art-header-h1">
             {article.title}
           </h1>
-          <p style={{ fontSize: 17, color: "#6b7280", lineHeight: 1.75, borderLeft: "3px solid #fed7aa", paddingLeft: 16 }}>
+          <p className="art-header-intro">
             {article.intro}
           </p>
         </div>
 
         {/* Article body */}
-        <div style={{ background: "white", border: "1.5px solid #e5e7eb", borderRadius: 16, padding: "32px 28px", boxShadow: "0 2px 16px rgba(0,0,0,.05)", marginBottom: 32 }}>
+        <div className="art-body-card">
           {article.content()}
         </div>
 
@@ -451,29 +436,26 @@ export default function LearnArticle() {
         {article.next && (
           <div
             onClick={() => navigate(`/learn/${article.next}`)}
-            style={{ background: "white", border: "1.5px solid #e5e7eb", borderRadius: 14, padding: "20px 24px", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, transition: "all .15s ease", boxShadow: "0 2px 8px rgba(0,0,0,.04)" }}
+            className="art-next-card"
             onMouseEnter={e => { e.currentTarget.style.borderColor = "#F7931A"; e.currentTarget.style.transform = "translateY(-1px)"; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.transform = "none"; }}
           >
             <div>
-              <div style={{ fontSize: 11, color: "#9ca3af", marginBottom: 4, textTransform: "uppercase", letterSpacing: ".06em" }}>Up next</div>
-              <div style={{ fontSize: 15, fontWeight: 600, color: "#111827" }}>{article.nextLabel}</div>
+              <div className="art-next-label">Up next</div>
+              <div className="art-next-title">{article.nextLabel}</div>
             </div>
-            <span style={{ fontSize: 22, color: "#F7931A" }}>→</span>
+            <span className="art-next-arrow">→</span>
           </div>
         )}
 
         {/* Bottom CTA */}
-        <div style={{ background: "#0f172a", borderRadius: 16, padding: "32px 28px", textAlign: "center" }}>
-          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: "#F7931A", marginBottom: 10 }}>Ready to accept Bitcoin?</div>
-          <h3 style={{ fontSize: 22, fontWeight: 700, color: "white", marginBottom: 10, letterSpacing: "-0.01em" }}>Create your TipBits page →</h3>
-          <p style={{ fontSize: 14, color: "#94a3b8", lineHeight: 1.7, marginBottom: 24, maxWidth: 400, margin: "0 auto 24px" }}>
+        <div className="art-cta">
+          <div className="art-cta-eyebrow">Ready to accept Bitcoin?</div>
+          <h3 className="art-cta-h3">Create your TipBits page →</h3>
+          <p className="art-cta-p">
             No email. No bank account. No permission needed. Your own sovereign tip page in under a minute.
           </p>
-          <button
-            onClick={() => navigate('/register')}
-            style={{ padding: "14px 32px", background: "#F7931A", color: "white", border: "none", borderRadius: 12, fontFamily: "'IBM Plex Sans',sans-serif", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 20px rgba(247,147,26,.4)" }}
-          >
+          <button onClick={() => navigate('/register')} className="art-cta-btn">
             ⚡ Create your TipBits page →
           </button>
         </div>

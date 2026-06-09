@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./global.css";
+import "./Edit.css";
 
 function BitcoinLogo({ size = 28 }) {
   return (
@@ -162,50 +164,31 @@ export default function Edit() {
   };
 
   return (
-    <div style={{ minHeight:"100vh", background:"linear-gradient(135deg,#fff7ed 0%,#ffffff 50%,#fff7ed 100%)", fontFamily:"'IBM Plex Sans',system-ui,sans-serif", padding:"24px 16px 64px" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-        .edit-wrap{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;max-width:480px;margin:0 auto;}
-        .edit-wrap.in{opacity:1;transform:translateY(0);}
-        .tj-input{width:100%;background:white;border:1.5px solid #e5e7eb;color:#111827;padding:12px 14px;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;outline:none;transition:border-color .15s ease,box-shadow .15s ease;}
-        .tj-input:focus{border-color:#F7931A;box-shadow:0 0 0 3px rgba(247,147,26,.12);}
-        .tj-input::placeholder{color:#d1d5db;}
-        .tj-label{font-size:11px;color:#9ca3af;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;display:block;font-weight:500;}
-        .field{margin-bottom:20px;}
-        .btn-primary{width:100%;padding:15px;background:#F7931A;color:white;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .15s ease;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(247,147,26,.35);}
-        .btn-primary:hover:not(:disabled){background:#e8840f;transform:translateY(-1px);}
-        .btn-primary:disabled{opacity:.55;cursor:not-allowed;box-shadow:none;}
-        .nav-link{font-size:13px;color:#9ca3af;font-weight:500;padding:6px 12px;border-radius:8px;transition:all .13s ease;cursor:pointer;background:none;border:none;font-family:'IBM Plex Sans',sans-serif;}
-        .nav-link:hover{color:#F7931A;background:#fff7ed;}
-        .error-box{padding:12px 14px;background:#fef2f2;border:1.5px solid #fecaca;border-radius:10px;font-size:13px;color:#b91c1c;line-height:1.5;margin-bottom:20px;}
-        .bg-dots{position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(circle,#f0901820 1px,transparent 1px);background-size:28px 28px;opacity:.5;}
-      `}</style>
-
+    <div className="page-root">
       <div className="bg-dots" />
 
-      <div className={`edit-wrap ${mounted ? "in" : ""}`} style={{ position:"relative", zIndex:1 }}>
+      <div className={`edit-wrap ${mounted ? "in" : ""}`}>
 
         {/* Nav */}
-        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"20px 0 32px" }}>
-          <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+        <div className="edit-nav">
+          <div className="edit-nav-brand">
             <BitcoinLogo size={28} />
-            <span style={{ fontSize:16, fontWeight:700, color:"#111827", letterSpacing:"-0.02em" }}>TipBits</span>
+            <span className="edit-nav-brand-text">TipBits</span>
           </div>
           <button className="nav-link" onClick={() => navigate('/')}>← Home</button>
         </div>
 
         {step === "verify" && (
           <>
-            <div style={{ marginBottom:28 }}>
-              <div style={{ fontSize:11, fontWeight:600, letterSpacing:".1em", textTransform:"uppercase", color:"#F7931A", marginBottom:8 }}>Edit your page</div>
-              <h1 style={{ fontSize:26, fontWeight:700, color:"#111827", letterSpacing:"-0.02em", marginBottom:12 }}>Enter your Sovereign Key</h1>
-              <p style={{ fontSize:14, color:"#6b7280", lineHeight:1.7 }}>
+            <div className="edit-verify-hero">
+              <div className="edit-verify-eyebrow">Edit your page</div>
+              <h1 className="edit-verify-h1">Enter your Sovereign Key</h1>
+              <p className="edit-verify-p">
                 Your Sovereign Key was shown once when you registered. It's the only way to edit your page — TipBits doesn't store it and cannot recover it for you.
               </p>
             </div>
 
-            <div style={{ background:"white", border:"1.5px solid #e5e7eb", borderRadius:16, padding:"28px 24px", boxShadow:"0 4px 32px rgba(0,0,0,.06)" }}>
+            <div className="edit-card">
               {verifyError && <div className="error-box">{verifyError}</div>}
               <form onSubmit={handleVerify}>
                 <div className="field">
@@ -213,13 +196,12 @@ export default function Edit() {
                   <input className="tj-input" type="text" placeholder="your-username" value={username}
                     onChange={e => setUsername(e.target.value.toLowerCase())} autoComplete="off" />
                 </div>
-                <div className="field" style={{ marginBottom:28 }}>
+                <div className="field" style={{ marginBottom: 28 }}>
                   <label className="tj-label">Sovereign Key</label>
-                  <input className="tj-input" type="text" placeholder="Paste your sovereign key"
+                  <input className="tj-input tj-input--mono" type="text" placeholder="Paste your sovereign key"
                     value={sovereignKey} onChange={e => setSovereignKey(e.target.value)}
-                    style={{ fontFamily:"'IBM Plex Mono',monospace", fontSize:13, letterSpacing:".02em" }}
                     autoComplete="off" />
-                  <div style={{ marginTop:8, fontSize:12, color:"#9ca3af", lineHeight:1.5 }}>
+                  <div className="edit-key-hint">
                     This is verified locally in your browser. It is hashed before leaving your device.
                   </div>
                 </div>
@@ -233,13 +215,13 @@ export default function Edit() {
 
         {step === "edit" && (
           <>
-            <div style={{ marginBottom:28 }}>
-              <div style={{ fontSize:11, fontWeight:600, letterSpacing:".1em", textTransform:"uppercase", color:"#10b981", marginBottom:8 }}>Editing: @{username}</div>
-              <h1 style={{ fontSize:26, fontWeight:700, color:"#111827", letterSpacing:"-0.02em", marginBottom:8 }}>Update your page</h1>
-              <p style={{ fontSize:14, color:"#6b7280" }}>Changes go live immediately.</p>
+            <div className="edit-hero">
+              <div className="edit-hero-eyebrow">Editing: @{username}</div>
+              <h1 className="edit-hero-h1">Update your page</h1>
+              <p className="edit-hero-p">Changes go live immediately.</p>
             </div>
 
-            <div style={{ background:"white", border:"1.5px solid #e5e7eb", borderRadius:16, padding:"28px 24px", boxShadow:"0 4px 32px rgba(0,0,0,.06)" }}>
+            <div className="edit-card">
               {editError && <div className="error-box">{editError}</div>}
               <form onSubmit={handleSave}>
                 <div className="field">
@@ -252,17 +234,17 @@ export default function Edit() {
                 </div>
                 <div className="field">
                   <label className="tj-label">Bio</label>
-                  <textarea className="tj-input" value={bio} onChange={e => setBio(e.target.value)} maxLength={200} rows={2} style={{ resize:"none", lineHeight:1.6 }} />
+                  <textarea className="tj-input" value={bio} onChange={e => setBio(e.target.value)} maxLength={200} rows={2} style={{ resize: "none", lineHeight: 1.6 }} />
                 </div>
                 <div className="field">
                   <label className="tj-label">Your website (optional)</label>
                   <input className="tj-input" type="url" placeholder="https://yoursite.com" value={website} onChange={e => setWebsite(e.target.value)} maxLength={200} />
                 </div>
 
-                <div className="field" style={{ marginBottom:28 }}>
+                <div className="field" style={{ marginBottom: 28 }}>
                   <label className="tj-label">Lightning address</label>
                   <input className="tj-input" type="text" value={lightningAddress} onChange={e => setLightningAddress(e.target.value)} />
-                  <div style={{ marginTop:8, fontSize:12, color:"#9ca3af" }}>This is where your tips land. Update this if you change wallets.</div>
+                  <div className="edit-ln-hint">This is where your tips land. Update this if you change wallets.</div>
                 </div>
                 <button type="submit" className="btn-primary" disabled={saving}>
                   {saving ? "Saving..." : "⚡ Save changes"}
@@ -271,45 +253,44 @@ export default function Edit() {
             </div>
 
             {/* Danger zone */}
-            <div style={{ marginTop:24, border:"1.5px solid #fecaca", borderRadius:16, overflow:"hidden" }}>
+            <div className="edit-danger-wrap">
               <button
                 onClick={() => { setShowDeleteZone(v => !v); setDeleteError(null); setDeleteConfirmText(""); }}
-                style={{ width:"100%", padding:"16px 20px", background:"#fef2f2", border:"none", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"space-between", fontFamily:"'IBM Plex Sans',sans-serif" }}
+                className="edit-danger-toggle"
               >
-                <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-                  <span style={{ fontSize:16 }}>⚠️</span>
-                  <span style={{ fontSize:14, fontWeight:600, color:"#b91c1c" }}>Danger zone</span>
+                <div className="edit-danger-toggle-left">
+                  <span className="edit-danger-icon">⚠️</span>
+                  <span className="edit-danger-title">Danger zone</span>
                 </div>
-                <span style={{ fontSize:12, color:"#ef4444" }}>{showDeleteZone ? "▲ Close" : "▼ Delete my page"}</span>
+                <span className="edit-danger-toggle-arrow">{showDeleteZone ? "▲ Close" : "▼ Delete my page"}</span>
               </button>
 
               {showDeleteZone && (
-                <div style={{ padding:"20px 20px 24px", background:"white", borderTop:"1.5px solid #fecaca" }}>
-                  <div style={{ fontSize:13, color:"#374151", lineHeight:1.7, marginBottom:16 }}>
+                <div className="edit-danger-body">
+                  <div className="edit-danger-body-text">
                     <strong>This is permanent.</strong> Deleting your page removes all your data from TipBits immediately.
                     Any links you've shared — in your bio, X profile, or anywhere else — will stop working and show a 404.
                     Your Lightning address and Sovereign Key are unaffected.
                   </div>
-                  <div style={{ padding:"10px 12px", background:"#fff7ed", border:"1px solid #fed7aa", borderRadius:8, fontSize:12, color:"#92400e", marginBottom:16 }}>
+                  <div className="edit-danger-confirm-note">
                     To confirm, type your username <strong>{username}</strong> below.
                   </div>
                   {deleteError && (
-                    <div style={{ padding:"10px 14px", background:"#fef2f2", border:"1.5px solid #fecaca", borderRadius:8, fontSize:13, color:"#b91c1c", marginBottom:12 }}>
+                    <div className="edit-danger-error">
                       {deleteError}
                     </div>
                   )}
                   <input
-                    className="tj-input"
+                    className="tj-input edit-delete-input"
                     type="text"
                     placeholder={`Type "${username}" to confirm`}
                     value={deleteConfirmText}
                     onChange={e => setDeleteConfirmText(e.target.value)}
-                    style={{ marginBottom:12 }}
                   />
                   <button
                     onClick={handleDelete}
                     disabled={deleting}
-                    style={{ width:"100%", padding:"13px", background: deleting ? "#9ca3af" : "#dc2626", color:"white", border:"none", borderRadius:10, fontFamily:"'IBM Plex Sans',sans-serif", fontSize:14, fontWeight:600, cursor: deleting ? "not-allowed" : "pointer", transition:"all .15s ease" }}
+                    className={`edit-delete-btn ${deleting ? "edit-delete-btn--disabled" : "edit-delete-btn--active"}`}
                   >
                     {deleting ? "Deleting..." : "🗑 Permanently delete my page"}
                   </button>
@@ -320,10 +301,10 @@ export default function Edit() {
         )}
 
         {step === "done" && (
-          <div style={{ textAlign:"center", paddingTop:40 }}>
-            <div style={{ fontSize:56, marginBottom:20 }}>⚡</div>
-            <h1 style={{ fontSize:26, fontWeight:700, color:"#111827", marginBottom:8 }}>Page updated</h1>
-            <p style={{ fontSize:14, color:"#6b7280", marginBottom:32, lineHeight:1.6 }}>
+          <div className="edit-done">
+            <div className="edit-done-icon">⚡</div>
+            <h1 className="edit-done-h1">Page updated</h1>
+            <p className="edit-done-p">
               Your changes are live. Peer-to-peer. Sovereign.
             </p>
             <button

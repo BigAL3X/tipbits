@@ -1,0 +1,209 @@
+/* Edit component styles */
+
+.edit-wrap {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .5s ease, transform .5s ease;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.edit-wrap.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Nav */
+.edit-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0 32px;
+}
+.edit-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.edit-nav-brand-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+/* Verify hero */
+.edit-verify-hero { margin-bottom: 28px; }
+.edit-verify-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #F7931A;
+  margin-bottom: 8px;
+}
+.edit-verify-h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+.edit-verify-p {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.7;
+}
+
+/* Form card */
+.edit-card {
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, .06);
+}
+
+/* Sovereign key input */
+.tj-input--mono {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  letter-spacing: .02em;
+}
+
+/* Key field hint */
+.edit-key-hint {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #9ca3af;
+  line-height: 1.5;
+}
+
+/* Edit hero */
+.edit-hero { margin-bottom: 28px; }
+.edit-hero-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #10b981;
+  margin-bottom: 8px;
+}
+.edit-hero-h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.edit-hero-p {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Lightning address hint */
+.edit-ln-hint {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* Danger zone */
+.edit-danger-wrap {
+  margin-top: 24px;
+  border: 1.5px solid #fecaca;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.edit-danger-toggle {
+  width: 100%;
+  padding: 16px 20px;
+  background: #fef2f2;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+.edit-danger-toggle-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.edit-danger-icon { font-size: 16px; }
+.edit-danger-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #b91c1c;
+}
+.edit-danger-toggle-arrow {
+  font-size: 12px;
+  color: #ef4444;
+}
+.edit-danger-body {
+  padding: 20px 20px 24px;
+  background: white;
+  border-top: 1.5px solid #fecaca;
+}
+.edit-danger-body-text {
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.edit-danger-confirm-note {
+  padding: 10px 12px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #92400e;
+  margin-bottom: 16px;
+}
+.edit-danger-error {
+  padding: 10px 14px;
+  background: #fef2f2;
+  border: 1.5px solid #fecaca;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #b91c1c;
+  margin-bottom: 12px;
+}
+.edit-delete-input { margin-bottom: 12px; }
+.edit-delete-btn {
+  width: 100%;
+  padding: 13px;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all .15s ease;
+}
+.edit-delete-btn--active { background: #dc2626; cursor: pointer; }
+.edit-delete-btn--disabled { background: #9ca3af; cursor: not-allowed; }
+
+/* Done step */
+.edit-done {
+  text-align: center;
+  padding-top: 40px;
+}
+.edit-done-icon {
+  font-size: 56px;
+  margin-bottom: 20px;
+}
+.edit-done-h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+}
+.edit-done-p {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}

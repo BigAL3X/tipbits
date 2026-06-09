@@ -1,0 +1,329 @@
+/* HowItWorks component styles */
+
+.hiw-page-root {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffffff 50%, #fff7ed 100%);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  padding: 0 16px 64px;
+}
+
+.hiw-wrap {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .55s ease, transform .55s ease;
+  max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.hiw-wrap.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Nav */
+.hiw-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0 32px;
+}
+.hiw-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hiw-nav-brand-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+/* Hero */
+.hiw-hero { margin-bottom: 48px; }
+.hiw-hero-h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.hiw-hero-p {
+  font-size: 16px;
+  color: #6b7280;
+  line-height: 1.7;
+  max-width: 520px;
+}
+
+/* Trust badges */
+.hiw-trust-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 48px;
+}
+.trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Steps */
+.hiw-steps-label { margin-bottom: 16px; }
+.step-card {
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 16px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .04);
+  transition: box-shadow .15s ease, transform .15s ease;
+}
+.step-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
+  transform: translateY(-1px);
+}
+.step-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: #fff7ed;
+  border: 1.5px solid #fed7aa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.step-card-tag {
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+.step-card-body { padding-top: 2px; }
+.step-card-num-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.step-card-num {
+  font-size: 13px;
+  font-weight: 700;
+  color: #F7931A;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.step-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+.step-card-desc {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.7;
+}
+
+/* Flow diagram */
+.hiw-flow-card {
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 28px 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .04);
+}
+.hiw-flow-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.hiw-flow-arrow {
+  flex: 1;
+  text-align: center;
+  font-size: 20px;
+  color: #F7931A;
+  font-weight: 700;
+}
+.hiw-flow-item {
+  flex: 2;
+  border-radius: 12px;
+  padding: 14px 16px;
+  text-align: center;
+}
+.hiw-flow-item-label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.hiw-flow-item-sub {
+  font-size: 11px;
+  line-height: 1.4;
+}
+.hiw-flow-note {
+  margin-top: 20px;
+  padding: 12px 16px;
+  background: #fff7ed;
+  border: 1.5px solid #fed7aa;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #92400e;
+  text-align: center;
+}
+
+/* Get started box */
+.hiw-get-started {
+  background: #F7931A;
+  border-radius: 16px;
+  padding: 28px 24px;
+  margin-bottom: 48px;
+  color: white;
+}
+.hiw-get-started-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  opacity: .8;
+  margin-bottom: 8px;
+}
+.hiw-get-started-h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.hiw-get-started-p {
+  font-size: 14px;
+  opacity: .9;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.hiw-wallet-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.hiw-wallet-link {
+  background: rgba(255, 255, 255, .15);
+  border: 1px solid rgba(255, 255, 255, .25);
+  border-radius: 10px;
+  padding: 10px 14px;
+  text-decoration: none;
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: background .13s ease;
+}
+.hiw-wallet-link-sub {
+  font-size: 11px;
+  opacity: .75;
+}
+
+/* FAQ */
+.hiw-faq-label { margin-bottom: 8px; }
+.hiw-faq-card {
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 8px 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .04);
+}
+.faq-item { border-bottom: 1px solid #f3f4f6; }
+.faq-btn {
+  width: 100%;
+  text-align: left;
+  padding: 18px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+  gap: 16px;
+}
+.faq-btn:hover { color: #F7931A; }
+.faq-answer {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.7;
+  padding-bottom: 18px;
+}
+.faq-chevron {
+  font-size: 18px;
+  color: #9ca3af;
+  transition: transform .2s ease;
+  flex-shrink: 0;
+}
+.faq-chevron.open { transform: rotate(180deg); }
+
+/* New to Bitcoin CTA */
+.hiw-learn-cta {
+  margin-top: 40px;
+  padding: 20px 24px;
+  background: #fff7ed;
+  border: 1.5px solid #fed7aa;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.hiw-learn-cta-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #92400e;
+  margin-bottom: 3px;
+}
+.hiw-learn-cta-sub {
+  font-size: 13px;
+  color: #9ca3af;
+  line-height: 1.5;
+}
+.hiw-learn-cta-btn {
+  padding: 10px 20px;
+  background: #F7931A;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Footer */
+.hiw-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px;
+  font-size: 11px;
+  color: #d1d5db;
+  letter-spacing: .06em;
+}

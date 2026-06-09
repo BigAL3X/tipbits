@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { QRCodeSVG, QRCodeCanvas } from "qrcode.react";
 import { useNavigate } from "react-router-dom";
+import "./global.css";
+import "./TipPage.css";
 
 const CURRENCIES = [
   { code: "SATS", symbol: "⚡", label: "Sats" },
@@ -71,23 +73,23 @@ function LightningRain({ active, onDone }) {
     return () => { if (animRef.current) cancelAnimationFrame(animRef.current); };
   }, [active]);
   if (!active) return null;
-  return <canvas ref={canvasRef} style={{ position:"absolute", inset:0, width:"100%", height:"100%", pointerEvents:"none", zIndex:10, borderRadius:16 }} />;
+  return <canvas ref={canvasRef} className="tj-lightning-canvas" />;
 }
 
 function PaidScreen({ satsAmount, memo, onReset }) {
   const [show, setShow] = useState(false);
   useEffect(() => { setTimeout(() => setShow(true), 50); }, []);
   return (
-    <div style={{ textAlign:"center", padding:"12px 0" }}>
-      <div style={{ opacity:show?1:0, transform:show?"scale(1)":"scale(0.7)", transition:"opacity .5s cubic-bezier(.34,1.56,.64,1),transform .5s cubic-bezier(.34,1.56,.64,1)" }}>
-        <div style={{ width:80, height:80, borderRadius:"50%", background:"linear-gradient(135deg,#10b981,#059669)", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 20px", fontSize:38, boxShadow:"0 8px 32px rgba(16,185,129,.35)" }}>⚡</div>
-        <div style={{ fontSize:22, fontWeight:700, color:"#111827", marginBottom:6 }}>Sats received!</div>
-        <div style={{ fontSize:15, color:"#6b7280", marginBottom:20 }}>{satsAmount.toLocaleString()} sats landed peer-to-peer</div>
-        {memo && <div style={{ display:"inline-block", padding:"8px 16px", background:"#f9fafb", border:"1.5px solid #e5e7eb", borderRadius:10, fontSize:13, color:"#6b7280", fontStyle:"italic", marginBottom:20 }}>"{memo}"</div>}
-        <div style={{ padding:"14px 18px", background:"#f0fdf4", border:"1.5px solid #bbf7d0", borderRadius:12, fontSize:13, color:"#065f46", lineHeight:1.6, marginBottom:20 }}>
+    <div className="tj-paid-root">
+      <div className={`tj-paid-anim ${show ? "tj-paid-anim--shown" : "tj-paid-anim--hidden"}`}>
+        <div className="tj-paid-icon">⚡</div>
+        <div className="tj-paid-title">Sats received!</div>
+        <div className="tj-paid-subtitle">{satsAmount.toLocaleString()} sats landed peer-to-peer</div>
+        {memo && <div className="tj-paid-memo">"{memo}"</div>}
+        <div className="tj-paid-note">
           Payment routed over the Lightning Network.<br />Non-custodial. No middleman. Peer-to-peer.
         </div>
-        <button className="btn-primary" onClick={onReset} style={{ background:"#111827", boxShadow:"none" }}>Send another tip</button>
+        <button className="btn-primary btn-primary--dark" onClick={onReset}>Send another tip</button>
       </div>
     </div>
   );
@@ -313,101 +315,43 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
 
   const presets = PRESETS[currency];
 
-  return (
-    <div style={{ minHeight:"100vh", background:"linear-gradient(135deg,#fff7ed 0%,#ffffff 50%,#fff7ed 100%)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", fontFamily:"'IBM Plex Sans',system-ui,sans-serif", padding:"24px 16px", position:"relative", overflow:"hidden" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-        .tj-wrap{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
-        .tj-wrap.in{opacity:1;transform:translateY(0);}
-        .cur-btn{flex:1;padding:9px 4px;background:white;border:1.5px solid #e5e7eb;color:#9ca3af;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border-radius:8px;transition:all .14s ease;letter-spacing:.03em;}
-        .cur-btn:hover{border-color:#F7931A;color:#F7931A;background:#fff7ed;}
-        .cur-btn.active{background:#F7931A;border-color:#F7931A;color:white;font-weight:600;}
-        .preset-btn{flex:1;padding:10px 4px;background:white;border:1.5px solid #e5e7eb;color:#6b7280;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;border-radius:8px;transition:all .14s ease;}
-        .preset-btn:hover{border-color:#F7931A;color:#F7931A;background:#fff7ed;}
-        .preset-btn.active{border-color:#F7931A;color:#F7931A;background:#fff7ed;font-weight:500;}
-        .tj-input{width:100%;background:white;border:1.5px solid #e5e7eb;color:#111827;padding:12px 14px;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;outline:none;transition:border-color .15s ease,box-shadow .15s ease;}
-        .tj-input:focus{border-color:#F7931A;box-shadow:0 0 0 3px rgba(247,147,26,.12);}
-        .tj-input::placeholder{color:#d1d5db;}
-        .tj-input::-webkit-outer-spin-button,.tj-input::-webkit-inner-spin-button{-webkit-appearance:none;}
-        .tj-label{font-size:11px;color:#9ca3af;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;display:block;font-weight:500;}
-        .btn-primary{width:100%;padding:15px;background:#F7931A;color:white;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;letter-spacing:.01em;transition:all .15s ease;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(247,147,26,.35);}
-        .btn-primary:hover:not(:disabled){background:#e8840f;box-shadow:0 6px 20px rgba(247,147,26,.45);transform:translateY(-1px);}
-        .btn-primary:active:not(:disabled){transform:translateY(0);}
-        .btn-primary:disabled{opacity:.55;cursor:not-allowed;box-shadow:none;}
-        .btn-ghost{padding:11px 18px;background:white;color:#6b7280;border:1.5px solid #e5e7eb;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .13s ease;}
-        .btn-ghost:hover{border-color:#d1d5db;color:#374151;}
-        .btn-copy{flex:2;padding:11px;background:white;border:1.5px solid #e5e7eb;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .13s ease;color:#6b7280;font-weight:500;}
-        .btn-copy:hover{border-color:#F7931A;color:#F7931A;background:#fff7ed;}
-        .btn-copy.done{border-color:#10b981;color:#10b981;background:#f0fdf4;}
-        .price-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;background:#fff7ed;border:1px solid #fed7aa;font-size:11px;color:#c2410c;font-weight:500;}
-        .conversion-box{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#fff7ed;border:1.5px solid #fed7aa;border-radius:12px;margin-bottom:20px;}
-        .inv-string{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:10px;padding:12px;font-size:11px;color:#9ca3af;line-height:1.7;word-break:break-all;max-height:68px;overflow:hidden;position:relative;font-family:'IBM Plex Mono',monospace;}
-        .inv-string::after{content:'';position:absolute;bottom:0;left:0;right:0;height:24px;background:linear-gradient(transparent,#f9fafb);}
-        .divider{height:1px;background:#f3f4f6;margin:20px 0;}
-        .spin{animation:spin .8s linear infinite;display:inline-block;}
-        @keyframes spin{to{transform:rotate(360deg);}}
-        .live-dot{width:7px;height:7px;border-radius:50%;background:#10b981;display:inline-block;animation:livepulse 2s ease-in-out infinite;}
-        .live-dot.err{background:#ef4444;animation:none;}
-        @keyframes livepulse{0%,100%{opacity:1}50%{opacity:.4}}
-        .pulse-dot{width:8px;height:8px;border-radius:50%;background:#F7931A;display:inline-block;animation:livepulse 1.2s ease-in-out infinite;}
-        .success-ring{animation:ringpop .5s cubic-bezier(.34,1.56,.64,1) forwards;}
-        @keyframes ringpop{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
-        .bg-dots{position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(circle,#f0901820 1px,transparent 1px);background-size:28px 28px;opacity:.5;}
-        .nav-link{font-size:13px;color:#9ca3af;text-decoration:none;font-weight:500;padding:6px 12px;border-radius:8px;transition:all .13s ease;cursor:pointer;background:none;border:none;font-family:'IBM Plex Sans',sans-serif;}
-        .nav-link:hover{color:#F7931A;background:#fff7ed;}
-        .error-box{margin-top:12px;padding:12px 14px;background:#fef2f2;border:1.5px solid #fecaca;border-radius:10px;font-size:13px;color:#b91c1c;line-height:1.5;}
-        .timer-bar-wrap{height:4px;background:#f3f4f6;border-radius:2px;overflow:hidden;margin-bottom:16px;}
-        .timer-bar{height:100%;border-radius:2px;transition:width 1s linear;}
-        .create-cta{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;background:white;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;color:#6b7280;cursor:pointer;transition:all .13s ease;text-decoration:none;font-family:'IBM Plex Sans',sans-serif;font-weight:500;}
-        .create-cta:hover{border-color:#F7931A;color:#F7931A;background:#fff7ed;}
-        .support-link{font-size:11px;color:#d1d5db;text-decoration:none;transition:color .13s ease;font-family:'IBM Plex Sans',sans-serif;}
-        .support-link:hover{color:#F7931A;}
-        .qr-show-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:white;border:1.5px solid #e5e7eb;border-radius:20px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:500;color:#6b7280;cursor:pointer;transition:all .13s ease;letter-spacing:.01em;}
-        .qr-show-btn:hover{border-color:#F7931A;color:#F7931A;background:#fff7ed;}
-        .qr-modal-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.52);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px);}
-        .qr-modal-card{background:white;border-radius:20px;padding:32px 28px;max-width:340px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.18);border:1.5px solid #e5e7eb;position:relative;}
-        .qr-modal-close{position:absolute;top:14px;right:14px;background:none;border:1.5px solid #e5e7eb;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:#9ca3af;font-family:'IBM Plex Sans',sans-serif;transition:all .13s ease;}
-        .qr-modal-close:hover{border-color:#d1d5db;color:#6b7280;}
-        .qr-modal-actions{display:flex;gap:8px;margin-top:4px;}
-        .qr-modal-actions .btn-ghost{flex:1;font-size:12px;padding:9px 10px;}
-      `}</style>
+  // Dynamic timer bar color (computed at runtime)
+  const timerBarColor = timeLeft < 60000 ? "#ef4444" : timeLeft < 180000 ? "#f59e0b" : "#F7931A";
 
+  return (
+    <div className="tj-page-root">
       <div className="bg-dots" />
 
-      <div className={`tj-wrap ${mounted ? "in" : ""}`} style={{ width:"100%", maxWidth:430, position:"relative", zIndex:1 }}>
+      <div className={`tj-wrap ${mounted ? "in" : ""}`}>
 
         {/* Nav */}
-        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:20 }}>
-          <button onClick={() => navigate('/')} style={{ display:"flex", alignItems:"center", gap:8, background:"none", border:"none", cursor:"pointer", padding:0 }}>
+        <div className="tj-nav">
+          <button onClick={() => navigate('/')} className="tj-nav-brand">
             <BitcoinLogo size={28} />
-            <span style={{ fontSize:16, fontWeight:700, color:"#111827", letterSpacing:"-0.02em" }}>TipBits</span>
+            <span className="tj-nav-brand-text">TipBits</span>
           </button>
           <button className="nav-link" onClick={() => navigate('/how')}>How it works</button>
         </div>
 
         {/* Creator header */}
-        <div style={{ textAlign:"center", marginBottom:24 }}>
-          <div style={{ marginBottom:12 }}><BitcoinLogo size={60} /></div>
-          <div style={{ fontSize:28, fontWeight:700, color:"#111827", letterSpacing:"-0.02em", marginBottom:2 }}>
-            {config.creatorName}
-          </div>
-          <div style={{ fontSize:13, color:"#9ca3af", marginBottom:8 }}>{config.creatorHandle}</div>
-          {config.creatorBio && <div style={{ fontSize:14, color:"#6b7280", lineHeight:1.5, marginBottom:6 }}>{config.creatorBio}</div>}
+        <div className="tj-creator-header">
+          <div className="tj-creator-logo"><BitcoinLogo size={60} /></div>
+          <div className="tj-creator-name">{config.creatorName}</div>
+          <div className="tj-creator-handle">{config.creatorHandle}</div>
+          {config.creatorBio && <div className="tj-creator-bio">{config.creatorBio}</div>}
           {config.creatorWebsite && (() => {
             try {
               const p = new URL(config.creatorWebsite);
               if (p.protocol !== 'https:' && p.protocol !== 'http:') return null;
               return (
-                <a href={p.href} target="_blank" rel="noopener noreferrer"
-                  style={{ fontSize:13, color:"#F7931A", textDecoration:"none", fontWeight:500 }}>
+                <a href={p.href} target="_blank" rel="noopener noreferrer" className="tj-creator-website">
                   🔗 {p.href.replace(/^https?:\/\//, '')}
                 </a>
               );
             } catch { return null; }
           })()}
           {btcPrices.GBP && (
-            <div style={{ marginTop:10 }}>
+            <div className="tj-creator-price">
               <span className="price-badge">
                 <span className={`live-dot ${priceError ? "err" : ""}`} />
                 BTC £{btcPrices.GBP?.toLocaleString()}
@@ -415,7 +359,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
             </div>
           )}
           {pageUrl && (
-            <div style={{ marginTop:10 }}>
+            <div className="tj-creator-qr-wrap">
               <button className="qr-show-btn" onClick={() => setShowQR(true)}>
                 ▣ Show QR
               </button>
@@ -424,12 +368,12 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
         </div>
 
         {/* Main card */}
-        <div style={{ background:"white", border:"1.5px solid #e5e7eb", borderRadius:16, padding:"26px 24px", position:"relative", overflow:"hidden", boxShadow:"0 4px 32px rgba(0,0,0,.06),0 1px 4px rgba(0,0,0,.04)" }}>
+        <div className="tj-main-card">
           <LightningRain active={raining} onDone={() => setRaining(false)} />
 
           {step === "choose" && (<>
             <span className="tj-label">Currency</span>
-            <div style={{ display:"flex", gap:6, marginBottom:20 }}>
+            <div className="tj-currency-row">
               {CURRENCIES.map(c => (
                 <button key={c.code} className={`cur-btn ${currency === c.code ? "active" : ""}`}
                   onClick={() => handleCurrencyChange(c.code)}>
@@ -438,7 +382,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
               ))}
             </div>
             <span className="tj-label">Quick amounts</span>
-            <div style={{ display:"flex", gap:6, marginBottom:18 }}>
+            <div className="tj-presets-row">
               {presets.map(p => (
                 <button key={p} className={`preset-btn ${!customInput && amount === p ? "active" : ""}`}
                   onClick={() => { setAmount(p); setCustomInput(""); setError(null); }}>
@@ -447,103 +391,102 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
               ))}
             </div>
             <span className="tj-label">Or enter amount</span>
-            <div style={{ position:"relative", marginBottom:18 }}>
+            <div className="tj-amount-wrap">
               {currency !== "SATS" && (
-                <span style={{ position:"absolute", left:14, top:"50%", transform:"translateY(-50%)", color:"#9ca3af", fontSize:14, pointerEvents:"none" }}>{cur.symbol}</span>
+                <span className="tj-currency-symbol">{cur.symbol}</span>
               )}
-              <input className="tj-input" type="number" placeholder="0" min="0"
+              <input className={`tj-input ${currency !== "SATS" ? "tj-input-indent" : "tj-input-noindent"}`} type="number" placeholder="0" min="0"
                 value={customInput}
-                onChange={e => { setCustomInput(e.target.value); setError(null); }}
-                style={{ paddingLeft: currency !== "SATS" ? 28 : 14 }} />
+                onChange={e => { setCustomInput(e.target.value); setError(null); }} />
             </div>
             <span className="tj-label">Message (optional)</span>
-            <textarea className="tj-input" placeholder="Leave a note..."
+            <textarea className="tj-input tj-memo" placeholder="Leave a note..."
               value={memo} onChange={e => setMemo(e.target.value)}
-              maxLength={144} rows={2} style={{ resize:"none", marginBottom:20, lineHeight:1.6 }} />
+              maxLength={144} rows={2} />
             <div className="conversion-box">
               <div>
-                <div style={{ fontSize:11, color:"#9ca3af", marginBottom:3, textTransform:"uppercase", letterSpacing:"0.06em" }}>You're sending</div>
-                {currency !== "SATS" && <div style={{ fontSize:12, color:"#6b7280" }}>{cur.symbol}{(parseFloat(inputVal)||0).toFixed(2)} {currency}</div>}
-                {currency === "SATS" && fiatEquiv(satsAmount) && <div style={{ fontSize:12, color:"#6b7280" }}>{fiatEquiv(satsAmount)}</div>}
+                <div className="tj-sending-label">You're sending</div>
+                {currency !== "SATS" && <div className="tj-sending-fiat">{cur.symbol}{(parseFloat(inputVal)||0).toFixed(2)} {currency}</div>}
+                {currency === "SATS" && fiatEquiv(satsAmount) && <div className="tj-sending-fiat">{fiatEquiv(satsAmount)}</div>}
               </div>
-              <div style={{ textAlign:"right" }}>
-                <div style={{ fontSize:26, fontWeight:700, color:satsAmount>0?"#F7931A":"#d1d5db", fontFamily:"'IBM Plex Mono',monospace", lineHeight:1 }}>
+              <div>
+                <div className={`tj-sats-amount ${satsAmount > 0 ? "tj-sats-amount--active" : "tj-sats-amount--zero"}`}>
                   {satsAmount > 0 ? satsAmount.toLocaleString() : "0"}
                 </div>
-                <div style={{ fontSize:11, color:"#9ca3af", letterSpacing:"0.06em" }}>SATS</div>
+                <div className="tj-sats-unit">SATS</div>
               </div>
             </div>
             <button className="btn-primary" onClick={generateInvoice} disabled={loading || !satsAmount || satsAmount < 1}>
               {loading ? <><span className="spin">⚡</span> Generating invoice...</> : <>⚡ Generate Lightning Invoice</>}
             </button>
             {error && <div className="error-box">{error}</div>}
-            <div style={{ marginTop:12, fontSize:11, color:"#9ca3af", textAlign:"center", lineHeight:1.6 }}>
+            <div className="tj-disclaimer">
               TipBits is in early access. Payments go peer-to-peer directly to the creator's wallet — we never hold funds. If you're new here, consider sending a small amount first to confirm everything works as expected.
             </div>
           </>)}
 
           {step === "invoice" && (<>
-            <div style={{ textAlign:"center" }} className="success-ring">
-              <span className="tj-label" style={{ marginBottom:12, display:"block" }}>Scan to pay</span>
-              <div style={{ display:"inline-flex", padding:10, background:"white", border:"1.5px solid #e5e7eb", borderRadius:12, marginBottom:14, boxShadow:"0 2px 12px rgba(0,0,0,.06)" }}>
+            <div className="tj-invoice-center success-ring">
+              <span className="tj-label" style={{ marginBottom: 12, display: "block" }}>Scan to pay</span>
+              <div className="tj-qr-box">
                 <QRCodeSVG value={invoice.toUpperCase()} size={200} bgColor="#ffffff" fgColor="#1a1a1a" level="M" />
               </div>
-              <div style={{ display:"flex", alignItems:"baseline", justifyContent:"center", gap:6, marginBottom:4 }}>
-                <span style={{ fontSize:30, fontWeight:700, color:"#F7931A", fontFamily:"'IBM Plex Mono',monospace" }}>{satsAmount.toLocaleString()}</span>
-                <span style={{ fontSize:13, color:"#9ca3af" }}>sats</span>
+              <div className="tj-sats-big">
+                <span className="tj-sats-big-num">{satsAmount.toLocaleString()}</span>
+                <span className="tj-sats-big-unit">sats</span>
               </div>
-              {currency !== "SATS" && <div style={{ fontSize:13, color:"#6b7280", marginBottom:3 }}>{cur.symbol}{parseFloat(inputVal).toFixed(2)} {currency}</div>}
-              {currency === "SATS" && fiatEquiv(satsAmount) && <div style={{ fontSize:13, color:"#6b7280", marginBottom:3 }}>{fiatEquiv(satsAmount)}</div>}
-              {memo && <div style={{ fontSize:13, color:"#9ca3af", fontStyle:"italic", marginTop:4 }}>"{memo}"</div>}
+              {currency !== "SATS" && <div className="tj-invoice-fiat">{cur.symbol}{parseFloat(inputVal).toFixed(2)} {currency}</div>}
+              {currency === "SATS" && fiatEquiv(satsAmount) && <div className="tj-invoice-fiat">{fiatEquiv(satsAmount)}</div>}
+              {memo && <div className="tj-invoice-memo">"{memo}"</div>}
             </div>
             {timeLeft !== null && (
-              <div style={{ marginTop:16 }}>
+              <div className="tj-timer-wrap">
                 <div className="timer-bar-wrap">
-                  <div className="timer-bar" style={{ width:`${(timeLeft/INVOICE_EXPIRY_MS)*100}%`, background:timeLeft<60000?"#ef4444":timeLeft<180000?"#f59e0b":"#F7931A" }} />
+                  <div className="timer-bar" style={{ width: `${(timeLeft/INVOICE_EXPIRY_MS)*100}%`, background: timerBarColor }} />
                 </div>
-                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", fontSize:11, color:"#9ca3af" }}>
-                  <span style={{ display:"flex", alignItems:"center", gap:5 }}>
+                <div className="tj-timer-row">
+                  <span className="tj-timer-status">
                     <span className="pulse-dot" />
                     {canVerify ? "Watching for payment..." : "Scan or tap to pay"}
                   </span>
-                  <span style={{ fontFamily:"'IBM Plex Mono',monospace" }}>{fmtTimeLeft(timeLeft)} remaining</span>
+                  <span className="tj-timer-countdown">{fmtTimeLeft(timeLeft)} remaining</span>
                 </div>
               </div>
             )}
             {!canVerify && (
-              <button className="btn-primary" style={{ marginTop:16, background:"#10b981", boxShadow:"0 4px 16px rgba(16,185,129,.3)" }} onClick={() => setStep("paid")}>
+              <button className="btn-primary btn-primary--green" onClick={() => setStep("paid")}>
                 ✓ I've paid
               </button>
             )}
             <div className="divider" />
             <span className="tj-label">Payment request</span>
             <div className="inv-string">{invoice}</div>
-            <div style={{ display:"flex", gap:8, marginTop:12 }}>
+            <div className="tj-invoice-actions">
               <button className="btn-ghost" onClick={goBack}>← Back</button>
-              <button className={`btn-copy ${copied?"done":""}`} onClick={copyInvoice}>{copied?"✓ Copied!":"Copy Invoice"}</button>
+              <button className={`btn-copy ${copied ? "done" : ""}`} onClick={copyInvoice}>{copied ? "✓ Copied!" : "Copy Invoice"}</button>
             </div>
           </>)}
 
           {step === "paid" && <PaidScreen satsAmount={satsAmount} memo={memo} onReset={reset} />}
 
           {step === "expired" && (
-            <div style={{ textAlign:"center", padding:"12px 0" }}>
-              <div style={{ fontSize:40, marginBottom:16 }}>⏱</div>
-              <div style={{ fontSize:18, fontWeight:700, color:"#111827", marginBottom:8 }}>Invoice expired</div>
-              <div style={{ fontSize:14, color:"#6b7280", marginBottom:24, lineHeight:1.6 }}>Lightning invoices expire after 10 minutes.<br />Generate a new one to try again.</div>
+            <div className="tj-expired-root">
+              <div className="tj-expired-icon">⏱</div>
+              <div className="tj-expired-title">Invoice expired</div>
+              <div className="tj-expired-body">Lightning invoices expire after 10 minutes.<br />Generate a new one to try again.</div>
               <button className="btn-primary" onClick={reset}>Generate new invoice</button>
             </div>
           )}
         </div>
 
         {/* CTA / footer area */}
-        <div style={{ marginTop:16, display:"flex", flexDirection:"column", gap:10, alignItems:"center" }}>
+        <div className="tj-footer">
           {showCreateCTA && (
             <button className="create-cta" onClick={() => navigate('/register')}>
               ⚡ Get your own sovereign tip page →
             </button>
           )}
-          <div style={{ display:"flex", alignItems:"center", gap:10, fontSize:11, color:"#d1d5db", letterSpacing:"0.06em", flexWrap:"wrap", justifyContent:"center" }}>
+          <div className="tj-footer-meta">
             <span>⚡ LIGHTNING NETWORK</span>
             <span>·</span>
             <span>NON-CUSTODIAL</span>
@@ -555,10 +498,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
             )}
           </div>
           {showSupportLink && (
-            <button
-              onClick={() => navigate('/register')}
-              style={{ background:"none", border:"none", color:"#F7931A", fontSize:12, fontWeight:600, cursor:"pointer", fontFamily:"'IBM Plex Sans',sans-serif", padding:"4px 8px", letterSpacing:".01em" }}
-            >
+            <button className="tj-get-page-btn" onClick={() => navigate('/register')}>
               ⚡ Get your own tip page →
             </button>
           )}
@@ -570,14 +510,14 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
           <div className="qr-modal-card" onClick={e => e.stopPropagation()}>
             <button className="qr-modal-close" onClick={() => setShowQR(false)}>✕</button>
 
-            <div style={{ fontSize:11, color:"#9ca3af", letterSpacing:".08em", textTransform:"uppercase", fontWeight:500, marginBottom:4 }}>Share this page</div>
-            <div style={{ fontSize:16, fontWeight:700, color:"#111827", marginBottom:20 }}>{config.creatorName}</div>
+            <div className="qr-modal-label">Share this page</div>
+            <div className="qr-modal-creator-name">{config.creatorName}</div>
 
-            <div style={{ display:"inline-flex", padding:12, background:"white", border:"1.5px solid #e5e7eb", borderRadius:16, marginBottom:14, boxShadow:"0 2px 16px rgba(0,0,0,.06)" }}>
+            <div className="qr-modal-qr-box">
               <QRCodeSVG value={pageUrl} size={220} bgColor="#ffffff" fgColor="#1a1a1a" level="H" />
             </div>
 
-            <div style={{ fontSize:12, color:"#9ca3af", fontFamily:"'IBM Plex Mono',monospace", marginBottom:22, wordBreak:"break-all", lineHeight:1.5 }}>{pageUrl}</div>
+            <div className="qr-modal-url">{pageUrl}</div>
 
             <div className="qr-modal-actions">
               <button className="btn-ghost" onClick={downloadQR}>↓ Download PNG</button>
@@ -585,7 +525,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
             </div>
 
             {/* Hidden 512px canvas for download and print */}
-            <div style={{ position:"absolute", left:"-9999px", top:0 }}>
+            <div className="qr-modal-hidden-canvas">
               <QRCodeCanvas ref={qrCanvasRef} value={pageUrl} size={512} bgColor="#ffffff" fgColor="#1a1a1a" level="H" />
             </div>
           </div>

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./global.css";
+import "./Admin.css";
 
 function BitcoinLogo({ size = 28 }) {
   return (
@@ -20,9 +22,9 @@ const EVENT_COLORS = {
 
 function StatCard({ label, value, color, bg }) {
   return (
-    <div style={{ background: bg, border: `1.5px solid ${color}30`, borderRadius: 12, padding: "16px 20px", flex: 1, minWidth: 120 }}>
-      <div style={{ fontSize: 11, fontWeight: 600, color, textTransform: "uppercase", letterSpacing: ".07em", marginBottom: 6 }}>{label}</div>
-      <div style={{ fontSize: 32, fontWeight: 700, color: "#111827", fontFamily: "'IBM Plex Mono', monospace" }}>{value.toLocaleString()}</div>
+    <div className="adm-stat-card" style={{ background: bg, border: `1.5px solid ${color}30` }}>
+      <div className="adm-stat-label" style={{ color }}>{label}</div>
+      <div className="adm-stat-value">{value.toLocaleString()}</div>
     </div>
   );
 }
@@ -33,14 +35,12 @@ function MiniBar({ date, counts, maxTotal }) {
   const label = date.slice(5); // MM-DD
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, flex: 1, minWidth: 0 }}>
-      <div style={{ fontSize: 11, color: "#9ca3af", fontFamily: "'IBM Plex Mono',monospace" }}>{total || ""}</div>
-      <div style={{ width: "100%", height: 80, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
-        <div style={{ width: "70%", height: barH, background: total > 0 ? "#F7931A" : "#f3f4f6", borderRadius: 3, transition: "height .3s ease" }} />
+    <div className="adm-minibar">
+      <div className="adm-minibar-count">{total || ""}</div>
+      <div className="adm-minibar-track">
+        <div className="adm-minibar-bar" style={{ height: barH, background: total > 0 ? "#F7931A" : "#f3f4f6" }} />
       </div>
-      <div style={{ fontSize: 9, color: "#9ca3af", fontFamily: "'IBM Plex Mono',monospace", transform: "rotate(-45deg)", whiteSpace: "nowrap", marginTop: 4 }}>
-        {label}
-      </div>
+      <div className="adm-minibar-label">{label}</div>
     </div>
   );
 }
@@ -123,52 +123,33 @@ export default function Admin() {
   })() : null;
 
   return (
-    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg,#fff7ed 0%,#ffffff 50%,#fff7ed 100%)", fontFamily: "'IBM Plex Sans',system-ui,sans-serif", padding: "24px 16px 64px" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-        .adm-wrap{max-width:720px;margin:0 auto;}
-        .adm-input{width:100%;background:white;border:1.5px solid #e5e7eb;color:#111827;padding:12px 14px;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;outline:none;transition:border-color .15s ease;}
-        .adm-input:focus{border-color:#F7931A;box-shadow:0 0 0 3px rgba(247,147,26,.12);}
-        .adm-btn{padding:13px 24px;background:#F7931A;color:white;border:none;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s ease;}
-        .adm-btn:hover:not(:disabled){background:#e8840f;}
-        .adm-btn:disabled{opacity:.5;cursor:not-allowed;}
-        .day-btn{padding:6px 14px;border:1.5px solid #e5e7eb;border-radius:8px;background:white;color:#6b7280;font-family:'IBM Plex Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .13s ease;}
-        .day-btn.active{border-color:#F7931A;color:#F7931A;background:#fff7ed;font-weight:600;}
-        .spin{animation:spin .8s linear infinite;display:inline-block;}
-        @keyframes spin{to{transform:rotate(360deg);}}
-      `}</style>
-
+    <div className="page-root">
       <div className="adm-wrap">
         {/* Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 0 32px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} onClick={() => navigate('/')}>
+        <div className="adm-header">
+          <div className="adm-header-brand" onClick={() => navigate('/')}>
             <BitcoinLogo size={28} />
-            <span style={{ fontSize: 16, fontWeight: 700, color: "#111827", letterSpacing: "-0.02em" }}>TipBits</span>
-            <span style={{ fontSize: 12, color: "#9ca3af", marginLeft: 4 }}>/ admin</span>
+            <span className="adm-header-brand-text">TipBits</span>
+            <span className="adm-header-brand-sub">/ admin</span>
           </div>
-          <button onClick={() => navigate('/')} style={{ background: "none", border: "none", color: "#9ca3af", fontSize: 13, cursor: "pointer", fontFamily: "'IBM Plex Sans',sans-serif", padding: "6px 12px" }}>
+          <button onClick={() => navigate('/')} className="adm-back-btn">
             ← Back to site
           </button>
         </div>
 
         {!authed ? (
           /* Login gate */
-          <div style={{ maxWidth: 400, margin: "0 auto", marginTop: 40 }}>
-            <div style={{ textAlign: "center", marginBottom: 32 }}>
-              <div style={{ fontSize: 40, marginBottom: 12 }}>🔒</div>
-              <h1 style={{ fontSize: 24, fontWeight: 700, color: "#111827", marginBottom: 8 }}>Admin Dashboard</h1>
-              <p style={{ fontSize: 14, color: "#6b7280" }}>Private analytics for TipBits</p>
+          <div className="adm-login-wrap">
+            <div className="adm-login-hero">
+              <div className="adm-login-icon">🔒</div>
+              <h1 className="adm-login-h1">Admin Dashboard</h1>
+              <p className="adm-login-sub">Private analytics for TipBits</p>
             </div>
-            <form onSubmit={handleLogin} style={{ background: "white", border: "1.5px solid #e5e7eb", borderRadius: 16, padding: "28px 24px", boxShadow: "0 4px 24px rgba(0,0,0,.06)" }}>
+            <form onSubmit={handleLogin} className="adm-login-form">
               {authError && (
-                <div style={{ padding: "10px 14px", background: "#fef2f2", border: "1.5px solid #fecaca", borderRadius: 8, fontSize: 13, color: "#b91c1c", marginBottom: 16 }}>
-                  {authError}
-                </div>
+                <div className="adm-login-error">{authError}</div>
               )}
-              <label style={{ fontSize: 11, color: "#9ca3af", letterSpacing: ".08em", textTransform: "uppercase", fontWeight: 600, display: "block", marginBottom: 8 }}>
-                Admin Password
-              </label>
+              <label className="adm-login-label">Admin Password</label>
               <input
                 className="adm-input"
                 type="password"
@@ -177,17 +158,19 @@ export default function Admin() {
                 onChange={e => setPassword(e.target.value)}
                 autoFocus
               />
-              <button type="submit" className="adm-btn" disabled={loading || !password.trim()} style={{ width: "100%", marginTop: 16 }}>
-                {loading ? <span className="spin">⚡</span> : "⚡ View Analytics"}
-              </button>
+              <div className="adm-login-btn-wrap">
+                <button type="submit" className="adm-btn" disabled={loading || !password.trim()} style={{ width: "100%" }}>
+                  {loading ? <span className="spin">⚡</span> : "⚡ View Analytics"}
+                </button>
+              </div>
             </form>
           </div>
         ) : (
           /* Dashboard */
           <>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
-              <h1 style={{ fontSize: 22, fontWeight: 700, color: "#111827" }}>Analytics Dashboard</h1>
-              <div style={{ display: "flex", gap: 8 }}>
+            <div className="adm-dash-header">
+              <h1 className="adm-dash-h1">Analytics Dashboard</h1>
+              <div className="adm-day-btns">
                 {[7, 14, 30].map(d => (
                   <button key={d} className={`day-btn ${days === d ? "active" : ""}`} onClick={() => setDays(d)}>
                     {d}d
@@ -197,21 +180,19 @@ export default function Admin() {
             </div>
 
             {loading && (
-              <div style={{ textAlign: "center", padding: "40px 0", color: "#9ca3af" }}>
-                <span className="spin" style={{ fontSize: 28 }}>⚡</span>
+              <div className="adm-loading">
+                <span className="spin adm-loading-icon">⚡</span>
               </div>
             )}
 
             {error && (
-              <div style={{ padding: "12px 16px", background: "#fef2f2", border: "1.5px solid #fecaca", borderRadius: 10, fontSize: 13, color: "#b91c1c", marginBottom: 20 }}>
-                {error}
-              </div>
+              <div className="adm-error">{error}</div>
             )}
 
             {aggregated && !loading && (
               <>
                 {/* Stat cards */}
-                <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 28 }}>
+                <div className="adm-stat-cards">
                   {Object.entries(EVENT_COLORS).map(([type, meta]) => (
                     <StatCard
                       key={type}
@@ -224,35 +205,35 @@ export default function Admin() {
                 </div>
 
                 {/* Bar chart */}
-                <div style={{ background: "white", border: "1.5px solid #e5e7eb", borderRadius: 16, padding: "24px", marginBottom: 24, boxShadow: "0 2px 12px rgba(0,0,0,.04)" }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 20 }}>Daily activity — last {days} days</div>
-                  <div style={{ display: "flex", gap: 4, alignItems: "flex-end", overflowX: "auto", paddingBottom: 24 }}>
+                <div className="adm-chart-card">
+                  <div className="adm-chart-title">Daily activity — last {days} days</div>
+                  <div className="adm-chart-bars">
                     {aggregated.byDay.map(({ date, counts }) => (
                       <MiniBar key={date} date={date} counts={counts} maxTotal={aggregated.maxTotal} />
                     ))}
                   </div>
-                  <div style={{ fontSize: 11, color: "#9ca3af", textAlign: "center", marginTop: 8 }}>
+                  <div className="adm-chart-footer">
                     ⚡ each bar = total events that day
                   </div>
                 </div>
 
                 {/* Top pages */}
                 {aggregated.topPages.length > 0 && (
-                  <div style={{ background: "white", border: "1.5px solid #e5e7eb", borderRadius: 16, padding: "24px", marginBottom: 24, boxShadow: "0 2px 12px rgba(0,0,0,.04)" }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 16 }}>Top pages by views</div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+                  <div className="adm-top-pages-card">
+                    <div className="adm-top-pages-title">Top pages by views</div>
+                    <div className="adm-top-pages-list">
                       {aggregated.topPages.map(([username, count], i) => {
                         const pct = Math.round((count / aggregated.topPages[0][1]) * 100);
                         return (
-                          <div key={username} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: i < aggregated.topPages.length - 1 ? "1px solid #f3f4f6" : "none" }}>
-                            <span style={{ fontSize: 11, color: "#9ca3af", width: 16, textAlign: "right", fontFamily: "'IBM Plex Mono',monospace" }}>{i + 1}</span>
-                            <a href={`/u/${username}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, fontWeight: 500, color: "#F7931A", textDecoration: "none", fontFamily: "'IBM Plex Mono',monospace", flex: 1 }}>
+                          <div key={username} className="adm-top-pages-row" style={{ borderBottom: i < aggregated.topPages.length - 1 ? "1px solid #f3f4f6" : "none" }}>
+                            <span className="adm-top-pages-num">{i + 1}</span>
+                            <a href={`/u/${username}`} target="_blank" rel="noopener noreferrer" className="adm-top-pages-link">
                               /u/{username}
                             </a>
-                            <div style={{ flex: 2, background: "#f3f4f6", borderRadius: 4, height: 6, overflow: "hidden" }}>
-                              <div style={{ width: `${pct}%`, height: "100%", background: "#F7931A", borderRadius: 4 }} />
+                            <div className="adm-top-pages-bar-track">
+                              <div className="adm-top-pages-bar-fill" style={{ width: `${pct}%` }} />
                             </div>
-                            <span style={{ fontSize: 13, fontWeight: 600, color: "#374151", fontFamily: "'IBM Plex Mono',monospace", minWidth: 32, textAlign: "right" }}>{count}</span>
+                            <span className="adm-top-pages-count">{count}</span>
                           </div>
                         );
                       })}
@@ -265,15 +246,15 @@ export default function Admin() {
                   const regs = data.days.flatMap(d => d.events.filter(e => e.type === "registration")).slice(-10).reverse();
                   if (!regs.length) return null;
                   return (
-                    <div style={{ background: "white", border: "1.5px solid #e5e7eb", borderRadius: 16, padding: "24px", boxShadow: "0 2px 12px rgba(0,0,0,.04)" }}>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 16 }}>Recent registrations</div>
-                      <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+                    <div className="adm-regs-card">
+                      <div className="adm-regs-title">Recent registrations</div>
+                      <div className="adm-regs-list">
                         {regs.map((ev, i) => (
-                          <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: i < regs.length - 1 ? "1px solid #f3f4f6" : "none" }}>
-                            <a href={`/u/${ev.username}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, fontWeight: 500, color: "#F7931A", textDecoration: "none", fontFamily: "'IBM Plex Mono',monospace" }}>
+                          <div key={i} className="adm-regs-row" style={{ borderBottom: i < regs.length - 1 ? "1px solid #f3f4f6" : "none" }}>
+                            <a href={`/u/${ev.username}`} target="_blank" rel="noopener noreferrer" className="adm-regs-link">
                               /u/{ev.username}
                             </a>
-                            <span style={{ fontSize: 11, color: "#9ca3af", fontFamily: "'IBM Plex Mono',monospace" }}>
+                            <span className="adm-regs-ts">
                               {new Date(ev.ts).toLocaleString()}
                             </span>
                           </div>
@@ -283,7 +264,7 @@ export default function Admin() {
                   );
                 })()}
 
-                <div style={{ marginTop: 24, textAlign: "center", fontSize: 11, color: "#d1d5db" }}>
+                <div className="adm-footer-note">
                   No IP addresses stored · No tipper data · No payment amounts
                 </div>
               </>

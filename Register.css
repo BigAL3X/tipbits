@@ -1,0 +1,356 @@
+/* Register component styles */
+
+.reg-wrap {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .5s ease, transform .5s ease;
+  max-width: 520px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.reg-wrap.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Nav */
+.reg-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0 32px;
+}
+.reg-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.reg-nav-brand-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+/* Hero */
+.reg-hero { margin-bottom: 32px; }
+.reg-hero-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #F7931A;
+  margin-bottom: 8px;
+}
+.reg-hero-h1 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.reg-hero-p {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.7;
+}
+
+/* Trust badges row */
+.reg-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+/* Form card */
+.reg-card {
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, .06);
+}
+
+/* Input validation states */
+.tj-input.ok { border-color: #10b981; }
+.tj-input.err { border-color: #ef4444; }
+
+/* Hint text */
+.hint {
+  font-size: 12px;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+.hint.ok { color: #059669; }
+.hint.err { color: #dc2626; }
+.hint.checking { color: #9ca3af; }
+
+/* Lightning address hint link */
+.hint a { color: #F7931A; }
+
+/* What we store box */
+.reg-store-box {
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+.reg-store-box-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 10px;
+}
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.5;
+}
+.check-item:last-child { border-bottom: none; }
+.check-item-icon {
+  color: #F7931A;
+  font-size: 12px;
+  margin-top: 1px;
+}
+.check-item-why {
+  color: #9ca3af;
+  font-size: 12px;
+}
+.reg-privacy-note {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #92400e;
+}
+
+/* Register disclaimer */
+.reg-disclaimer {
+  margin-top: 16px;
+  font-size: 11px;
+  color: #9ca3af;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* Secondary button */
+.btn-secondary {
+  width: 100%;
+  padding: 13px;
+  background: white;
+  color: #374151;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-secondary:hover { border-color: #F7931A; color: #F7931A; }
+
+/* Key step */
+.reg-key-hero { margin-bottom: 32px; }
+.reg-key-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #10b981;
+  margin-bottom: 8px;
+}
+.reg-key-h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.reg-key-p {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.7;
+}
+
+/* Page URL box */
+.reg-page-url-box {
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.reg-page-url-label {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.reg-page-url-link {
+  font-size: 15px;
+  font-weight: 600;
+  color: #F7931A;
+  text-decoration: none;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Sovereign key card */
+.reg-key-card {
+  background: white;
+  border: 2px solid #fbbf24;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 24px rgba(251, 191, 36, .15);
+}
+.reg-key-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.reg-key-card-icon { font-size: 20px; }
+.reg-key-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+.reg-key-card-subtitle {
+  font-size: 12px;
+  color: #9ca3af;
+}
+.key-box {
+  background: #0f172a;
+  border-radius: 12px;
+  padding: 20px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: #f1f5f9;
+  word-break: break-all;
+  line-height: 1.8;
+  letter-spacing: .04em;
+  position: relative;
+}
+.reg-key-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.reg-key-copy-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .13s ease;
+}
+.reg-key-copy-btn--normal {
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  color: #374151;
+}
+.reg-key-copy-btn--done {
+  background: #f0fdf4;
+  border: 1.5px solid #10b981;
+  color: #059669;
+}
+
+/* Key explanation */
+.reg-key-explain {
+  margin-top: 20px;
+  padding: 16px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 10px;
+}
+.reg-key-explain-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #92400e;
+  margin-bottom: 8px;
+}
+.reg-key-explain-p {
+  font-size: 13px;
+  color: #78350f;
+  line-height: 1.7;
+}
+.reg-key-explain-p + .reg-key-explain-p { margin-top: 8px; }
+.reg-key-explain-footer {
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #92400e;
+}
+
+/* Confirmation checkbox */
+.reg-confirm-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: white;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: border-color .15s ease;
+}
+.reg-confirm-label--unchecked { border: 1.5px solid #e5e7eb; }
+.reg-confirm-label--checked { border: 1.5px solid #10b981; }
+.reg-confirm-checkbox {
+  margin-top: 2px;
+  accent-color: #10b981;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.reg-confirm-text {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.5;
+}
+
+/* After-register footer */
+.reg-footer-copy {
+  margin-top: 12px;
+}
+.reg-footer-note {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 12px;
+  color: #9ca3af;
+  line-height: 1.6;
+}
+.reg-footer-note a { color: #F7931A; }

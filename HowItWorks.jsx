@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./global.css";
+import "./HowItWorks.css";
 
 function BitcoinLogo({ size = 28 }) {
   return (
@@ -80,42 +82,16 @@ export default function HowItWorks() {
   useEffect(() => { setTimeout(() => setMounted(true), 60); }, []);
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "linear-gradient(135deg, #fff7ed 0%, #ffffff 50%, #fff7ed 100%)",
-      fontFamily: "'IBM Plex Sans', system-ui, sans-serif",
-      padding: "0 16px 64px",
-    }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        .hiw-wrap { opacity:0; transform:translateY(16px); transition:opacity .55s ease,transform .55s ease; max-width:680px; margin:0 auto; }
-        .hiw-wrap.in { opacity:1; transform:translateY(0); }
-        .step-card { background:white; border:1.5px solid #e5e7eb; border-radius:16px; padding:24px; margin-bottom:16px; display:flex; gap:20px; align-items:flex-start; box-shadow:0 2px 12px rgba(0,0,0,.04); transition:box-shadow .15s ease,transform .15s ease; }
-        .step-card:hover { box-shadow:0 4px 20px rgba(0,0,0,.08); transform:translateY(-1px); }
-        .step-icon { width:52px; height:52px; border-radius:14px; background:#fff7ed; border:1.5px solid #fed7aa; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
-        .faq-item { border-bottom:1px solid #f3f4f6; }
-        .faq-btn { width:100%; text-align:left; padding:18px 0; background:none; border:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-family:'IBM Plex Sans',sans-serif; font-size:15px; font-weight:500; color:#111827; gap:16px; }
-        .faq-btn:hover { color:#F7931A; }
-        .faq-answer { font-size:14px; color:#6b7280; line-height:1.7; padding-bottom:18px; }
-        .faq-chevron { font-size:18px; color:#9ca3af; transition:transform .2s ease; flex-shrink:0; }
-        .faq-chevron.open { transform:rotate(180deg); }
-        .trust-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 16px; border-radius:12px; font-size:13px; font-weight:500; }
-        .nav-link { font-size:13px; color:#9ca3af; text-decoration:none; font-weight:500; padding:6px 12px; border-radius:8px; transition:all .13s ease; cursor:pointer; background:none; border:none; font-family:'IBM Plex Sans',sans-serif; }
-        .nav-link:hover { color:#F7931A; background:#fff7ed; }
-        .section-label { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:#F7931A; margin-bottom:8px; }
-        .bg-dots { position:fixed; inset:0; pointer-events:none; background-image:radial-gradient(circle,#f0901820 1px,transparent 1px); background-size:28px 28px; opacity:.5; z-index:0; }
-      `}</style>
-
+    <div className="hiw-page-root">
       <div className="bg-dots" />
 
-      <div className={`hiw-wrap ${mounted ? "in" : ""}`} style={{ position:"relative", zIndex:1 }}>
+      <div className={`hiw-wrap ${mounted ? "in" : ""}`}>
 
         {/* Nav */}
-        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"20px 0 32px" }}>
-          <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+        <div className="hiw-nav">
+          <div className="hiw-nav-brand">
             <BitcoinLogo size={28} />
-            <span style={{ fontSize:16, fontWeight:700, color:"#111827", letterSpacing:"-0.02em" }}>TipBits</span>
+            <span className="hiw-nav-brand-text">TipBits</span>
           </div>
           <button className="nav-link" onClick={() => navigate('/')}>
             ← Back to tip page
@@ -123,56 +99,54 @@ export default function HowItWorks() {
         </div>
 
         {/* Hero */}
-        <div style={{ marginBottom:48 }}>
+        <div className="hiw-hero">
           <div className="section-label">How it works</div>
-          <h1 style={{ fontSize:36, fontWeight:700, color:"#111827", letterSpacing:"-0.03em", lineHeight:1.15, marginBottom:16 }}>
+          <h1 className="hiw-hero-h1">
             Peer-to-peer tips.<br/>No middleman. No custody.
           </h1>
-          <p style={{ fontSize:16, color:"#6b7280", lineHeight:1.7, maxWidth:520 }}>
+          <p className="hiw-hero-p">
             TipBits is a directory and a payment page. It connects tippers to creators using the Lightning Network. Every satoshi goes directly from tipper to creator. TipBits never touches your money.
           </p>
         </div>
 
         {/* Trust badges */}
-        <div style={{ display:"flex", flexWrap:"wrap", gap:10, marginBottom:48 }}>
+        <div className="hiw-trust-badges">
           {[
             { label:"Non-custodial", bg:"#E1F5EE", color:"#0F6E56", icon:"🔒" },
             { label:"No KYC required", bg:"#fff7ed", color:"#c2410c", icon:"🕵️" },
             { label:"Open Lightning standard", bg:"#E6F1FB", color:"#185FA5", icon:"⚡" },
             { label:"Peer-to-peer payments", bg:"#FAEEDA", color:"#854F0B", icon:"↔️" },
           ].map(b => (
-            <span key={b.label} className="trust-badge" style={{ background:b.bg, color:b.color }}>
+            <span key={b.label} className="trust-badge" style={{ background: b.bg, color: b.color }}>
               <span>{b.icon}</span> {b.label}
             </span>
           ))}
         </div>
 
         {/* Steps */}
-        <div className="section-label" style={{ marginBottom:16 }}>The process</div>
+        <div className="section-label hiw-steps-label">The process</div>
         {STEPS.map((s, i) => (
           <div key={i} className="step-card">
             <div>
               <div className="step-icon">{s.icon}</div>
-              <div style={{ marginTop:8, fontSize:11, fontWeight:600, letterSpacing:".06em", color:s.tagColor, background:s.tagBg, display:"inline-block", padding:"3px 8px", borderRadius:6 }}>
+              <div className="step-card-tag" style={{ color: s.tagColor, background: s.tagBg }}>
                 {s.tag}
               </div>
             </div>
-            <div style={{ paddingTop:2 }}>
-              <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:8 }}>
-                <span style={{ fontSize:13, fontWeight:700, color:"#F7931A", fontFamily:"'IBM Plex Mono',monospace" }}>
-                  0{i+1}
-                </span>
-                <h3 style={{ fontSize:16, fontWeight:600, color:"#111827" }}>{s.title}</h3>
+            <div className="step-card-body">
+              <div className="step-card-num-row">
+                <span className="step-card-num">0{i+1}</span>
+                <h3 className="step-card-title">{s.title}</h3>
               </div>
-              <p style={{ fontSize:14, color:"#6b7280", lineHeight:1.7 }}>{s.body}</p>
+              <p className="step-card-desc">{s.body}</p>
             </div>
           </div>
         ))}
 
         {/* Flow diagram */}
-        <div style={{ background:"white", border:"1.5px solid #e5e7eb", borderRadius:16, padding:"28px 24px", marginBottom:16, boxShadow:"0 2px 12px rgba(0,0,0,.04)" }}>
-          <div className="section-label" style={{ marginBottom:20 }}>Money flow</div>
-          <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:8, flexWrap:"wrap" }}>
+        <div className="hiw-flow-card">
+          <div className="section-label" style={{ marginBottom: 20 }}>Money flow</div>
+          <div className="hiw-flow-row">
             {[
               { label:"Tipper", sub:"Scans QR or opens link", color:"#185FA5", bg:"#E6F1FB" },
               null,
@@ -181,50 +155,45 @@ export default function HowItWorks() {
               { label:"Creator wallet", sub:"Sats arrive directly", color:"#0F6E56", bg:"#E1F5EE" },
             ].map((item, i) => {
               if (item === null) return (
-                <div key={i} style={{ flex:1, textAlign:"center", fontSize:20, color:"#F7931A", fontWeight:700 }}>→</div>
+                <div key={i} className="hiw-flow-arrow">→</div>
               );
               return (
-                <div key={i} style={{ flex:2, background:item.bg, borderRadius:12, padding:"14px 16px", textAlign:"center" }}>
-                  <div style={{ fontSize:14, fontWeight:600, color:item.color, marginBottom:4 }}>{item.label}</div>
-                  <div style={{ fontSize:11, color:item.color, opacity:.8, lineHeight:1.4 }}>{item.sub}</div>
+                <div key={i} className="hiw-flow-item" style={{ background: item.bg }}>
+                  <div className="hiw-flow-item-label" style={{ color: item.color }}>{item.label}</div>
+                  <div className="hiw-flow-item-sub" style={{ color: item.color }}>{item.sub}</div>
                 </div>
               );
             })}
           </div>
-          <div style={{ marginTop:20, padding:"12px 16px", background:"#fff7ed", border:"1.5px solid #fed7aa", borderRadius:10, fontSize:13, color:"#92400e", textAlign:"center" }}>
+          <div className="hiw-flow-note">
             TipBits sits outside this flow entirely. It only provides the page where the invoice is generated.
           </div>
         </div>
 
         {/* Getting started box */}
-        <div style={{ background:"#F7931A", borderRadius:16, padding:"28px 24px", marginBottom:48, color:"white" }}>
-          <div style={{ fontSize:11, fontWeight:600, letterSpacing:".1em", textTransform:"uppercase", opacity:.8, marginBottom:8 }}>Get started as a creator</div>
-          <h3 style={{ fontSize:20, fontWeight:700, marginBottom:12, letterSpacing:"-0.01em" }}>You need one thing: a Lightning address</h3>
-          <p style={{ fontSize:14, opacity:.9, lineHeight:1.7, marginBottom:20 }}>
+        <div className="hiw-get-started">
+          <div className="hiw-get-started-eyebrow">Get started as a creator</div>
+          <h3 className="hiw-get-started-h3">You need one thing: a Lightning address</h3>
+          <p className="hiw-get-started-p">
             A Lightning address is a free, permanent address for receiving bitcoin. It looks like an email address. The simplest way to get one is through Alby at getalby.com. Once you have it, registration on TipBits takes under a minute.
           </p>
-          <div style={{ display:"flex", flexWrap:"wrap", gap:12 }}>
+          <div className="hiw-wallet-links">
             {[
               { name:"Alby", url:"https://getalby.com", note:"Recommended for creators" },
               { name:"Wallet of Satoshi", url:"https://walletofsatoshi.com", note:"Easiest mobile option" },
               { name:"Phoenix", url:"https://phoenix.acinq.co", note:"Self-custodial mobile" },
             ].map(w => (
-              <a key={w.name} href={w.url} target="_blank" rel="noopener noreferrer" style={{
-                background:"rgba(255,255,255,.15)", border:"1px solid rgba(255,255,255,.25)",
-                borderRadius:10, padding:"10px 14px", textDecoration:"none", color:"white",
-                fontSize:13, fontWeight:500, display:"flex", flexDirection:"column", gap:2,
-                transition:"background .13s ease",
-              }}>
+              <a key={w.name} href={w.url} target="_blank" rel="noopener noreferrer" className="hiw-wallet-link">
                 <span>{w.name} ↗</span>
-                <span style={{ fontSize:11, opacity:.75 }}>{w.note}</span>
+                <span className="hiw-wallet-link-sub">{w.note}</span>
               </a>
             ))}
           </div>
         </div>
 
         {/* FAQ */}
-        <div className="section-label" style={{ marginBottom:8 }}>Common questions</div>
-        <div style={{ background:"white", border:"1.5px solid #e5e7eb", borderRadius:16, padding:"8px 24px", boxShadow:"0 2px 12px rgba(0,0,0,.04)" }}>
+        <div className="section-label hiw-faq-label">Common questions</div>
+        <div className="hiw-faq-card">
           {FAQS.map((faq, i) => (
             <div key={i} className="faq-item" style={{ borderBottom: i === FAQS.length - 1 ? "none" : undefined }}>
               <button className="faq-btn" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
@@ -239,21 +208,18 @@ export default function HowItWorks() {
         </div>
 
         {/* New to Bitcoin CTA */}
-        <div style={{ marginTop:40, padding:"20px 24px", background:"#fff7ed", border:"1.5px solid #fed7aa", borderRadius:14, display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:12 }}>
+        <div className="hiw-learn-cta">
           <div>
-            <div style={{ fontSize:13, fontWeight:600, color:"#92400e", marginBottom:3 }}>New to Bitcoin?</div>
-            <div style={{ fontSize:13, color:"#9ca3af", lineHeight:1.5 }}>Five short guides — no jargon, no hype.</div>
+            <div className="hiw-learn-cta-title">New to Bitcoin?</div>
+            <div className="hiw-learn-cta-sub">Five short guides — no jargon, no hype.</div>
           </div>
-          <button
-            onClick={() => navigate('/learn')}
-            style={{ padding:"10px 20px", background:"#F7931A", color:"white", border:"none", borderRadius:10, fontFamily:"'IBM Plex Sans',sans-serif", fontSize:13, fontWeight:600, cursor:"pointer", whiteSpace:"nowrap" }}
-          >
+          <button onClick={() => navigate('/learn')} className="hiw-learn-cta-btn">
             Start here →
           </button>
         </div>
 
         {/* Footer */}
-        <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:10, marginTop:40, fontSize:11, color:"#d1d5db", letterSpacing:"0.06em" }}>
+        <div className="hiw-footer">
           <span>⚡ LIGHTNING NETWORK</span>
           <span>·</span>
           <span>NON-CUSTODIAL</span>

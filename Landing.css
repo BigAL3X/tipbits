@@ -1,0 +1,518 @@
+/* Landing component styles */
+
+.land-page-root {
+  min-height: 100vh;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffffff 50%, #fff7ed 100%);
+}
+
+.land-wrap {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .55s ease, transform .55s ease;
+  position: relative;
+  z-index: 1;
+}
+.land-wrap.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Nav */
+.land-nav {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.land-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.land-nav-brand-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+.land-nav-links {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.land-nav-cta {
+  margin-left: 8px;
+  padding: 8px 18px;
+  background: #F7931A;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .13s;
+}
+
+/* Hero section */
+.land-hero {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+  display: flex;
+  align-items: center;
+  gap: 64px;
+  flex-wrap: wrap;
+}
+.land-hero-copy { flex: 1 1 360px; }
+.land-hero-eyebrow { margin-bottom: 16px; }
+.land-hero-h1 {
+  font-size: 52px;
+  font-weight: 900;
+  color: #111827;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+.land-hero-h1-accent { color: #F7931A; }
+.land-hero-p {
+  font-size: 18px;
+  color: #6b7280;
+  line-height: 1.7;
+  margin-bottom: 32px;
+  max-width: 440px;
+}
+.land-hero-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.land-hero-price { margin-top: 24px; }
+
+/* Hero demo card */
+.land-hero-demo {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.land-hero-demo-sub {
+  font-size: 12px;
+  color: #9ca3af;
+  text-align: center;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 32px;
+  background: #F7931A;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: .01em;
+  transition: all .15s ease;
+  box-shadow: 0 4px 20px rgba(247, 147, 26, .4);
+}
+.btn-primary:hover {
+  background: #e8840f;
+  box-shadow: 0 6px 28px rgba(247, 147, 26, .5);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 24px;
+  background: white;
+  color: #374151;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .13s ease;
+  text-decoration: none;
+}
+.btn-ghost:hover { border-color: #F7931A; color: #F7931A; }
+
+.demo-card {
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 28px 24px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, .08);
+  max-width: 400px;
+  width: 100%;
+}
+.demo-card-header { text-align: center; margin-bottom: 20px; }
+.demo-card-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  margin-top: 10px;
+  margin-bottom: 2px;
+}
+.demo-card-handle {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 8px;
+}
+.demo-card-bio {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+.demo-card-currencies {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.demo-card-currency {
+  flex: 1;
+  padding: 7px 4px;
+  border-radius: 8px;
+  font-size: 11px;
+  text-align: center;
+}
+.demo-card-currency--active {
+  background: #F7931A;
+  border: 1.5px solid #F7931A;
+  font-weight: 600;
+  color: white;
+}
+.demo-card-currency--inactive {
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  font-weight: 400;
+  color: #9ca3af;
+}
+.demo-card-presets { display: flex; gap: 6px; margin-bottom: 16px; }
+.demo-card-preset {
+  flex: 1;
+  padding: 8px 2px;
+  border-radius: 8px;
+  font-size: 11px;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.demo-card-preset--active {
+  background: #fff7ed;
+  border: 1.5px solid #F7931A;
+  color: #F7931A;
+}
+.demo-card-preset--inactive {
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  color: #6b7280;
+}
+.demo-card-amount {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #fff7ed;
+  border: 1.5px solid #fed7aa;
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+.demo-card-amount-label {
+  font-size: 11px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.demo-card-amount-value { text-align: right; }
+.demo-card-amount-num {
+  font-size: 24px;
+  font-weight: 700;
+  color: #F7931A;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.demo-card-amount-unit {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-left: 4px;
+}
+.demo-card-cta {
+  width: 100%;
+  padding: 13px;
+  background: #F7931A;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(247, 147, 26, .35);
+}
+
+.price-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  font-size: 11px;
+  color: #c2410c;
+  font-weight: 500;
+}
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  display: inline-block;
+  animation: livepulse 2s ease-in-out infinite;
+}
+@keyframes livepulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+/* Trust strip */
+.land-trust {
+  background: white;
+  border-top: 1px solid #f3f4f6;
+  border-bottom: 1px solid #f3f4f6;
+  padding: 32px 24px;
+}
+.land-trust-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.land-trust-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+.trust-card {
+  border-radius: 14px;
+  padding: 18px 20px;
+}
+.trust-card-icon { font-size: 20px; margin-bottom: 6px; }
+.trust-card-label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.trust-card-sub {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* Steps section */
+.land-steps {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 72px 24px;
+}
+.land-steps-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.land-steps-h2 {
+  font-size: 36px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+.land-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+.step-card {
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .04);
+  transition: box-shadow .15s, transform .15s;
+}
+.step-card:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .09);
+  transform: translateY(-2px);
+}
+.step-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.step-card-icon { font-size: 28px; }
+.step-card-num {
+  font-size: 13px;
+  font-weight: 700;
+  color: #F7931A;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.step-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.step-card-body {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.7;
+}
+.land-steps-cta {
+  text-align: center;
+  margin-top: 48px;
+}
+.land-steps-cta-sub {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #9ca3af;
+}
+.land-steps-cta-btn {
+  font-size: 17px;
+  padding: 18px 40px;
+}
+
+/* Transparency section */
+.land-transparency {
+  background: #0f172a;
+  padding: 64px 24px;
+}
+.land-transparency-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+.land-transparency-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #F7931A;
+  margin-bottom: 12px;
+}
+.land-transparency-h2 {
+  font-size: 30px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+.land-transparency-p {
+  font-size: 15px;
+  color: #94a3b8;
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+.land-transparency-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  text-align: left;
+}
+.land-transparency-item {
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.land-transparency-item-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 4px;
+}
+.land-transparency-item-note {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.5;
+}
+.land-transparency-footer {
+  margin-top: 20px;
+  padding: 14px 20px;
+  background: #1e293b;
+  border-radius: 12px;
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+/* Support section */
+.land-support {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 72px 24px;
+  text-align: center;
+}
+.land-support-icon { font-size: 40px; margin-bottom: 16px; }
+.land-support-h2 {
+  font-size: 30px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+.land-support-p {
+  font-size: 16px;
+  color: #6b7280;
+  line-height: 1.7;
+  margin-bottom: 28px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.land-support-btn { font-size: 16px; padding: 16px 36px; }
+.land-support-sub {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+/* Footer */
+.land-footer {
+  border-top: 1px solid #f3f4f6;
+  padding: 28px 24px;
+}
+.land-footer-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.land-footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.land-footer-brand-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+}
+.land-footer-links {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: #9ca3af;
+}
+.land-footer-meta {
+  font-size: 11px;
+  color: #d1d5db;
+  letter-spacing: .06em;
+}
