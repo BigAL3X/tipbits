@@ -70,6 +70,7 @@ export default function CreatorPage() {
           lightningAddress: creator.lightningAddress,
         }}
         showSupportLink
+        pageUrl={`https://tipbits.xyz/u/${username}`}
       />
       <div style={{ textAlign:"center", paddingBottom:24, marginTop:-8 }}>
         <button

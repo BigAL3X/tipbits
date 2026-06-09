@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { QRCodeSVG } from "qrcode.react";
+import { QRCodeSVG, QRCodeCanvas } from "qrcode.react";
 import { useNavigate } from "react-router-dom";
 
 const CURRENCIES = [
@@ -96,7 +96,7 @@ function PaidScreen({ satsAmount, memo, onReset }) {
 // config: { creatorName, creatorHandle, creatorBio, lightningAddress }
 // showSupportLink: show "Powered by TipBits" footer on creator pages
 // showCreateCTA: show "Get your own page" on home page
-export default function TipPage({ config, showSupportLink = false, showCreateCTA = false }) {
+export default function TipPage({ config, showSupportLink = false, showCreateCTA = false, pageUrl = null }) {
   const navigate = useNavigate();
   const [currency, setCurrency] = useState("SATS");
   const [amount, setAmount] = useState(21000);
@@ -118,6 +118,8 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
   const pollRef = useRef(null);
   const timerRef = useRef(null);
   const expiryRef = useRef(null);
+  const qrCanvasRef = useRef(null);
+  const [showQR, setShowQR] = useState(false);
 
   useEffect(() => { setTimeout(() => setMounted(true), 60); }, []);
 
@@ -257,6 +259,58 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
     setCopied(false); setError(null); setTimeLeft(null); setCanVerify(false);
   };
 
+  const downloadQR = () => {
+    const canvas = qrCanvasRef.current;
+    if (!canvas) return;
+    const url = canvas.toDataURL("image/png");
+    const handle = (config.creatorHandle || "creator").replace(/^@/, "");
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `tipbits-${handle}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  const printQR = () => {
+    const canvas = qrCanvasRef.current;
+    if (!canvas) return;
+    const imgSrc = canvas.toDataURL("image/png");
+    const win = window.open("", "_blank", "width=620,height=780");
+    win.document.write(`<!DOCTYPE html>
+<html>
+<head>
+  <title>TipBits QR — ${config.creatorName}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'IBM Plex Sans',sans-serif;background:white;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:48px 32px;text-align:center;color:#111827;}
+    .logo-wrap{display:flex;align-items:center;gap:10px;margin-bottom:28px;}
+    .brand{font-size:22px;font-weight:700;letter-spacing:-0.02em;}
+    .brand span{color:#F7931A;}
+    .name{font-size:17px;font-weight:600;color:#374151;margin-bottom:24px;}
+    .qr-box{border:2px solid #e5e7eb;border-radius:16px;padding:16px;display:inline-block;margin-bottom:20px;background:white;}
+    .qr-box img{display:block;width:280px;height:280px;}
+    .url{font-family:'IBM Plex Mono',monospace;font-size:13px;color:#6b7280;word-break:break-all;max-width:340px;margin-bottom:28px;}
+    .tagline{font-size:12px;color:#9ca3af;letter-spacing:.04em;}
+    @media print{body{min-height:auto;justify-content:flex-start;padding-top:40px;}}
+  </style>
+</head>
+<body>
+  <div class="logo-wrap">
+    <svg width="38" height="38" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="32" fill="#F7931A"/><path d="M46.6 28.3c.6-4.2-2.6-6.5-7-8l1.4-5.7-3.5-.9-1.4 5.5-2.8-.7 1.4-5.5-3.5-.9-1.4 5.7-2.2-.6-4.8-1.2-.9 3.7s2.6.6 2.5.6c1.4.4 1.6 1.3 1.6 2l-1.6 6.4c.1 0 .2.1.4.1l-.4-.1-2.3 9c-.2.5-.7 1.2-1.8.9.0.1-2.5-.6-2.5-.6L15 42.6l4.5 1.1 2.5.6-1.5 5.8 3.5.9 1.5-5.8 2.8.7-1.4 5.7 3.5.9 1.4-5.7c5.9 1.1 10.3.7 12.2-4.7 1.5-4.3-.1-6.8-3.2-8.4 2.3-.5 4-2 4.4-5.4zm-7.9 11.1c-1.1 4.3-8.4 2-10.8 1.4l1.9-7.7c2.4.6 10.1 1.8 8.9 6.3zm1.1-11.2c-1 4-7.1 1.9-9.1 1.4l1.7-7c2 .5 8.5 1.5 7.4 5.6z" fill="white"/></svg>
+    <div class="brand">Tip<span>Bits</span> ⚡</div>
+  </div>
+  <div class="name">${config.creatorName}</div>
+  <div class="qr-box"><img src="${imgSrc}" alt="QR code for ${pageUrl}" /></div>
+  <div class="url">${pageUrl}</div>
+  <div class="tagline">SCAN TO SEND LIGHTNING TIPS &nbsp;·&nbsp; NON-CUSTODIAL &nbsp;·&nbsp; TIPBITS.XYZ</div>
+  <script>window.onload = function(){ window.print(); }</script>
+</body>
+</html>`);
+    win.document.close();
+  };
+
   const presets = PRESETS[currency];
 
   return (
@@ -309,6 +363,14 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
         .create-cta:hover{border-color:#F7931A;color:#F7931A;background:#fff7ed;}
         .support-link{font-size:11px;color:#d1d5db;text-decoration:none;transition:color .13s ease;font-family:'IBM Plex Sans',sans-serif;}
         .support-link:hover{color:#F7931A;}
+        .qr-show-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:white;border:1.5px solid #e5e7eb;border-radius:20px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:500;color:#6b7280;cursor:pointer;transition:all .13s ease;letter-spacing:.01em;}
+        .qr-show-btn:hover{border-color:#F7931A;color:#F7931A;background:#fff7ed;}
+        .qr-modal-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.52);display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px);}
+        .qr-modal-card{background:white;border-radius:20px;padding:32px 28px;max-width:340px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.18);border:1.5px solid #e5e7eb;position:relative;}
+        .qr-modal-close{position:absolute;top:14px;right:14px;background:none;border:1.5px solid #e5e7eb;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:#9ca3af;font-family:'IBM Plex Sans',sans-serif;transition:all .13s ease;}
+        .qr-modal-close:hover{border-color:#d1d5db;color:#6b7280;}
+        .qr-modal-actions{display:flex;gap:8px;margin-top:4px;}
+        .qr-modal-actions .btn-ghost{flex:1;font-size:12px;padding:9px 10px;}
       `}</style>
 
       <div className="bg-dots" />
@@ -344,6 +406,13 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
                 <span className={`live-dot ${priceError ? "err" : ""}`} />
                 BTC £{btcPrices.GBP?.toLocaleString()}
               </span>
+            </div>
+          )}
+          {pageUrl && (
+            <div style={{ marginTop:10 }}>
+              <button className="qr-show-btn" onClick={() => setShowQR(true)}>
+                ▣ Show QR
+              </button>
             </div>
           )}
         </div>
@@ -489,6 +558,33 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
           )}
         </div>
       </div>
+
+      {showQR && pageUrl && (
+        <div className="qr-modal-overlay" onClick={() => setShowQR(false)}>
+          <div className="qr-modal-card" onClick={e => e.stopPropagation()}>
+            <button className="qr-modal-close" onClick={() => setShowQR(false)}>✕</button>
+
+            <div style={{ fontSize:11, color:"#9ca3af", letterSpacing:".08em", textTransform:"uppercase", fontWeight:500, marginBottom:4 }}>Share this page</div>
+            <div style={{ fontSize:16, fontWeight:700, color:"#111827", marginBottom:20 }}>{config.creatorName}</div>
+
+            <div style={{ display:"inline-flex", padding:12, background:"white", border:"1.5px solid #e5e7eb", borderRadius:16, marginBottom:14, boxShadow:"0 2px 16px rgba(0,0,0,.06)" }}>
+              <QRCodeSVG value={pageUrl} size={220} bgColor="#ffffff" fgColor="#1a1a1a" level="H" />
+            </div>
+
+            <div style={{ fontSize:12, color:"#9ca3af", fontFamily:"'IBM Plex Mono',monospace", marginBottom:22, wordBreak:"break-all", lineHeight:1.5 }}>{pageUrl}</div>
+
+            <div className="qr-modal-actions">
+              <button className="btn-ghost" onClick={downloadQR}>↓ Download PNG</button>
+              <button className="btn-ghost" onClick={printQR}>⎙ Print QR</button>
+            </div>
+
+            {/* Hidden 512px canvas for download and print */}
+            <div style={{ position:"absolute", left:"-9999px", top:0 }}>
+              <QRCodeCanvas ref={qrCanvasRef} value={pageUrl} size={512} bgColor="#ffffff" fgColor="#1a1a1a" level="H" />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
