@@ -228,6 +228,20 @@ ProtonVPN's NetShield (DNS-level ad/tracker blocker) flagged `tipbits.xyz` when 
 
 ---
 
+### Session — 2026-06-10 — NetShield NXDOMAIN root-cause diagnosis
+
+**Goal:** Resolve the ongoing "site fails to load with ProtonVPN + NetShield" issue.
+
+**Findings (no code changes — diagnosis only):**
+- Through Proton's resolver, `dig tipbits.xyz` returns NXDOMAIN with `explanation.invalid TXT "Proton DNSBL/1b"` — Proton's DNS blocklist is blocking the domain itself.
+- Public resolvers (1.1.1.1, 8.8.8.8, 9.9.9.9) all resolve the domain correctly; Netlify nameservers (NS1) are fine.
+- The domain is not on oisd big, Hagezi multi, Hagezi TIF, or Phishing Army blocklists.
+- `whois` shows the domain was registered **2026-06-06** — NetShield blocks newly registered domains (NRD) as an anti-phishing heuristic. This, not the earlier analytics paths and not Netlify DNS, is the cause.
+
+**Resolution path:** wait for the NRD window to expire (~30 days, re-test after 2026-07-06), and/or file a false-positive report with Proton support. Cloudflare DNS migration does not affect this block. See Known remaining work.
+
+---
+
 ## Maintenance note
 
 **This file must be updated at the end of every session.** Add a new entry under Session log covering: goal, commits, files changed, feature behaviour, and any debt introduced or resolved. Update Known remaining work if anything was completed or newly identified. Then push.
@@ -236,5 +250,6 @@ ProtonVPN's NetShield (DNS-level ad/tracker blocker) flagged `tipbits.xyz` when 
 
 ## Known remaining work
 
-- **DNS — Cloudflare migration** — `tipbits.xyz` currently uses Netlify DNS as its nameserver. Some VPN providers (confirmed: ProtonVPN with NetShield on Italy/Romania exit nodes) return `NXDOMAIN` for the domain. Moving DNS management to Cloudflare (free) would permanently fix this. Steps: sign up at cloudflare.com → add `tipbits.xyz` → copy records → update nameservers at GoDaddy → switch Netlify to External DNS mode.
+- **ProtonVPN NetShield NXDOMAIN — root cause identified (2026-06-10): newly-registered-domain block, NOT a Netlify DNS issue.** `dig tipbits.xyz` through Proton's resolver returns NXDOMAIN with an additional record `explanation.invalid TXT "Proton DNSBL/1b"` — Proton's own resolver intercepts the query and blocks it before any nameserver is consulted. The domain was registered 2026-06-06; NetShield blocks newly registered domains (NRD) as an anti-phishing heuristic. Verified the domain is NOT on oisd big, Hagezi multi, Hagezi TIF, or Phishing Army lists. Therefore: (a) migrating DNS to Cloudflare will NOT fix this specific block (still worth doing for general resolver reliability); (b) no code/hosting change can fix it; (c) the block should age out automatically once the domain leaves NRD windows (typically 30 days from registration, ~2026-07-06); (d) a false-positive report can be filed with Proton support (protonvpn.com/support-form) to request early removal. Re-test after 2026-07-06 with NetShield on before investigating further.
+- **DNS — Cloudflare migration** (optional, general reliability — does not fix the NetShield NRD block above). Steps: sign up at cloudflare.com → add `tipbits.xyz` → copy records → update nameservers at GoDaddy → switch Netlify to External DNS mode.
 - **Rate limiting** — no rate limiting exists on any API endpoint. Netlify's rate-limiting addon or a KV-based IP counter should be added to protect against registration spam and brute-force attempts on the Sovereign Key verification endpoints.
