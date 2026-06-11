@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./global.css";
 import "./HowItWorks.css";
+import { IconBolt, IconKey, IconLink, IconTarget } from "./Icons.jsx";
 
 function BitcoinLogo({ size = 28 }) {
   return (
@@ -14,7 +15,7 @@ function BitcoinLogo({ size = 28 }) {
 
 const STEPS = [
   {
-    icon: "🔑",
+    icon: <IconKey size={22} />,
     title: "Creator registers once",
     body: "The creator signs up with a username and pastes their own Lightning address. This is an address they control entirely, from a wallet like Alby, Wallet of Satoshi, or their own node. TipBits stores the username-to-address mapping and nothing else.",
     tag: "For creators",
@@ -22,7 +23,7 @@ const STEPS = [
     tagBg: "#E1F5EE",
   },
   {
-    icon: "🔗",
+    icon: <IconLink size={22} />,
     title: "A link is shared anywhere",
     body: "The creator gets a personal tip page at tipbits.com/username. They drop that link in their X bio, Substack footer, Nostr profile, or anywhere else. A QR code is also available to embed in posts or print.",
     tag: "Shareable",
@@ -30,7 +31,7 @@ const STEPS = [
     tagBg: "#FAEEDA",
   },
   {
-    icon: "⚡",
+    icon: <IconBolt size={22} />,
     title: "Tipper visits and pays",
     body: "The tipper picks an amount in sats, GBP, USD, or EUR. TipBits converts to sats at the live BTC price and generates a Lightning invoice directly from the creator's own Lightning provider. No account needed for the tipper.",
     tag: "For tippers",
@@ -38,7 +39,7 @@ const STEPS = [
     tagBg: "#E6F1FB",
   },
   {
-    icon: "🎯",
+    icon: <IconTarget size={22} />,
     title: "Sats go straight to the creator",
     body: "The payment routes peer-to-peer over the Lightning Network. TipBits never holds the funds, never sees the transaction, and has no access to the creator's wallet. The creator receives sats directly into their own wallet.",
     tag: "Non-custodial",
@@ -112,13 +113,13 @@ export default function HowItWorks() {
         {/* Trust badges */}
         <div className="hiw-trust-badges">
           {[
-            { label:"Non-custodial", bg:"#E1F5EE", color:"#0F6E56", icon:"🔒" },
-            { label:"No KYC required", bg:"#fff7ed", color:"#c2410c", icon:"🕵️" },
-            { label:"Open Lightning standard", bg:"#E6F1FB", color:"#185FA5", icon:"⚡" },
-            { label:"Peer-to-peer payments", bg:"#FAEEDA", color:"#854F0B", icon:"↔️" },
+            { label:"Non-custodial", dot:"#0F6E56" },
+            { label:"No KYC required", dot:"#c2410c" },
+            { label:"Open Lightning standard", dot:"#F7931A" },
+            { label:"Peer-to-peer payments", dot:"#185FA5" },
           ].map(b => (
-            <span key={b.label} className="trust-badge" style={{ '--badge-bg': b.bg, '--badge-color': b.color }}>
-              <span>{b.icon}</span> {b.label}
+            <span key={b.label} className="dot-badge" style={{ '--badge-dot': b.dot }}>
+              {b.label}
             </span>
           ))}
         </div>
@@ -155,7 +156,7 @@ export default function HowItWorks() {
               { label:"Creator wallet", sub:"Sats arrive directly", color:"#0F6E56", bg:"#E1F5EE" },
             ].map((item, i) => {
               if (item === null) return (
-                <div key={i} className="hiw-flow-arrow">→</div>
+                <div key={i} className="hiw-flow-arrow"><span className="hiw-flow-pulse" /></div>
               );
               return (
                 <div key={i} className="hiw-flow-item" style={{ '--flow-bg': item.bg, '--flow-color': item.color }}>
@@ -220,7 +221,7 @@ export default function HowItWorks() {
 
         {/* Footer */}
         <div className="hiw-footer">
-          <span>⚡ LIGHTNING NETWORK</span>
+          <span>LIGHTNING NETWORK</span>
           <span>·</span>
           <span>NON-CUSTODIAL</span>
           <span>·</span>

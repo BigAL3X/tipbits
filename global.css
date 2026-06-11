@@ -1,10 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
+/* Design tokens */
+:root {
+  --navy: #0f172a;
+  --orange: #F7931A;
+  --orange-deep: #e8840f;
+  --ink: #111827;          /* headings */
+  --ink-body: #374151;     /* body text — AAA on warm white */
+  --ink-soft: #4b5563;     /* secondary text */
+  --ink-muted: #6b7280;    /* captions / labels */
+  --green: #15803d;
+  --red: #b91c1c;
+  --radius-lg: 16px;       /* outer parent cards */
+  --radius-md: 12px;       /* nested panels */
+  --radius-sm: 8px;        /* inner buttons / wells */
+  --well-bg: rgba(15, 23, 42, .03);   /* interactive input wells */
+  --focus-glow: 0 0 12px rgba(247, 147, 26, .15);
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
+
+/* Icon defaults */
+.ico { flex-shrink: 0; vertical-align: middle; }
 
 /* Shared background dot pattern */
 .bg-dots {
@@ -44,24 +65,25 @@
   background: #fff7ed;
 }
 
-/* Shared form inputs */
+/* Shared form inputs — subtle interactive wells */
 .tj-input {
   width: 100%;
-  background: white;
+  background: var(--well-bg);
   border: 1.5px solid #e5e7eb;
-  color: #111827;
+  color: var(--ink);
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: 14px;
   outline: none;
-  transition: border-color .15s ease, box-shadow .15s ease;
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
 }
 .tj-input:focus {
-  border-color: #F7931A;
-  box-shadow: 0 0 0 3px rgba(247, 147, 26, .12);
+  border-color: var(--orange);
+  background: white;
+  box-shadow: var(--focus-glow);
 }
-.tj-input::placeholder { color: #d1d5db; }
+.tj-input::placeholder { color: #c3c8d0; }
 .tj-input::-webkit-outer-spin-button,
 .tj-input::-webkit-inner-spin-button { -webkit-appearance: none; }
 
@@ -137,3 +159,47 @@
   display: inline-block;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* Rotating bolt — minimal loading indicator inside primary buttons */
+.bolt-spin {
+  animation: spin .9s cubic-bezier(.6, .1, .4, .9) infinite;
+  display: inline-flex;
+}
+
+/* Status dot indicator — replaces boxed badges */
+.dot-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--badge-color, var(--ink-soft));
+}
+.dot-badge::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--badge-dot, var(--orange));
+  flex-shrink: 0;
+}
+
+/* Smooth expand-in for newly revealed content (invoice / QR panels) */
+.expand-in {
+  animation: expandIn .3s ease both;
+  transform-origin: top center;
+}
+@keyframes expandIn {
+  from { opacity: 0; transform: scaleY(.94) translateY(-6px); }
+  to   { opacity: 1; transform: scaleY(1) translateY(0); }
+}
+
+/* Rolling-number tick for live price updates */
+.price-tick {
+  display: inline-block;
+  animation: priceTick .45s cubic-bezier(.2, .8, .3, 1);
+}
+@keyframes priceTick {
+  0%   { opacity: 0; transform: translateY(60%); }
+  100% { opacity: 1; transform: translateY(0); }
+}

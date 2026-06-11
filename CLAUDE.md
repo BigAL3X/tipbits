@@ -242,6 +242,24 @@ ProtonVPN's NetShield (DNS-level ad/tracker blocker) flagged `tipbits.xyz` when 
 
 ---
 
+### Session — 2026-06-11 — UI/UX premium polish sprint
+
+**Goal:** Site-wide visual refinement: purge system emojis for a custom SVG icon set, tighten typography, mobile-ergonomic tipping grid, input wells with orange-glow focus, borderless Learn comparison tables, module progression tracker, animated money-flow diagram, live price tick animation.
+
+**Files changed:**
+- `Icons.jsx` — **new** shared minimalist line-art SVG icon set (bolt, key, link, lock, eye-off, mail, arrows, globe, target, check, x, clock, qr, scale, bank, mic, download, printer, bitcoin). Stroke icons inherit `currentColor`; no emoji anywhere.
+- `global.css` — design tokens in `:root` (`--navy`, `--orange`, ink scale, radius scale 16/12/8px, `--well-bg`, `--focus-glow`); inputs are now subtle dark-tint wells that transition to white + orange border + soft `0 0 12px rgba(247,147,26,.15)` glow on focus; added `.bolt-spin` (rotating loading bolt), `.dot-badge` (colored-dot indicator replacing boxed badges), `.expand-in` (0.3s ease-in-and-expand reveal), `.price-tick` (rolling number animation).
+- `TipPage.jsx/.css` — quick amounts now a chunky 2×2 grid (56px targets, `:active` scale press); `inputMode="decimal"` + `enterKeyHint="done"` on amount/memo inputs; invoice step wrapped in `.expand-in`; generate button shows rotating bolt while loading; BTC price refetches every 60s with roll-in tick; all emojis → Icons; price badge fully pill (9999px).
+- `Landing.jsx/.css` — STEPS/TRUST emojis → SVG icons; price ticker refresh + tick animation; headings tightened to 1.1–1.15 line-height; body copy darkened to `--ink-soft`.
+- `HowItWorks.jsx/.css` — step/trust emojis removed; boxed trust badges replaced by `.dot-badge` dot indicators; money-flow diagram restyled as borderless floating nodes with an animated left-to-right orange pulse through the connectors (`flowPulse` keyframes).
+- `LearnArticle.jsx/.css` — comparison tables stripped to borderless typographic rows (muted property column, green Bitcoin / red Fiat-CBDC text, hairline separators); progress dots use solid orange done state with SVG check; new "Your progress" module tree before the next-article card; Up Next card now soft orange tint with CSS-only hover (removed inline `onMouseEnter` style mutation — debt resolved); CTA emoji → bolt icon.
+- `Learn.jsx/.css` — topic-card emojis → SVG icons colored per topic via `--icon-color`.
+- `.claude/launch.json` — **new** preview launch config for the Vite dev server.
+
+**Constraints honoured:** no new dependencies (pure CSS animation — no Framer Motion/Tailwind); no inline `style=` except `--var` custom properties; CSP unchanged; no tracking added. `npm run build` passes; all routes verified in browser with zero console errors.
+
+---
+
 ## Maintenance note
 
 **This file must be updated at the end of every session.** Add a new entry under Session log covering: goal, commits, files changed, feature behaviour, and any debt introduced or resolved. Update Known remaining work if anything was completed or newly identified. Then push.

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./global.css";
 import "./Learn.css";
+import { IconBolt, IconBitcoin, IconScale, IconBank, IconMic } from "./Icons.jsx";
 
 function BitcoinLogo({ size = 28 }) {
   return (
@@ -15,7 +16,7 @@ function BitcoinLogo({ size = 28 }) {
 const TOPICS = [
   {
     slug: "what-is-bitcoin",
-    icon: "₿",
+    icon: <IconBitcoin size={24} />,
     title: "What is Bitcoin?",
     desc: "Not a company. Not a stock. Not crypto in the altcoin sense. The real thing.",
     color: "#F7931A",
@@ -24,7 +25,7 @@ const TOPICS = [
   },
   {
     slug: "bitcoin-as-money",
-    icon: "⚖️",
+    icon: <IconScale size={24} />,
     title: "Bitcoin as Money",
     desc: "Money is a technology. Here's why Bitcoin is better money than anything that came before it.",
     color: "#0369a1",
@@ -33,7 +34,7 @@ const TOPICS = [
   },
   {
     slug: "bitcoin-vs-cbdc",
-    icon: "🏦",
+    icon: <IconBank size={24} />,
     title: "Bitcoin vs CBDCs",
     desc: "Digital currency isn't one thing. The difference between Bitcoin and a CBDC is the difference between freedom and control.",
     color: "#b91c1c",
@@ -42,7 +43,7 @@ const TOPICS = [
   },
   {
     slug: "what-is-lightning",
-    icon: "⚡",
+    icon: <IconBolt size={24} />,
     title: "What is the Lightning Network?",
     desc: "Bitcoin's base layer is slow by design. Lightning fixes that — instant, near-zero-fee payments on top of Bitcoin.",
     color: "#6d28d9",
@@ -51,7 +52,7 @@ const TOPICS = [
   },
   {
     slug: "why-creators",
-    icon: "🎙️",
+    icon: <IconMic size={24} />,
     title: "Why This Matters for Creators",
     desc: "Platforms decide who gets paid. Lightning payments are peer-to-peer. No platform. No permission. Your sats.",
     color: "#15803d",
@@ -95,7 +96,7 @@ export default function Learn() {
         <div className="learn-topics">
           {TOPICS.map((t, i) => (
             <div key={t.slug} className="topic-card" onClick={() => navigate(`/learn/${t.slug}`)}>
-              <div className="topic-icon" style={{ '--icon-bg': t.bg, '--icon-border': t.border }}>
+              <div className="topic-icon" style={{ '--icon-bg': t.bg, '--icon-border': t.border, '--icon-color': t.color }}>
                 {t.icon}
               </div>
               <div className="topic-body">
@@ -118,7 +119,7 @@ export default function Learn() {
             No email. No bank account. No permission needed. Your own sovereign tip page in under a minute.
           </p>
           <button className="learn-cta-btn" onClick={() => navigate('/register')}>
-            ⚡ Create your TipBits page →
+            <IconBolt size={15} /> Create your TipBits page →
           </button>
         </div>
 

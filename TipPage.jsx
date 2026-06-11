@@ -3,9 +3,10 @@ import { QRCodeSVG, QRCodeCanvas } from "qrcode.react";
 import { useNavigate } from "react-router-dom";
 import "./global.css";
 import "./TipPage.css";
+import { IconBolt, IconLink, IconQR, IconCheck, IconX, IconClock, IconDownload, IconPrinter } from "./Icons.jsx";
 
 const CURRENCIES = [
-  { code: "SATS", symbol: "⚡", label: "Sats" },
+  { code: "SATS", symbol: null, label: "Sats" },
   { code: "GBP",  symbol: "£",  label: "GBP"  },
   { code: "USD",  symbol: "$",  label: "USD"  },
   { code: "EUR",  symbol: "€",  label: "EUR"  },
@@ -82,7 +83,7 @@ function PaidScreen({ satsAmount, memo, onReset }) {
   return (
     <div className="tj-paid-root">
       <div className={`tj-paid-anim ${show ? "tj-paid-anim--shown" : "tj-paid-anim--hidden"}`}>
-        <div className="tj-paid-icon">⚡</div>
+        <div className="tj-paid-icon"><IconBolt size={36} /></div>
         <div className="tj-paid-title">Sats received!</div>
         <div className="tj-paid-subtitle">{satsAmount.toLocaleString()} sats landed peer-to-peer</div>
         {memo && <div className="tj-paid-memo">"{memo}"</div>}
@@ -126,10 +127,14 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
   useEffect(() => { setTimeout(() => setMounted(true), 60); }, []);
 
   useEffect(() => {
-    fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=gbp,usd,eur")
-      .then(r => r.json())
-      .then(d => setBtcPrices({ GBP: d.bitcoin.gbp, USD: d.bitcoin.usd, EUR: d.bitcoin.eur }))
-      .catch(() => setPriceError(true));
+    const load = () =>
+      fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=gbp,usd,eur")
+        .then(r => r.json())
+        .then(d => setBtcPrices({ GBP: d.bitcoin.gbp, USD: d.bitcoin.usd, EUR: d.bitcoin.eur }))
+        .catch(() => setPriceError(true));
+    load();
+    const id = setInterval(load, 60_000);
+    return () => clearInterval(id);
   }, []);
 
   useEffect(() => {
@@ -345,7 +350,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
               if (p.protocol !== 'https:' && p.protocol !== 'http:') return null;
               return (
                 <a href={p.href} target="_blank" rel="noopener noreferrer" className="tj-creator-website">
-                  🔗 {p.href.replace(/^https?:\/\//, '')}
+                  <IconLink size={13} /> {p.href.replace(/^https?:\/\//, '')}
                 </a>
               );
             } catch { return null; }
@@ -354,14 +359,15 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
             <div className="tj-creator-price">
               <span className="price-badge">
                 <span className={`live-dot ${priceError ? "err" : ""}`} />
-                BTC £{btcPrices.GBP?.toLocaleString()}
+                {/* key re-mounts the span on price change, triggering the roll-in tick */}
+                <span key={btcPrices.GBP} className="price-tick">BTC £{btcPrices.GBP?.toLocaleString()}</span>
               </span>
             </div>
           )}
           {pageUrl && (
             <div className="tj-creator-qr-wrap">
               <button className="qr-show-btn" onClick={() => setShowQR(true)}>
-                ▣ Show QR
+                <IconQR size={14} /> Show QR
               </button>
             </div>
           )}
@@ -377,7 +383,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
               {CURRENCIES.map(c => (
                 <button key={c.code} className={`cur-btn ${currency === c.code ? "active" : ""}`}
                   onClick={() => handleCurrencyChange(c.code)}>
-                  {c.symbol} {c.label}
+                  {c.code === "SATS" ? <IconBolt size={12} /> : c.symbol} {c.label}
                 </button>
               ))}
             </div>
@@ -396,11 +402,13 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
                 <span className="tj-currency-symbol">{cur.symbol}</span>
               )}
               <input className={`tj-input ${currency !== "SATS" ? "tj-input-indent" : "tj-input-noindent"}`} type="number" placeholder="0" min="0"
+                inputMode="decimal" enterKeyHint="done"
                 value={customInput}
                 onChange={e => { setCustomInput(e.target.value); setError(null); }} />
             </div>
             <span className="tj-label">Message (optional)</span>
             <textarea className="tj-input tj-memo" placeholder="Leave a note..."
+              enterKeyHint="done"
               value={memo} onChange={e => setMemo(e.target.value)}
               maxLength={144} rows={2} />
             <div className="conversion-box">
@@ -417,7 +425,9 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
               </div>
             </div>
             <button className="btn-primary" onClick={generateInvoice} disabled={loading || !satsAmount || satsAmount < 1}>
-              {loading ? <><span className="spin">⚡</span> Generating invoice...</> : <>⚡ Generate Lightning Invoice</>}
+              {loading
+                ? <><span className="bolt-spin"><IconBolt size={16} /></span> Generating invoice...</>
+                : <><IconBolt size={16} /> Generate Lightning Invoice</>}
             </button>
             {error && <div className="error-box">{error}</div>}
             <div className="tj-disclaimer">
@@ -425,7 +435,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
             </div>
           </>)}
 
-          {step === "invoice" && (<>
+          {step === "invoice" && (<div className="expand-in">
             <div className="tj-invoice-center success-ring">
               <span className="tj-label tj-label--qr">Scan to pay</span>
               <div className="tj-qr-box">
@@ -455,7 +465,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
             )}
             {!canVerify && (
               <button className="btn-primary btn-primary--green" onClick={() => setStep("paid")}>
-                ✓ I've paid
+                <IconCheck size={15} /> I've paid
               </button>
             )}
             <div className="divider" />
@@ -463,15 +473,15 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
             <div className="inv-string">{invoice}</div>
             <div className="tj-invoice-actions">
               <button className="btn-ghost" onClick={goBack}>← Back</button>
-              <button className={`btn-copy ${copied ? "done" : ""}`} onClick={copyInvoice}>{copied ? "✓ Copied!" : "Copy Invoice"}</button>
+              <button className={`btn-copy ${copied ? "done" : ""}`} onClick={copyInvoice}>{copied ? <><IconCheck size={13} /> Copied!</> : "Copy Invoice"}</button>
             </div>
-          </>)}
+          </div>)}
 
           {step === "paid" && <PaidScreen satsAmount={satsAmount} memo={memo} onReset={reset} />}
 
           {step === "expired" && (
             <div className="tj-expired-root">
-              <div className="tj-expired-icon">⏱</div>
+              <div className="tj-expired-icon"><IconClock size={40} /></div>
               <div className="tj-expired-title">Invoice expired</div>
               <div className="tj-expired-body">Lightning invoices expire after 10 minutes.<br />Generate a new one to try again.</div>
               <button className="btn-primary" onClick={reset}>Generate new invoice</button>
@@ -483,23 +493,23 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
         <div className="tj-footer">
           {showCreateCTA && (
             <button className="create-cta" onClick={() => navigate('/register')}>
-              ⚡ Get your own sovereign tip page →
+              <IconBolt size={13} /> Get your own sovereign tip page →
             </button>
           )}
           <div className="tj-footer-meta">
-            <span>⚡ LIGHTNING NETWORK</span>
+            <span className="tj-footer-bolt"><IconBolt size={11} /> LIGHTNING NETWORK</span>
             <span>·</span>
             <span>NON-CUSTODIAL</span>
             <span>·</span>
             {showSupportLink ? (
-              <a href="/" className="support-link" onClick={e => { e.preventDefault(); navigate('/'); }}>Powered by TipBits ⚡</a>
+              <a href="/" className="support-link" onClick={e => { e.preventDefault(); navigate('/'); }}>Powered by TipBits</a>
             ) : (
               <span>TIPBITS</span>
             )}
           </div>
           {showSupportLink && (
             <button className="tj-get-page-btn" onClick={() => navigate('/register')}>
-              ⚡ Get your own tip page →
+              <IconBolt size={12} /> Get your own tip page →
             </button>
           )}
         </div>
@@ -508,7 +518,7 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
       {showQR && pageUrl && (
         <div className="qr-modal-overlay" onClick={() => setShowQR(false)}>
           <div className="qr-modal-card" onClick={e => e.stopPropagation()}>
-            <button className="qr-modal-close" onClick={() => setShowQR(false)}>✕</button>
+            <button className="qr-modal-close" onClick={() => setShowQR(false)}><IconX size={12} /></button>
 
             <div className="qr-modal-label">Share this page</div>
             <div className="qr-modal-creator-name">{config.creatorName}</div>
@@ -520,8 +530,8 @@ export default function TipPage({ config, showSupportLink = false, showCreateCTA
             <div className="qr-modal-url">{pageUrl}</div>
 
             <div className="qr-modal-actions">
-              <button className="btn-ghost" onClick={downloadQR}>↓ Download PNG</button>
-              <button className="btn-ghost" onClick={printQR}>⎙ Print QR</button>
+              <button className="btn-ghost btn-ghost--icon" onClick={downloadQR}><IconDownload size={13} /> Download PNG</button>
+              <button className="btn-ghost btn-ghost--icon" onClick={printQR}><IconPrinter size={13} /> Print QR</button>
             </div>
 
             {/* Hidden 512px canvas for download and print */}

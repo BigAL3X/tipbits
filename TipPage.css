@@ -79,6 +79,9 @@
   margin-bottom: 6px;
 }
 .tj-creator-website {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-size: 13px;
   color: #F7931A;
   text-decoration: none;
@@ -94,8 +97,12 @@
 /* Currency / preset buttons */
 .cur-btn {
   flex: 1;
-  padding: 9px 4px;
-  background: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 4px;
+  background: var(--well-bg);
   border: 1.5px solid #e5e7eb;
   color: #9ca3af;
   font-family: 'IBM Plex Sans', sans-serif;
@@ -109,20 +116,23 @@
 .cur-btn:hover { border-color: #F7931A; color: #F7931A; background: #fff7ed; }
 .cur-btn.active { background: #F7931A; border-color: #F7931A; color: white; font-weight: 600; }
 
+/* Chunky 2x2 quick-amount grid — sized for one-handed thumb reach */
 .preset-btn {
-  flex: 1;
-  padding: 10px 4px;
-  background: white;
+  min-height: 56px;
+  padding: 12px 8px;
+  background: var(--well-bg);
   border: 1.5px solid #e5e7eb;
-  color: #6b7280;
+  color: var(--ink-soft);
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   transition: all .14s ease;
 }
 .preset-btn:hover { border-color: #F7931A; color: #F7931A; background: #fff7ed; }
-.preset-btn.active { border-color: #F7931A; color: #F7931A; background: #fff7ed; font-weight: 500; }
+.preset-btn:active { transform: scale(.97); }
+.preset-btn.active { border-color: #F7931A; color: #F7931A; background: #fff7ed; font-weight: 600; box-shadow: var(--focus-glow); }
 
 /* Currency row */
 .tj-currency-row {
@@ -131,8 +141,9 @@
   margin-bottom: 20px;
 }
 .tj-presets-row {
-  display: flex;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
   margin-bottom: 18px;
 }
 
@@ -332,6 +343,24 @@
   transition: all .13s ease;
 }
 .btn-ghost:hover { border-color: #d1d5db; color: #374151; }
+.btn-ghost--icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Footer bolt alignment */
+.tj-footer-bolt {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.tj-get-page-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
 
 /* Divider */
 .divider {
@@ -395,7 +424,7 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
-  font-size: 38px;
+  color: white;
   box-shadow: 0 8px 32px rgba(16, 185, 129, .35);
 }
 .tj-paid-title {
@@ -441,8 +470,10 @@
   padding: 12px 0;
 }
 .tj-expired-icon {
-  font-size: 40px;
+  color: #9ca3af;
   margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
 }
 .tj-expired-title {
   font-size: 18px;
@@ -517,9 +548,10 @@
 .price-badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 4px 10px;
-  border-radius: 20px;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  overflow: hidden;
   background: #fff7ed;
   border: 1px solid #fed7aa;
   font-size: 11px;

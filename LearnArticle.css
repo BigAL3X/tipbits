@@ -62,8 +62,8 @@
   cursor: pointer;
 }
 .prog-step:hover { transform: scale(1.1); }
-.prog-step--current { background: #F7931A; color: white; border: 2px solid #F7931A; }
-.prog-step--done { background: #fed7aa; color: #92400e; border: 2px solid #fbbf24; }
+.prog-step--current { background: #F7931A; color: white; border: 2px solid #F7931A; box-shadow: var(--focus-glow); }
+.prog-step--done { background: #F7931A; color: white; border: 2px solid #F7931A; opacity: .65; }
 .prog-step--future { background: #f3f4f6; color: #9ca3af; border: 2px solid #e5e7eb; }
 .art-progress-label {
   font-size: 12px;
@@ -84,14 +84,14 @@
 .art-header-h1 {
   font-size: 32px;
   font-weight: 800;
-  color: #111827;
+  color: var(--ink);
   letter-spacing: -0.03em;
-  line-height: 1.2;
+  line-height: 1.12;
   margin-bottom: 16px;
 }
 .art-header-intro {
   font-size: 17px;
-  color: #6b7280;
+  color: var(--ink-soft);
   line-height: 1.75;
   border-left: 3px solid #fed7aa;
   padding-left: 16px;
@@ -119,7 +119,7 @@
 }
 .art-p {
   font-size: 16px;
-  color: #374151;
+  color: var(--ink-body);
   line-height: 1.8;
   margin-bottom: 16px;
 }
@@ -131,6 +131,7 @@
   font-size: 14px;
   color: #374151;
 }
+.art-pullquote-bolt { color: var(--orange); margin-right: 2px; }
 .art-pullquote {
   margin: 32px 0;
   padding: 20px 24px;
@@ -144,65 +145,39 @@
   line-height: 1.6;
 }
 
-/* Comparison table header row */
+/* Comparison table — borderless typographic rows */
 .art-table-header {
-  margin-bottom: 8px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
+  grid-template-columns: .8fr 1fr 1fr;
+  gap: 12px;
+  padding: 0 4px 8px;
+  border-bottom: 2px solid #f3f4f6;
 }
 .art-table-header-cell {
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: .06em;
+  letter-spacing: .08em;
 }
-.art-table-header-cell--prop {
-  background: #f9fafb;
-  border: 1.5px solid #e5e7eb;
-  color: #9ca3af;
-}
-.art-table-header-cell--btc {
-  background: #f0fdf4;
-  border: 1.5px solid #bbf7d0;
-  color: #15803d;
-}
-.art-table-header-cell--fiat {
-  background: #fef2f2;
-  border: 1.5px solid #fecaca;
-  color: #b91c1c;
-}
+.art-table-header-cell--prop { color: #9ca3af; }
+.art-table-header-cell--btc { color: var(--green); }
+.art-table-header-cell--fiat { color: var(--red); }
 
 /* PropertyRow / CompareRow */
 .art-prop-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 8px;
+  grid-template-columns: .8fr 1fr 1fr;
+  gap: 12px;
+  padding: 10px 4px;
+  border-bottom: 1px solid #f3f4f6;
 }
-.art-prop-cell {
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 13px;
-}
+.art-prop-cell { font-size: 13.5px; line-height: 1.5; }
 .art-prop-cell--name {
-  background: #f9fafb;
-  border: 1.5px solid #e5e7eb;
-  font-weight: 600;
-  color: #374151;
+  font-weight: 500;
+  color: var(--ink-muted);
 }
-.art-prop-cell--good {
-  background: #f0fdf4;
-  border: 1.5px solid #bbf7d0;
-  color: #15803d;
-}
-.art-prop-cell--bad {
-  background: #fef2f2;
-  border: 1.5px solid #fecaca;
-  color: #b91c1c;
-}
+.art-prop-cell--good { color: var(--green); font-weight: 500; }
+.art-prop-cell--bad { color: var(--red); }
 
 /* CBDC feature list */
 .art-cbdc-list { margin-bottom: 20px; }
@@ -252,8 +227,8 @@
 }
 .art-plain-terms-icon {
   color: #15803d;
-  font-size: 14px;
-  margin-top: 1px;
+  display: inline-flex;
+  margin-top: 2px;
 }
 .art-plain-terms-text {
   font-size: 14px;
@@ -261,19 +236,82 @@
   line-height: 1.6;
 }
 
-/* Next article card */
-.art-next-card {
+/* Module progression tree */
+.art-tree {
   background: white;
   border: 1.5px solid #e5e7eb;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+}
+.art-tree-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 12px;
+}
+.art-tree-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 6px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  text-align: left;
+  transition: background .13s ease;
+}
+.art-tree-item:hover { background: #fff7ed; }
+.art-tree-marker {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 2px solid #e5e7eb;
+  color: white;
+}
+.art-tree-item--done .art-tree-marker { background: var(--orange); border-color: var(--orange); }
+.art-tree-item--current .art-tree-marker { border-color: var(--orange); background: white; box-shadow: inset 0 0 0 2.5px white, inset 0 0 0 8px var(--orange); }
+.art-tree-item--done .art-tree-label { color: var(--ink-muted); }
+.art-tree-item--current .art-tree-label { color: var(--ink); font-weight: 600; }
+.art-tree-item--todo .art-tree-label { color: #9ca3af; }
+.art-tree-now {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+/* Next article card — soft orange tint marks it as the primary gateway */
+.art-next-card {
+  background: #fff7ed;
+  border: 1.5px solid #fed7aa;
+  border-radius: var(--radius-lg);
   padding: 20px 24px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
-  transition: all .15s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+  transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+  box-shadow: 0 2px 8px rgba(247, 147, 26, .08);
+}
+.art-next-card:hover {
+  border-color: var(--orange);
+  transform: translateY(-1px);
+  box-shadow: var(--focus-glow);
 }
 .art-next-label {
   font-size: 11px;
@@ -321,6 +359,9 @@
   margin-right: auto;
 }
 .art-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 14px 32px;
   background: #F7931A;
   color: white;
@@ -343,7 +384,7 @@
   background: linear-gradient(135deg, #fff7ed 0%, #ffffff 50%, #fff7ed 100%);
 }
 .art-not-found-inner { text-align: center; }
-.art-not-found-icon { font-size: 48px; margin-bottom: 16px; }
+.art-not-found-icon { color: var(--orange); margin-bottom: 16px; display: flex; justify-content: center; }
 .art-not-found-title {
   font-size: 20px;
   font-weight: 700;

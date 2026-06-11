@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./global.css";
 import "./LearnArticle.css";
+import { IconBolt, IconCheck } from "./Icons.jsx";
 
 function BitcoinLogo({ size = 28 }) {
   return (
@@ -15,7 +16,7 @@ function BitcoinLogo({ size = 28 }) {
 function Pullquote({ children }) {
   return (
     <div className="art-pullquote">
-      ⚡ {children}
+      <IconBolt size={16} className="art-pullquote-bolt" /> {children}
     </div>
   );
 }
@@ -345,7 +346,7 @@ const ARTICLES = {
             "No account suspension — no one can revoke your Lightning address",
           ].map(item => (
             <div key={item} className="art-plain-terms-item">
-              <span className="art-plain-terms-icon">⚡</span>
+              <span className="art-plain-terms-icon"><IconBolt size={13} /></span>
               <span className="art-plain-terms-text">{item}</span>
             </div>
           ))}
@@ -373,7 +374,7 @@ export default function LearnArticle() {
     return (
       <div className="art-not-found">
         <div className="art-not-found-inner">
-          <div className="art-not-found-icon">⚡</div>
+          <div className="art-not-found-icon"><IconBolt size={44} /></div>
           <div className="art-not-found-title">Article not found</div>
           <button onClick={() => navigate('/learn')} className="art-not-found-btn">
             ← Back to Learn
@@ -408,7 +409,7 @@ export default function LearnArticle() {
               className={`prog-step ${i === currentIndex ? "prog-step--current" : i < currentIndex ? "prog-step--done" : "prog-step--future"}`}
               onClick={() => navigate(`/learn/${s}`)}
             >
-              {i < currentIndex ? "✓" : `0${i + 1}`}
+              {i < currentIndex ? <IconCheck size={13} /> : `0${i + 1}`}
             </div>
           ))}
           <span className="art-progress-label">{currentIndex + 1} of {SLUGS.length}</span>
@@ -432,14 +433,26 @@ export default function LearnArticle() {
           {article.content()}
         </div>
 
+        {/* Module progression tree */}
+        <div className="art-tree">
+          <div className="art-tree-title">Your progress — {currentIndex + 1} of {SLUGS.length} modules</div>
+          {SLUGS.map((s, i) => {
+            const state = i < currentIndex ? "done" : i === currentIndex ? "current" : "todo";
+            return (
+              <button key={s} className={`art-tree-item art-tree-item--${state}`} onClick={() => navigate(`/learn/${s}`)}>
+                <span className="art-tree-marker">
+                  {state === "done" ? <IconCheck size={11} /> : null}
+                </span>
+                <span className="art-tree-label">{ARTICLES[s].label}</span>
+                {state === "current" && <span className="art-tree-now">Reading now</span>}
+              </button>
+            );
+          })}
+        </div>
+
         {/* Next article */}
         {article.next && (
-          <div
-            onClick={() => navigate(`/learn/${article.next}`)}
-            className="art-next-card"
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "#F7931A"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.transform = "none"; }}
-          >
+          <div onClick={() => navigate(`/learn/${article.next}`)} className="art-next-card">
             <div>
               <div className="art-next-label">Up next</div>
               <div className="art-next-title">{article.nextLabel}</div>
@@ -456,7 +469,7 @@ export default function LearnArticle() {
             No email. No bank account. No permission needed. Your own sovereign tip page in under a minute.
           </p>
           <button onClick={() => navigate('/register')} className="art-cta-btn">
-            ⚡ Create your TipBits page →
+            <IconBolt size={15} /> Create your TipBits page →
           </button>
         </div>
 

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./global.css";
 import "./Landing.css";
+import { IconBolt, IconKey, IconLink, IconLock, IconEyeOff, IconMail, IconArrowsLR, IconGlobe } from "./Icons.jsx";
 
 function BitcoinLogo({ size = 32 }) {
   return (
@@ -15,31 +16,31 @@ function BitcoinLogo({ size = 32 }) {
 const STEPS = [
   {
     n: "01",
-    icon: "🔑",
+    icon: <IconKey size={24} />,
     title: "Register with your Lightning address",
     body: "No email. No password. No KYC. Just your Lightning address and a Sovereign Key that only you hold. Takes under a minute.",
   },
   {
     n: "02",
-    icon: "🔗",
+    icon: <IconLink size={24} />,
     title: "Share your link anywhere",
     body: "Drop tipbits.xyz/u/yourname in your X bio, Nostr profile, Substack footer, YouTube description — anywhere your audience finds you.",
   },
   {
     n: "03",
-    icon: "⚡",
+    icon: <IconBolt size={24} />,
     title: "Receive sats direct to your wallet",
     body: "Tippers pay over the Lightning Network. Sats go peer-to-peer straight to your wallet. TipBits never touches your money.",
   },
 ];
 
 const TRUST = [
-  { icon: "🔒", label: "Non-custodial", sub: "TipBits never holds your funds", bg: "#E1F5EE", color: "#0F6E56" },
-  { icon: "🕵️", label: "No KYC", sub: "No identity checks. Ever.", bg: "#fff7ed", color: "#c2410c" },
-  { icon: "📧", label: "No email required", sub: "No account. No inbox. No spam.", bg: "#E6F1FB", color: "#185FA5" },
-  { icon: "🔑", label: "Sovereign Key", sub: "Only you hold your edit credential", bg: "#FAEEDA", color: "#854F0B" },
-  { icon: "↔️", label: "Peer-to-peer", sub: "Lightning Network routing", bg: "#f0fdf4", color: "#166534" },
-  { icon: "⚡", label: "Open standard", sub: "LNURL-pay. No vendor lock-in.", bg: "#fdf4ff", color: "#7e22ce" },
+  { icon: <IconLock size={20} />, label: "Non-custodial", sub: "TipBits never holds your funds", bg: "#E1F5EE", color: "#0F6E56" },
+  { icon: <IconEyeOff size={20} />, label: "No KYC", sub: "No identity checks. Ever.", bg: "#fff7ed", color: "#c2410c" },
+  { icon: <IconMail size={20} />, label: "No email required", sub: "No account. No inbox. No spam.", bg: "#E6F1FB", color: "#185FA5" },
+  { icon: <IconKey size={20} />, label: "Sovereign Key", sub: "Only you hold your edit credential", bg: "#FAEEDA", color: "#854F0B" },
+  { icon: <IconArrowsLR size={20} />, label: "Peer-to-peer", sub: "Lightning Network routing", bg: "#f0fdf4", color: "#166534" },
+  { icon: <IconGlobe size={20} />, label: "Open standard", sub: "LNURL-pay. No vendor lock-in.", bg: "#fdf4ff", color: "#7e22ce" },
 ];
 
 export default function Landing() {
@@ -50,10 +51,14 @@ export default function Landing() {
   useEffect(() => { setTimeout(() => setMounted(true), 60); }, []);
 
   useEffect(() => {
-    fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=gbp")
-      .then(r => r.json())
-      .then(d => setBtcPrice(d.bitcoin.gbp))
-      .catch(() => {});
+    const load = () =>
+      fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=gbp")
+        .then(r => r.json())
+        .then(d => setBtcPrice(d.bitcoin.gbp))
+        .catch(() => {});
+    load();
+    const id = setInterval(load, 60_000);
+    return () => clearInterval(id);
   }, []);
 
   return (
@@ -71,7 +76,7 @@ export default function Landing() {
           <div className="land-nav-links">
             <button className="nav-link" onClick={() => navigate('/how')}>How it works</button>
             <button className="nav-link" onClick={() => navigate('/learn')}>Learn</button>
-            <button className="nav-link" onClick={() => navigate('/tip')}>Support ⚡</button>
+            <button className="nav-link" onClick={() => navigate('/tip')}>Support</button>
             <button className="land-nav-cta" onClick={() => navigate('/register')}>
               Get your page
             </button>
@@ -94,7 +99,7 @@ export default function Landing() {
             </p>
             <div className="land-hero-btns">
               <button className="btn-primary" onClick={() => navigate('/register')}>
-                ⚡ Claim your page — it's free
+                <IconBolt size={16} /> Claim your page — it's free
               </button>
               <button className="btn-ghost" onClick={() => navigate('/how')}>
                 How it works →
@@ -104,7 +109,8 @@ export default function Landing() {
               <div className="land-hero-price">
                 <span className="price-badge">
                   <span className="live-dot" />
-                  BTC £{btcPrice.toLocaleString()} live
+                  {/* key re-mounts on price change to trigger the roll-in tick */}
+                  <span key={btcPrice} className="price-tick">BTC £{btcPrice.toLocaleString()} live</span>
                 </span>
               </div>
             )}
@@ -122,7 +128,7 @@ export default function Landing() {
 
               {/* Mini amount selector */}
               <div className="demo-card-currencies">
-                {["⚡ Sats", "£ GBP", "$ USD", "€ EUR"].map((c, i) => (
+                {["Sats", "£ GBP", "$ USD", "€ EUR"].map((c, i) => (
                   <div key={c} className={`demo-card-currency ${i === 0 ? "demo-card-currency--active" : "demo-card-currency--inactive"}`}>
                     {c}
                   </div>
@@ -146,7 +152,7 @@ export default function Landing() {
               </div>
 
               <button className="demo-card-cta" onClick={() => navigate('/tip')}>
-                ⚡ Try a real tip page →
+                <IconBolt size={14} /> Try a real tip page →
               </button>
             </div>
             <div className="land-hero-demo-sub">
@@ -191,7 +197,7 @@ export default function Landing() {
 
           <div className="land-steps-cta">
             <button className="btn-primary land-steps-cta-btn" onClick={() => navigate('/register')}>
-              ⚡ Claim your sovereign tip page
+              <IconBolt size={17} /> Claim your sovereign tip page
             </button>
             <div className="land-steps-cta-sub">
               Free forever. No email. No credit card.
@@ -227,7 +233,7 @@ export default function Landing() {
 
         {/* Support section */}
         <div className="land-support">
-          <div className="land-support-icon">⚡</div>
+          <div className="land-support-icon"><IconBolt size={40} /></div>
           <h2 className="land-support-h2">
             Find value in TipBits?
           </h2>
@@ -235,7 +241,7 @@ export default function Landing() {
             TipBits is built and maintained by one person using the same tools you're using right now. If it's useful, throw some sats the creator's way.
           </p>
           <button className="btn-primary land-support-btn" onClick={() => navigate('/tip')}>
-            ⚡ Support TipBits with sats
+            <IconBolt size={16} /> Support TipBits with sats
           </button>
           <div className="land-support-sub">
             Peer-to-peer. Non-custodial. Goes straight to the creator's wallet.
@@ -254,11 +260,11 @@ export default function Landing() {
               <button className="nav-link" onClick={() => navigate('/learn')}>Learn</button>
               <button className="nav-link" onClick={() => navigate('/register')}>Get your page</button>
               <button className="nav-link" onClick={() => navigate('/edit')}>Edit my page</button>
-              <button className="nav-link" onClick={() => navigate('/tip')}>Support ⚡</button>
+              <button className="nav-link" onClick={() => navigate('/tip')}>Support</button>
               <button className="nav-link" onClick={() => navigate('/contact')}>Contact</button>
             </div>
             <div className="land-footer-meta">
-              ⚡ LIGHTNING · NON-CUSTODIAL · SOVEREIGN
+              LIGHTNING · NON-CUSTODIAL · SOVEREIGN
             </div>
           </div>
         </footer>
